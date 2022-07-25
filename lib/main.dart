@@ -93,7 +93,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
             Container(
               margin: EdgeInsets.only(top: 200),
-              child: Text("Powered By Galaxy International Group",style: TextStyle(
+              child: Text("Powered By galaxy International Group",style: TextStyle(
                   color: HexColor(Globalvireables.basecolor),fontSize: 12
               ),),
             )
@@ -104,83 +104,3 @@ class _MyHomePageState extends State<MyHomePage> {
         ));
 
   }}
-/*
-import 'dart:async';
-import 'package:barcode_scan/barcode_scan.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatefulWidget {
-  @override
-  _MyAppState createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  String barcode = "";
-
-  @override
-  initState() {
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-          appBar: AppBar(
-            title: Text('Barcode Scanner - googleflutter.com'),
-          ),
-          body: Center(
-            child: Column(
-              children: <Widget>[
-                Container(
-                  child: RaisedButton(
-                    onPressed: barcodeScanning,
-                    child: Text("Capture Image",
-                      style: TextStyle(fontSize: 20, color: Colors.white),
-                    ),
-                    color: Colors.green,
-                  ),
-                  padding: const EdgeInsets.all(10.0),
-                  margin: EdgeInsets.all(10),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                ),
-                Text("Scanned Barcode Number",
-                  style: TextStyle(fontSize: 20),
-                ),
-                Text(barcode,
-                  style: TextStyle(fontSize: 25, color:Colors.green),
-                ),
-              ],
-            ),
-          )),
-    );
-  }
-
-  //scan barcode asynchronously
-  Future barcodeScanning() async {
-    try {
-      ScanResult barcode = await BarcodeScanner.scan();
-      setState(() => print(barcode.rawContent+"  bars"));
-    } on PlatformException catch (e) {
-      if (e.code == BarcodeScanner.cameraAccessDenied) {
-        setState(() {
-          this.barcode = 'No camera permission!';
-        });
-      } else {
-        setState(() => this.barcode = 'Unknown error: $e');
-      }
-    } on FormatException {
-      setState(() => this.barcode =
-      'Nothing captured.');
-    } catch (e) {
-      setState(() => this.barcode = 'Unknown error: $e');
-    }
-  }
-}*/

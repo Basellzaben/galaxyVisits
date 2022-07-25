@@ -113,7 +113,7 @@ class _VisitsInfoH_Body extends State<VisitsInfoH_Body>   {
                           Container(
                               margin: EdgeInsets.only(bottom: 5,top: 5),
                               child: Text(
-                               Globalvireables.custselected
+                               Globalvireables.custselected,textAlign: TextAlign.center
 ,style: TextStyle(fontWeight: FontWeight.w700,fontSize: 20),
                               )
                           ),
@@ -172,7 +172,7 @@ if(images.length>0)
                           child: Container(
                             width: 100,
                             height: 100,
-                            child: Image.network("http://10.0.1.60:5323"+images[index]['ImgBase64'])
+                            child: Image.network("http://"+Globalvireables.connectIP+""+images[index]['ImgBase64'])
                         ));
                       },
                     ),
@@ -202,7 +202,7 @@ if(images.length>0)
                             ),
                           ),
 
-                          Container(
+                    /*      Container(
                             height: 400,
                             margin: EdgeInsets.only(left: 10,right: 10),
                             child: ListView.builder(
@@ -228,6 +228,89 @@ if(images.length>0)
                                         child: Center(child: Container(
                                             margin: EdgeInsets.only(top: 5,bottom: 5),
                                             child: Text(itemselected[index]['Ename'], textDirection:TextDirection.rtl,style: TextStyle(fontSize: 15,fontWeight: FontWeight.w700),)))
+                                    ),
+
+                                  ],),
+
+                                ),
+                              ),
+                            ),
+
+
+
+                          )
+*/
+
+                          Container(
+                            margin: EdgeInsets.only(top: 10,left: 10,right: 10),
+                            child: Row(
+                              children: [
+                                Spacer(),
+                                Spacer(),
+
+                                Container(
+                                    width: 90,
+                                    child: Center(child: Container(
+                                        margin: EdgeInsets.only(top: 5,bottom: 5,left: 5,right: 5),
+                                        child: Text("الطلبية المقترحة",textAlign: TextAlign.center,style: TextStyle(fontSize: 15,fontWeight: FontWeight.w400),)))
+                                ),
+                                Spacer(),
+                                Container(
+                                    child: Center(child: Container(
+                                        margin: EdgeInsets.only(top: 5,bottom: 5,left: 5,right: 5),
+                                        child: Text("الكمية           ",style: TextStyle(fontSize: 15,fontWeight: FontWeight.w400),)))
+                                ),
+                                Spacer(),
+                                Spacer(),
+
+                                Container(
+                                    child: Center(child: Container(
+                                        margin: EdgeInsets.only(top: 5,bottom: 5,left: 30,right: 30),
+                                        child: Text("اسم المنتج",style: TextStyle(fontSize: 15,fontWeight: FontWeight.w400),)))
+                                ),
+
+
+
+
+                              ],
+                            ),
+                          ),
+
+
+
+                          Container(
+                            margin: EdgeInsets.only(left: 10,right: 10),
+                            child: ListView.builder(
+                              physics: ClampingScrollPhysics(),
+                              shrinkWrap: true,
+                              itemCount: itemselected.length,
+                              itemBuilder: (context, index)
+                              =>Container(
+                                margin: EdgeInsets.only(top: 0,left: 10,right: 10),
+                                child: Card(
+                                  child: Row(children: [
+                                    Spacer(),
+
+                                    Container(
+                                        child: Center(child: Container(
+                                            margin: EdgeInsets.only(top: 5,bottom: 5),
+                                            child: Text(itemselected[index]['OrderQty'].toString(), textDirection:TextDirection.rtl,style: TextStyle(fontSize: 13,fontWeight: FontWeight.w700),)))
+                                    ),
+                                    Spacer(),
+                                    Container(
+                                        child: Center(child: Container(
+                                            width: 50,
+                                            margin: EdgeInsets.only(top: 5,bottom: 5),
+                                            child: Text(itemselected[index]['Qty'].toString(), textDirection:TextDirection.rtl,style: TextStyle(fontSize: 13,fontWeight: FontWeight.w700),)))
+                                    ),
+                                    Spacer(),
+                                    Spacer(),
+
+                                    Container(
+                                        width: 150,
+                                        child: Center(child: Container(
+                                            margin: EdgeInsets.only(top: 5,bottom: 5),
+                                            child: Text(itemselected[index]['Ename'],textAlign: TextAlign.center, textDirection:TextDirection.rtl,style: TextStyle(fontSize: 13,fontWeight: FontWeight.w700),)))
                                     ),
 
                                   ],),
@@ -272,7 +355,7 @@ print(Globalvireables.VisitsImageAPI+"/"+Globalvireables.username+"/"+Globalvire
 
     print(Globalvireables.VisitsImageAPI+Globalvireables.visitno.toString() + " items");
 
-    Uri apiUrl = Uri.parse("http://10.0.1.60:5323/api/Visits/GetCustomerStockList/"+Globalvireables.username+"/"+Globalvireables.visitno.toString());
+    Uri apiUrl = Uri.parse("http://"+Globalvireables.connectIP+"/api/Visits/GetCustomerStockList/"+Globalvireables.username+"/"+Globalvireables.visitno.toString());
     http.Response response = await http.get(apiUrl);
     var data = await json.decode(response.body);
     print(data.toString()+"  dddatta ");

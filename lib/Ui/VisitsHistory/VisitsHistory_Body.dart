@@ -349,7 +349,7 @@ fillAll(datecontroler.text);
                                       child: Card(
                                       child: Column(children: [
                                         if(_journals[index]['name']!=null)
-                                          Container(margin: EdgeInsets.all(5),child: Text(_journals[index]['name'],style: TextStyle(fontWeight: FontWeight.w700),)),
+                                          Container(margin: EdgeInsets.all(5),child: Text(_journals[index]['name'],textAlign: TextAlign.center,style: TextStyle(fontWeight: FontWeight.w700),)),
                                         if(_journals[index]['name']!=null)
                                           Container(margin: EdgeInsets.all(5),child: Text(_journals[index]['date'].toString().substring(0,10) + " - "+_journals[index]['time'].toString())),
                                       ],),

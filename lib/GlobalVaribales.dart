@@ -13,37 +13,36 @@ class Globalvireables {
   //Colors
  // static String basecolor="#1f319d";
 
-  static String basecolor="#31405a";
+  static String basecolor="##6b3054";
   static String white="#ffffff";
   static String black="#121212";
   static String white3="#ECECEC";
   static String secondarycolor="#dd7826";
   static String white2="#E5E5E5";
   static String bluedark="#273746";
-
-
   static String green="#228B22";
+
 
 /*
 
-  http://37.220.121.20:3752/api/Login/PostUserDefinition
-  http://37.220.121.20:3752/api/Customers/GetcusfByManId/UserName
-  http://37.220.121.20:3752/api/Items/GetinvfByManId/UserName
-  http://37.220.121.20:3752/api/Visits/GetManVisitsList/UserName
-  http://37.220.121.20:3752/api/Visits/GetCustomerStockList/UserName
-  http://37.220.121.20:3752/api/Visits/GetVisitsImagesList/UserName
-  http://37.220.121.20:3752/api/Visits/PostManVisit*/
+  http://"+Globalvireables.connectIP+"/api/Login/PostUserDefinition
+  http://"+Globalvireables.connectIP+"/api/Customers/GetcusfByManId/UserName
+  http://"+Globalvireables.connectIP+"/api/Items/GetinvfByManId/UserName
+  http://"+Globalvireables.connectIP+"/api/Visits/GetManVisitsList/UserName
+  http://"+Globalvireables.connectIP+"/api/Visits/GetCustomerStockList/UserName
+  http://"+Globalvireables.connectIP+"/api/Visits/GetVisitsImagesList/UserName
+  http://"+Globalvireables.connectIP+"/api/Visits/PostManVisit*/
 
 
 
-  static String timeAPI="http://37.220.121.20:3752/api/Login/GetDateTime";
-  static String loginAPI="http://37.220.121.20:3752/api/Login/PostUserDefinition";
-  static String ItemsAPI="http://37.220.121.20:3752/api/Items/GetinvfByManId/";
-  static String CustomersAPI="http://37.220.121.20:3752/api/Customers/GetcusfByManId";
-  static String VisitsPost="http://37.220.121.20:3752/api/Visits/PostManVisit";
-  static String VisitsListAPI="http://37.220.121.20:3752/api/Visits/GetManVisitsList/";
-  static String VisitsImageAPI="http://37.220.121.20:3752/api/Visits/GetVisitsImagesList/";
-  static String VisitsitemsAPI="http://37.220.121.20:3752/api/Visits/GetCustomerStockList/";
+  static String timeAPI="http://"+Globalvireables.connectIP+"/api/Login/GetDateTime";
+  static String loginAPI="http://"+Globalvireables.connectIP+"/api/Login/PostUserDefinition";
+  static String ItemsAPI="http://"+Globalvireables.connectIP+"/api/Items/GetinvfByManId/";
+  static String CustomersAPI="http://"+Globalvireables.connectIP+"/api/Customers/GetcusfByManId";
+  static String VisitsPost="http://"+Globalvireables.connectIP+"/api/Visits/PostManVisit";
+  static String VisitsListAPI="http://"+Globalvireables.connectIP+"/api/Visits/GetManVisitsList/";
+  static String VisitsImageAPI="http://"+Globalvireables.connectIP+"/api/Visits/GetVisitsImagesList/";
+  static String VisitsitemsAPI="http://"+Globalvireables.connectIP+"/api/Visits/GetCustomerStockList/";
 
   static String custselected="";
   static String vtimeselected="";
@@ -75,6 +74,10 @@ static String vv="iVBORw0KGgoAAAANSUhEUgAAAawAAAOeCAYAAABf5SQjAAAABHNCSVQICAgIfA
   static List<Map<String, dynamic>> journals = [];
 
   static List<String> itemsSpiner = [''];
+
+//"+Globalvireables.connectIP+" static ip
+  static String connectIP="37.220.121.20:3752";
+ // static String connectIP="10.0.1.60:5323";
 
 
 }

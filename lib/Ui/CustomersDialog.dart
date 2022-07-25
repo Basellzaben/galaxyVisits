@@ -123,7 +123,7 @@ if(_journals.length>0)
 margin: EdgeInsets.only(top: 5),
                 color: index %2==0 ? Colors.white:Colors.black26,
                 height: 50,
-                child: Center(child: Text(_journals[index]['name']))
+                child: Center(child: Text(_journals[index]['name'],textAlign: TextAlign.center))
             ),)
 
 

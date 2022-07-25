@@ -232,28 +232,21 @@ class _Update_Body extends State<Update_Body>   {
   fillCustomers(BuildContext context, String text) async{
     Uri apiUrl = Uri.parse(Globalvireables.CustomersAPI+"/"+Globalvireables.username);
 
-    showLoaderDialog(context,text);
-    http.Response response = await http.get(apiUrl);
-
-    //List<String, dynamic> list = json.decode(response.body);
-   var list = json.decode(response.body) as List;
-   await SQLHelper.deleteCustomers();
-    if(list.length==0){
-
-
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text("لا يوجد عملاء")));
-
-
+    showLoaderDialog(context, text);
+    http.Response response=await http.get(apiUrl);
+    var list =json.decode(response.body) as List;
+    await SQLHelper.deleteCustomers();
+    if(list.length==0) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("لا يوجد عملاء")));
       Navigator.pop(context);
-
     }else{
-    for(var i=0;i<list.length;i++){
-     await SQLHelper.createCustomers(list[i]["Name"],list[i]["Name"],list[i]["No"]);
-      if(i==list.length-1){
+      for(var i=0;i<list.length;i++){
+        await SQLHelper.createCustomers(list[i]["Name"], list[i]["Name"], list[i]["No"]);
         Navigator.pop(context);
-                          }
-    }}
+      }
+    }
+
     getcountcust();
 
 

@@ -19,18 +19,28 @@ class Login_Body extends StatefulWidget {
 }
 
 class _Login_Body extends State<Login_Body>   {
-
+  late SharedPreferences prefs;
 late int cc;
 
   @override
   void initState() {
     Globalvireables.CustomerName="حدد العمــيل";
-
-
+    getSharedPreferences();
     // fillCustomers();
    // x();
 
   }
+  getSharedPreferences () async
+  {
+    prefs = await SharedPreferences.getInstance();
+  }
+  saveStringValue (String username) async
+  {
+    prefs = await SharedPreferences.getInstance();
+    prefs.setString("username", username);
+  }
+
+
  // final prefs = await SharedPreferences.getInstance();
   x() async {
     var data = await SQLHelper.GetCustomers();
@@ -183,6 +193,15 @@ showLoaderDialog(BuildContext context){
   );
 }
 Login(String username,String password,BuildContext context) async{
+
+  prefs = await SharedPreferences.getInstance();
+  String? value = prefs.getString("username");
+  if(username!=value){
+    await SQLHelper.deleteitems();
+    await SQLHelper.deleteCustomers();
+  }
+  saveStringValue(username);
+
   try {
     Uri apiUrl = Uri.parse(Globalvireables.loginAPI);
     final json = {
@@ -194,23 +213,29 @@ Login(String username,String password,BuildContext context) async{
 
     var jsonResponse = jsonDecode(response.body);
 
-    print("wheeen" + jsonResponse.toString());
+    print("wheeen" +  jsonResponse.toString() );
+    print("wheeen2" + jsonResponse["Id"].toString() );
 
     Globalvireables.username=username;
     Globalvireables.email=jsonResponse["Email"];
-Globalvireables.manNo=jsonResponse["Id"];
+    Globalvireables.manNo=jsonResponse["Id"];
 
     setState(() {
-      if(jsonResponse["id"]!="0"){
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Home_Body()));}
+      if(jsonResponse["Id"]!=0){
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Home_Body()));
+      }
       else{
+
+
         showDialog(
             context: context,
             builder: (_) => AlertDialog(
               title: Text('تسجيل الدخول'),
-              content: Text('كلمة المرور او المستخدم غير صحيح'),
+              content: Text('كلمة المرور او اسم المستخدم غير صحيح'),
             )
         );
+
+
       }
 
     });
@@ -222,7 +247,7 @@ Globalvireables.manNo=jsonResponse["Id"];
         context: context,
         builder: (_) => AlertDialog(
           title: Text('تسجيل الدخول'),
-          content: Text('كلمة المرور او المستخدم غير صحيح'),
+          content: Text('كلمة المرور او اسم المستخدم غير صحيح'),
         )
     );
 

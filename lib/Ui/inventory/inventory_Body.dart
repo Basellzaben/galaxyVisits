@@ -24,6 +24,9 @@ class inventory_Body extends StatefulWidget {
 class _inventory_Body extends State<inventory_Body>   {
   Future <List<itemsinfo>> fetchData() async {
     Uri ItemsAPI = Uri.parse(Globalvireables.ItemsAPI+Globalvireables.username);
+
+
+
    /* http.Response response = await http.get(apiUrl);
     var jsonResponse = jsonDecode(response.body);
 
@@ -531,6 +534,7 @@ if(_controllers[index].text.isEmpty)
     //showLoaderDialog(context,"جار جلب العملاء");
     // showLoaderDialog(context);
 
+    int to;
       var data = await SQLHelper.GetItems();
       setState(() {
         _journals = data;
@@ -538,7 +542,12 @@ if(_controllers[index].text.isEmpty)
       var now = new DateTime.now();
       var formatter = new DateFormat('yyyy-MM-dd');
       print(data.toString() + " thiss");
-   for(var i=0;i<data.length;i++){
+      if(data.length>50)
+        to=49;
+      else{
+        to=data.length;
+      }
+   for(var i=0;i<to;i++){
      intArr[i]=1;
      _controllers.add(new TextEditingController());
      _controllers[i].text=1.toString();
@@ -552,7 +561,7 @@ if(_controllers[index].text.isEmpty)
 
    }
 
-      for(var i=0;i<data.length;i++){
+      for(var i=0;i<to;i++){
         _controllers[i].text="1";
 
       }

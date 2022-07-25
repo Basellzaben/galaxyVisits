@@ -52,7 +52,7 @@ return Center(
          child: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
-        child: Image.network("http://10.0.1.60:5323"+Globalvireables.imageselected))
+        child: Image.network("http://"+Globalvireables.connectIP+""+Globalvireables.imageselected))
         )
       ),
     );
