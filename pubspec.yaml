@@ -35,10 +35,10 @@ dependencies:
   sqflite: ^2.0.2
   flutter_barcode_scanner:
   barcode_scan:
-  flutter_native_image: ^0.0.6
-  image_picker: ^0.8.4+4
+  flutter_native_image:
+  image_picker:
   image_cropper: ^1.4.1
-  shared_preferences: ^2.0.8
+  shared_preferences:
   intl: ^0.17.0
 
   # The following adds the Cupertino Icons font to your application.

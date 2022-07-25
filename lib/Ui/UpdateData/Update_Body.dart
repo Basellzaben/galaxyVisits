@@ -234,6 +234,9 @@ class _Update_Body extends State<Update_Body>   {
 
     showLoaderDialog(context, text);
     http.Response response=await http.get(apiUrl);
+
+    Map<String, dynamic> data = new Map<String, dynamic>.from(json.decode(response.body));
+
     var list =json.decode(response.body) as List;
     await SQLHelper.deleteCustomers();
     if(list.length==0) {

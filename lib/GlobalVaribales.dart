@@ -11,9 +11,9 @@ class Globalvireables {
   static String lantext="";
   static String visitno="";
   //Colors
- // static String basecolor="#1f319d";
+  static String basecolor="#273746";
 
-  static String basecolor="##6b3054";
+ // static String basecolor="#6b3054";
   static String white="#ffffff";
   static String black="#121212";
   static String white3="#ECECEC";
@@ -23,8 +23,7 @@ class Globalvireables {
   static String green="#228B22";
 
 
-/*
-
+  /*
   http://"+Globalvireables.connectIP+"/api/Login/PostUserDefinition
   http://"+Globalvireables.connectIP+"/api/Customers/GetcusfByManId/UserName
   http://"+Globalvireables.connectIP+"/api/Items/GetinvfByManId/UserName
@@ -76,8 +75,8 @@ static String vv="iVBORw0KGgoAAAANSUhEUgAAAawAAAOeCAYAAABf5SQjAAAABHNCSVQICAgIfA
   static List<String> itemsSpiner = [''];
 
 //"+Globalvireables.connectIP+" static ip
-  static String connectIP="37.220.121.20:3752";
- // static String connectIP="10.0.1.60:5323";
+  //static String connectIP="37.220.121.20:3752";
+  static String connectIP="10.0.1.60:5323";
 
 
 }

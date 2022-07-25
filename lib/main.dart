@@ -8,7 +8,7 @@ import 'Ui/Home/Home_Body.dart';
 import 'Ui/Login/Login_Body.dart';
 
 Future<void> main() async {
-  GestureBinding.instance?.resamplingEnabled = true;
+  //GestureBinding.instance?.resamplingEnabled = true;
 
   runApp(MyApp());
 }
