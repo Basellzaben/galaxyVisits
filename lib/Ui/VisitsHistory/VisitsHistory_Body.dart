@@ -2,8 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:galaxyvisits/Ui/VisitsInfoH/VisitsHistory_Body.dart';
 import 'package:http/http.dart' as http;
-import 'package:barcode_scan/model/scan_result.dart';
-import 'package:barcode_scan/platform_wrapper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -76,7 +74,7 @@ fillAll(datecontroler.text);
             key: _scaffoldKey,
             backgroundColor: HexColor(Globalvireables.white3),
             drawerEnableOpenDragGesture: false,
-            appBar: PreferredSize(
+          /*  appBar: PreferredSize(
               preferredSize: Size.fromHeight(80), // Set this height
               child: Container(
                   height: 80,
@@ -86,19 +84,41 @@ fillAll(datecontroler.text);
                               MediaQuery.of(context).size.width, 0.0)),
                       color: HexColor(Globalvireables.bluedark)),
                   child:
-                  Center(child: Container(
+                *//*  Center(child: Container(
 
                       margin: EdgeInsets.only(top: 18),
 
                       child: Text("سجل الزيارات",style: TextStyle(color: Colors.white,fontSize: 19,fontWeight: FontWeight.w700),)))
-
-                /*Row(
+*//*
+                Row(
               children: [
-
-
+Text("سجل الزيارات",style: TextStyle(color: Colors.white,fontSize: 19,fontWeight: FontWeight.w700),),
 
               ],
+            ),
+              ),
             ),*/
+            appBar: AppBar(
+              backgroundColor: HexColor(Globalvireables.basecolor),
+              title: Row(children: <Widget>[
+                Spacer(),
+                Text(
+                  "سجل الزيارات",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+              ]),
+              leading: GestureDetector(
+                onTap: () {},
+                child: IconButton(
+                  icon: Icon(
+                    Icons.arrow_back_ios_new,
+                    size: 25.0,
+                    color: HexColor(Globalvireables.white),
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  }, // add custom icons also
+                ),
               ),
             ),
             body:Container(

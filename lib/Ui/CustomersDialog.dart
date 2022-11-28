@@ -24,7 +24,6 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:async';
-import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -63,41 +62,69 @@ class LogoutOverlayStatecard extends State<CustomersDialog>
 return Container(
   child:   Center(
         child: Scaffold(
-  
+
           key: _scaffoldKey,
           backgroundColor: Colors.white,
           body:Container(
   child: SingleChildScrollView(
     child: Column(children: [
-      Container(
-      height: 100,
-      width: MediaQuery.of(context).size.width,
-      child: Container(
-        height: 65,
-        margin: EdgeInsets.only(top: 40,left: 10,right: 10),
-        width: MediaQuery.of(context).size.width/1.3,
-        child: TextField(
-         controller: searchcontroler,
-          onChanged: refrech(),
-          textAlign: TextAlign.right,
-          decoration: new InputDecoration(
-            filled: true,
-            fillColor: HexColor(Globalvireables.white),
-            suffixIcon: new Icon(Icons.search,color: HexColor(Globalvireables.basecolor),),
-            hintText: "البحث",
-            enabledBorder: const OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(20.0)),
-              borderSide: const BorderSide(
-                color: Colors.grey,
+      Row(
+        children: [
+          Align(
+            alignment: Alignment.center,
+            child: Container(
+              height: 100
+              ,margin: EdgeInsets.only(top: 44),
+              child: GestureDetector(
+                onTap: () {},
+                child: IconButton(
+                  icon: Icon(
+                    Icons.arrow_back_ios_new,
+                    size: 25.0,
+                    color: HexColor(Globalvireables.basecolor),
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  }, // add custom icons also
+                ),
               ),
             ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(10.0)),
-              borderSide: BorderSide(color: HexColor(Globalvireables.basecolor)),
-            ),
           ),
-        ),
-      )),
+          Container(
+          height: 100,
+          width: MediaQuery.of(context).size.width/1.2,
+          child: Container(
+            height: 65,
+            margin: EdgeInsets.only(top: 40,left: 10,right: 10),
+            width: MediaQuery.of(context).size.width/1.3,
+            child: TextField(
+             controller: searchcontroler,
+              onChanged: refrech(),
+              textAlign: TextAlign.right,
+              decoration: new InputDecoration(
+                filled: true,
+                fillColor: HexColor(Globalvireables.white),
+                suffixIcon: new Icon(Icons.search,color: HexColor(Globalvireables.basecolor),),
+                hintText: "البحث",
+                enabledBorder: const OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                  borderSide: const BorderSide(
+                    color: Colors.grey,
+                  ),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                  borderSide: BorderSide(color: HexColor(Globalvireables.basecolor)),
+                ),
+              ),
+            ),
+          )),
+
+
+
+
+        ],
+      ),
 if(_journals.length>0)
       Container(
         height: MediaQuery.of(context).size.height,
@@ -109,16 +136,20 @@ if(_journals.length>0)
             itemBuilder: (context, index)
             =>new GestureDetector(
               onTap: () {
-               setState(() {
+              // setState(() {
                  Globalvireables.CustomerName=_journals[index]['name'];
                  Globalvireables.cusNo=_journals[index]['no'];
 
                  print(_journals[index]['no'].toString()+" nooo");
-
-                 Navigator.pop(context);
+                 Navigator.pushAndRemoveUntil(
+                   context,
+                   MaterialPageRoute(builder: (context) => Home_Body()),
+                       (Route<dynamic> route) => false,
+                 );
+               /*  Navigator.pop(context);
                  Navigator.push(context, MaterialPageRoute(builder: (context)=>Home_Body()));
-
-               });
+*/
+             //  });
               },child: Container(
 margin: EdgeInsets.only(top: 5),
                 color: index %2==0 ? Colors.white:Colors.black26,
@@ -143,7 +174,7 @@ margin: EdgeInsets.only(top: 5),
 
       ))
 
-    
+
     ],),
   ),
           )

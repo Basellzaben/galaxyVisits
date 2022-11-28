@@ -230,28 +230,44 @@ class _Update_Body extends State<Update_Body>   {
 
 
   fillCustomers(BuildContext context, String text) async{
-    Uri apiUrl = Uri.parse(Globalvireables.CustomersAPI+"/"+Globalvireables.username);
+   // try {
+      Uri apiUrl = Uri.parse(
+          Globalvireables.CustomersAPI + "/" + Globalvireables.username);
 
-    showLoaderDialog(context, text);
-    http.Response response=await http.get(apiUrl);
+      showLoaderDialog(context, text);
+      http.Response response = await http.get(apiUrl);
+     // if (response.statusCode == 200) {
 
-    Map<String, dynamic> data = new Map<String, dynamic>.from(json.decode(response.body));
+      /*Map<String, dynamic> data = new Map<String, dynamic>.from(
+          json.decode(response.body));*/
 
-    var list =json.decode(response.body) as List;
-    await SQLHelper.deleteCustomers();
-    if(list.length==0) {
-      ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("لا يوجد عملاء")));
-      Navigator.pop(context);
-    }else{
-      for(var i=0;i<list.length;i++){
-        await SQLHelper.createCustomers(list[i]["Name"], list[i]["Name"], list[i]["No"]);
+      var list = json.decode(response.body) as List;
+      await SQLHelper.deleteCustomers();
+      if (list.length == 0) {
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text("لا يوجد عملاء")));
+        Navigator.pop(context);
+      } else {
+        for (var i = 0; i < list.length; i++) {
+          await SQLHelper.createCustomers(
+              list[i]["Name"], list[i]["Name"], list[i]["No"]);
+
+        }
         Navigator.pop(context);
       }
-    }
 
-    getcountcust();
+      getcountcust();
+     /* }else{
+        Navigator.pop(context);
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text("يوجد مشكلة , يرجى المحاولة لاحقا")));
 
+      }*/
+   /* }catch(_){
+      Navigator.pop(context);
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("يوجد مشكلة , يرجى المحاولة لاحقا")));
+    }*/
 
   }
   showLoaderDialog(BuildContext context, String text){
@@ -276,11 +292,14 @@ class _Update_Body extends State<Update_Body>   {
 
 
   fillItems(BuildContext context, String text) async{
+    try {
     Uri apiUrl = Uri.parse(Globalvireables.ItemsAPI+Globalvireables.username);
 
     showLoaderDialog(context,text);
     http.Response response = await http.get(apiUrl);
-print("ggggg"+response.body.toString());
+    if (response.statusCode == 200) {
+
+      print("ggggg"+response.body.toString());
     //List<String, dynamic> list = json.decode(response.body);
     var list = await json.decode(response.body) as List;
     SQLHelper.deleteitems();
@@ -289,12 +308,12 @@ print("ggggg"+response.body.toString());
 
    if(list.length==0){
 
+     Navigator.pop(context);
 
      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
        content: Text("لا يوجد مواد")));
 
 
-     Navigator.pop(context);
 
    }else{
     for(var i=0;i<list.length;i++){
@@ -326,6 +345,16 @@ print("ggggg"+response.body.toString());
 
     getcountcust();
 
+  }else{
+      Navigator.pop(context);
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("يوجد مشكلة , يرجى المحاولة لاحقا")));
+
+    }}catch(_){
+  ScaffoldMessenger.of(context).showSnackBar(
+  SnackBar(content: Text("يوجد مشكلة , يرجى المحاولة لاحقا")));
+  Navigator.pop(context);
+  }
   }
 
 }

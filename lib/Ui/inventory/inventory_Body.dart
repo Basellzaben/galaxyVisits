@@ -1,8 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:barcode_scan/model/scan_result.dart';
-import 'package:barcode_scan/platform_wrapper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -96,6 +94,25 @@ var count =0;
                 color: HexColor(Globalvireables.bluedark)),
             child: Row(
               children: [
+
+                new GestureDetector(
+                  onTap: (){
+                    Navigator.of(context).pop();
+
+
+                    //  barcodeScanning();
+                  },
+                  child: Container(
+                      alignment: Alignment.center,
+                      margin: EdgeInsets.only(top: 40,left: 10),
+
+                      child: Icon(
+                        Icons.arrow_back_ios_new_rounded,
+                        size: 30.0,
+                        color: Colors.white,
+                      )),),
+
+
                 Container(
                   height: 65,
                   margin: EdgeInsets.only(top: 40,left: 10,right: 10),
@@ -122,7 +139,7 @@ var count =0;
                     ),
                   ),
                 ),
-                new GestureDetector(
+               /* new GestureDetector(
                   onTap: (){
                     barcodeScanning();
                   },
@@ -134,7 +151,7 @@ var count =0;
                       Icons.camera_alt,
                       size: 30.0,
                       color: Colors.white,
-                    )),)
+                    )),)*/
 
 
               ],
@@ -207,286 +224,304 @@ var count =0;
                             margin: EdgeInsets.only(top: 10,left: 10,right: 10),
                             child: Card(
                               child: Column(children: [
-                                Center(
-                                  child: Container(
-                                    alignment: Alignment.center,
-                                      child: Center(child: Container(
-                                          alignment: Alignment.center,
-                                          margin: EdgeInsets.only(top: 15),
-                                          child: Text(_journals[index]['name'], textAlign: TextAlign.center,style: TextStyle(fontSize: 20,fontWeight: FontWeight.w700),)))
+                                  GestureDetector(
+                                  onTap: () {
+    showModalBottomSheet(
+    isScrollControlled: true,
+    context: context,
+    shape: RoundedRectangleBorder(
+    borderRadius:
+    BorderRadius.circular(15)),
+    builder: (context) {
+    return StatefulBuilder(builder:
+    (BuildContext context,
+    StateSetter
+    setState /*You can rename this!*/) {
+    return Card(
+    shape: RoundedRectangleBorder(
+    borderRadius:
+    BorderRadius.circular(
+    20.0),
+    ),
+    shadowColor:
+    Colors.blueAccent,
+    child: Container(
+      padding: EdgeInsets.only(top: 22),
+    height: MediaQuery.of(context).size.height *
+    0.5,
 
+    child: Column(children: [
+      Center(
+        child: Container(
+            margin: EdgeInsets.only(top: 5,bottom: 20),
+            child: Center(
+              child: Row(children: [
+
+                Spacer(),
+                Container(
+                    height: 50,
+                    width: MediaQuery.of(context).size.height/5,
+
+                    //       child: Center(child: Text(intArr[index].toString(),style: TextStyle(fontWeight: FontWeight.w800)))
+                    child: Container(
+                      child: Center(
+
+                          child: Container(
+                            child: TextField(
+                              controller: _controllers[index],
+                              onChanged: refrechtext(index),
+                              textAlign: TextAlign.center,
+                              keyboardType: TextInputType.number,
+                              decoration: new InputDecoration(
+                                filled: true,
+                                fillColor: HexColor(Globalvireables.white),
+                                //   suffixIcon: new Icon(Icons.search,color: HexColor(Globalvireables.basecolor),),
+                                // hintText: "البحث",
+                                enabledBorder: const OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                                  borderSide: const BorderSide(
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                                  borderSide: BorderSide(color: HexColor(Globalvireables.basecolor)),
+                                ),
+                              ),
+                            ),
+                          )
+
+
+                      ),
+                    ) ),
+                Spacer(),
+
+                Text("        : كمية الجرد",style: TextStyle(fontSize: 18,fontWeight: FontWeight.w500),),
+
+                SizedBox(width: 5,),
+
+              ],),
+
+
+
+
+            )),
+      ),
+      Center(
+        child: Container(
+            margin: EdgeInsets.only(top: 5,bottom: 20),
+            child: Center(
+              child: Row(children: [
+
+                Spacer(),
+                Container(
+                    height: 50,
+                    width: MediaQuery.of(context).size.height/5,
+
+                    //       child: Center(child: Text(intArr[index].toString(),style: TextStyle(fontWeight: FontWeight.w800)))
+                    child: Center(
+
+                        child: Container(
+                          child: TextField(
+                            controller: _controllers1[index],
+                            onChanged: refrechtext(index),
+                            textAlign: TextAlign.center,
+                            keyboardType: TextInputType.number,
+                            decoration: new InputDecoration(
+                              filled: true,
+                              fillColor: HexColor(Globalvireables.white),
+                              //   suffixIcon: new Icon(Icons.search,color: HexColor(Globalvireables.basecolor),),
+                              // hintText: "البحث",
+                              enabledBorder: const OutlineInputBorder(
+                                borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                                borderSide: const BorderSide(
+                                  color: Colors.grey,
+                                ),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                                borderSide: BorderSide(color: HexColor(Globalvireables.basecolor)),
+                              ),
+                            ),
+                          ),
+                        )
+
+
+                    ) ),
+                Spacer(),
+
+                Text(" : الطلبية المقترحة",style: TextStyle(fontSize: 18,fontWeight: FontWeight.w500),),
+SizedBox(width: 5,)
+
+
+
+              ],),
+
+
+
+
+            )),
+      ),
+      Center(
+        child: Container(
+            margin: EdgeInsets.only(top: 5,bottom: 20),
+            child: Center(
+              child: Row(children: [
+
+                Spacer(),
+                Container(
+                    height: 60,
+                    width: 180,
+                    //       child: Center(child: Text(intArr[index].toString(),style: TextStyle(fontWeight: FontWeight.w800)))
+                    child: Center(
+
+                        child: GestureDetector(
+                            child: Container(
+                              child: TextField(
+                                enabled: false,
+                                controller: _controllers2[index],
+                                onChanged: refrechtext(index),
+                                textAlign: TextAlign.center,
+                                keyboardType: TextInputType.number,
+                                decoration: new InputDecoration(
+                                  filled: true,
+                                  fillColor: HexColor(Globalvireables.white),
+                                  //   suffixIcon: new Icon(Icons.search,color: HexColor(Globalvireables.basecolor),),
+                                  // hintText: "البحث",
+                                  enabledBorder: const OutlineInputBorder(
+                                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                                    borderSide: const BorderSide(
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                                    borderSide: BorderSide(color: HexColor(Globalvireables.basecolor)),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            onTap: () async {
+
+
+                              await showDatePicker(
+
+                                context: context,
+
+                                initialDate: DateTime.now(),
+
+                                firstDate: DateTime(2021),
+
+                                lastDate: DateTime(2040),
+
+                              ).then((selectedDate) {
+
+                                if (selectedDate != null) {
+
+
+
+                                  /* datecontroler.text =
+
+        DateFormat('yyyy-MM-dd').format(selectedDate);*/
+                                  //   Globalvireables.date=DateFormat('yyyy-MM-dd').format(selectedDate);
+
+                                  setState(() {
+                                    _controllers2[index].text=DateFormat('yyyy-MM-dd').format(selectedDate);
+                                    //    _refreshItems();
+
+                                  });
+
+
+
+                                }
+
+                              });
+
+
+
+                            })
+
+
+
+
+
+                    ) ),
+                Spacer(),
+
+
+                Container(
+
+                  child: Text(": تاريخ الصلاحية",
+                      style: TextStyle(fontSize: 18,
+                          fontWeight: FontWeight
+                              .w500)),
+                ),
+                SizedBox(width: 5,)
+              ],),
+            )),
+      ),
+      Container(
+        padding: const EdgeInsets.only(top: 0.0,bottom: 8),
+        alignment: Alignment.center,
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            // shape: CircleBorder(),
+            primary: HexColor(Globalvireables.basecolor),
+          ),
+          child: Container(
+            width: MediaQuery.of(context).size.height/2.5,
+
+            height: 50,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(shape: BoxShape.circle),
+            child: Text(
+              "أضـافة",
+              style: TextStyle(fontSize: 18,fontWeight:FontWeight.bold,color: Colors.white),
+            ),
+          ),
+          onPressed: () async {
+            // await SQLHelper.selectItem(_journals[index]['name'],intArr[index],_journals[index]['no']);
+
+
+            if( _controllers[index].text.contains('-') || _controllers[index].text.contains(','))
+            {
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text("قيمة الكمية غير صحيحة"),
+              ));
+            }
+
+            if(_controllers[index].text.isEmpty)
+              intArr[index]=0;
+            AddItem(_journals[index]['no'],_journals[index]['name'],intArr[index],int.parse(_controllers1[index].text),_controllers2[index].text);
+            _refreshItems();
+            setState(() {
+              Navigator.pop(context);
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text("تمت اضافة المادة"),
+              ));
+            });
+
+          },
+        ),),
+    ],),
+
+    ));});});
+                            },
+                                  child: Center(
+                                    child: Container(
+                                      alignment: Alignment.center,
+                                        height: 77,
+                                        child: Center(child: Container(
+                                            alignment: Alignment.center,
+                                            margin: EdgeInsets.only(top: 5),
+                                            child: Text(_journals[index]['name'], textAlign: TextAlign.center,style: TextStyle(fontSize: 18,fontWeight: FontWeight.w400),)))
+
+                                    ),
                                   ),
                                 ),
 
 
-                                Center(
-                                  child: Container(
-                                      margin: EdgeInsets.only(top: 5,bottom: 20),
-                                      child: Center(
-                                        child: Row(children: [
 
-                                          Spacer(),
-                                          Container(
-                                            height: 50,
-                                       width: 100,
-                                       //       child: Center(child: Text(intArr[index].toString(),style: TextStyle(fontWeight: FontWeight.w800)))
-                                              child: Container(
-                                                child: Center(
-
-                                                    child: Container(
-                                                      child: TextField(
-                                                        controller: _controllers[index],
-                                                        onChanged: refrechtext(index),
-                                                        textAlign: TextAlign.center,
-                                                        keyboardType: TextInputType.number,
-                                                        decoration: new InputDecoration(
-                                                          filled: true,
-                                                          fillColor: HexColor(Globalvireables.white),
-                                                       //   suffixIcon: new Icon(Icons.search,color: HexColor(Globalvireables.basecolor),),
-                                                         // hintText: "البحث",
-                                                          enabledBorder: const OutlineInputBorder(
-                                                            borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                                                            borderSide: const BorderSide(
-                                                              color: Colors.grey,
-                                                            ),
-                                                          ),
-                                                          focusedBorder: OutlineInputBorder(
-                                                            borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                                                            borderSide: BorderSide(color: HexColor(Globalvireables.basecolor)),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    )
-
-
-                                                ),
-                                              ) ),
-                                          Spacer(),
-
-                                          Text("        : كمية الجرد",style: TextStyle(fontSize: 18,fontWeight: FontWeight.w500),),
-
-
-                                        ],),
-
-
-
-
-                                      )),
-                                ),
-                                Center(
-                                  child: Container(
-                                      margin: EdgeInsets.only(top: 5,bottom: 20),
-                                      child: Center(
-                                        child: Row(children: [
-
-                                          Spacer(),
-                                          Container(
-                                              height: 50,
-                                              width: 100,
-                                              //       child: Center(child: Text(intArr[index].toString(),style: TextStyle(fontWeight: FontWeight.w800)))
-                                              child: Center(
-
-                                                  child: Container(
-                                                    child: TextField(
-                                                      controller: _controllers1[index],
-                                                      onChanged: refrechtext(index),
-                                                      textAlign: TextAlign.center,
-                                                      keyboardType: TextInputType.number,
-                                                      decoration: new InputDecoration(
-                                                        filled: true,
-                                                        fillColor: HexColor(Globalvireables.white),
-                                                        //   suffixIcon: new Icon(Icons.search,color: HexColor(Globalvireables.basecolor),),
-                                                        // hintText: "البحث",
-                                                        enabledBorder: const OutlineInputBorder(
-                                                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                                                          borderSide: const BorderSide(
-                                                            color: Colors.grey,
-                                                          ),
-                                                        ),
-                                                        focusedBorder: OutlineInputBorder(
-                                                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                                                          borderSide: BorderSide(color: HexColor(Globalvireables.basecolor)),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  )
-
-
-                                              ) ),
-                                          Spacer(),
-
-                                          Text(" : الطلبية المقترحة",style: TextStyle(fontSize: 18,fontWeight: FontWeight.w500),),
-
-
-
-
-                                        ],),
-
-
-
-
-                                      )),
-                                ),
-                                Center(
-                                  child: Container(
-                                      margin: EdgeInsets.only(top: 5,bottom: 20),
-                                      child: Center(
-                                        child: Row(children: [
-
-                                          Spacer(),
-                                          Container(
-                                              height: 60,
-                                              width: 180,
-                                              //       child: Center(child: Text(intArr[index].toString(),style: TextStyle(fontWeight: FontWeight.w800)))
-                                              child: Center(
-
-                                                child: GestureDetector(
-                                                     child: Container(
-                                                child: TextField(
-                                                enabled: false,
-                                                controller: _controllers2[index],
-                                                onChanged: refrechtext(index),
-                                                textAlign: TextAlign.center,
-                                                keyboardType: TextInputType.number,
-                                                decoration: new InputDecoration(
-                                                  filled: true,
-                                                  fillColor: HexColor(Globalvireables.white),
-                                                  //   suffixIcon: new Icon(Icons.search,color: HexColor(Globalvireables.basecolor),),
-                                                  // hintText: "البحث",
-                                                  enabledBorder: const OutlineInputBorder(
-                                                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                                                    borderSide: const BorderSide(
-                                                      color: Colors.grey,
-                                                    ),
-                                                  ),
-                                                  focusedBorder: OutlineInputBorder(
-                                                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                                                    borderSide: BorderSide(color: HexColor(Globalvireables.basecolor)),
-                                                  ),
-                                                ),
-                                              ),
-                                          ),
-                                                    onTap: () async {
-
-
-                                                      await showDatePicker(
-
-                                                        context: context,
-
-                                                        initialDate: DateTime.now(),
-
-                                                        firstDate: DateTime(2021),
-
-                                                        lastDate: DateTime(2040),
-
-                                                      ).then((selectedDate) {
-
-                                                        if (selectedDate != null) {
-
-
-
-                                                          /* datecontroler.text =
-
-        DateFormat('yyyy-MM-dd').format(selectedDate);*/
-                                                       //   Globalvireables.date=DateFormat('yyyy-MM-dd').format(selectedDate);
-
-                                                          setState(() {
-                                                            _controllers2[index].text=DateFormat('yyyy-MM-dd').format(selectedDate);
-                                                        //    _refreshItems();
-
-                                                          });
-
-
-
-                                                        }
-
-                                                      });
-
-
-
-                                                    })
-
-
-
-
-
-                                              ) ),
-                                          Spacer(),
-
-
-                                           Container(
-
-                                             child: Text(": تاريخ الصلاحية",
-                                                  style: TextStyle(fontSize: 18,
-                                                      fontWeight: FontWeight
-                                                          .w500)),
-                                           ),
-
-
-
-                                        ],),
-
-
-
-
-                                      )),
-                                ),
-                                Container(
-                                  padding: const EdgeInsets.only(top: 0.0,bottom: 8),
-                                  alignment: Alignment.center,
-                                  child: ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                      // shape: CircleBorder(),
-                                      primary: HexColor(Globalvireables.basecolor),
-                                    ),
-                                    child: Container(
-                                      width: 100,
-                                      height: 25,
-                                      alignment: Alignment.center,
-                                      decoration: BoxDecoration(shape: BoxShape.circle),
-                                      child: Text(
-                                        "أضـافة",
-                                        style: TextStyle(fontSize: 18,fontWeight:FontWeight.bold,color: Colors.white),
-                                      ),
-                                    ),
-                                    onPressed: () async {
-                                     // await SQLHelper.selectItem(_journals[index]['name'],intArr[index],_journals[index]['no']);
-
-
-                                      if( _controllers[index].text.contains('-') || _controllers[index].text.contains(','))
-                                        {
-                                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                            content: Text("قيمة الكمية غير صحيحة"),
-                                          ));
-                                        }
-
-if(_controllers[index].text.isEmpty)
-  intArr[index]=0;
-                                      AddItem(_journals[index]['no'],_journals[index]['name'],intArr[index],int.parse(_controllers1[index].text),_controllers2[index].text);
-
-                                      _refreshItems();
-
-
-                                      setState(() {
-
-
-
-                                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                          content: Text("تمت اضافة المادة"),
-                                        ));
-
-                                        /* cR=HexColor(Globalvireables.green);
-
-                                        Timer(Duration(milliseconds:  10),
-                                              ()=>
-                                             cR=HexColor(Globalvireables.white3)
-                                        );
-
-*/
-                                      });
-
-                                    },
-                                  ),),
                               ],),
 
                             ),
@@ -619,13 +654,13 @@ if(_controllers[index].text.isEmpty)
   }
 
   Future barcodeScanning() async {
-    try {
+   /* try {
       ScanResult barcode = await BarcodeScanner.scan();
       setState(() {
 searchcontroler.text=barcode.rawContent;
    //   refreshSearchBarcode(barcode.rawContent);
       print(barcode.rawContent+"  barcc");
-      }/*print(barcode.rawContent+"  bars")*/);
+      }*//*print(barcode.rawContent+"  bars")*//*);
     } on PlatformException catch (e) {
       if (e.code == BarcodeScanner.cameraAccessDenied) {
         setState(() {
@@ -639,7 +674,7 @@ searchcontroler.text=barcode.rawContent;
      // 'Nothing captured.');
     } catch (e) {
     //  setState(() =>  cardnocontroler.text = 'Unknown error: $e');
-    }
+    }*/
   }
 
 

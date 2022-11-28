@@ -12,23 +12,15 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:galaxyvisits/GlobalVaribales.dart';
 import 'package:galaxyvisits/color/HexColor.dart';
-
-
 import 'package:galaxyvisits/Ui/Home/Home_Body.dart';
 import 'package:galaxyvisits/Ui/inventory/inventory_Body.dart';
 import 'package:image_cropper/image_cropper.dart';
-import 'package:barcode_scan/model/scan_result.dart';
-import 'package:barcode_scan/platform_wrapper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:flutter/services.dart';
 import 'package:galaxyvisits/DataBase/SQLHelper.dart';
-import 'package:galaxyvisits/GlobalVaribales.dart';
-import 'package:galaxyvisits/color/HexColor.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:location/location.dart';
@@ -84,7 +76,7 @@ int count =0;
         key: _scaffoldKey,
         backgroundColor: HexColor(Globalvireables.white3),
         drawerEnableOpenDragGesture: false,
-        appBar: PreferredSize(
+      /*  appBar: PreferredSize(
           preferredSize: Size.fromHeight(200), // Set this height
           child: Container(
             height: 100,
@@ -119,6 +111,32 @@ int count =0;
             ),
           ),
         ),
+*/
+          appBar: AppBar(
+            backgroundColor: HexColor(Globalvireables.basecolor),
+            title: Row(children: <Widget>[
+              Spacer(),
+              Text(
+                "تفاصيل الزيارة",
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ]),
+            leading: GestureDetector(
+              onTap: () {},
+              child: IconButton(
+                icon: Icon(
+                  Icons.arrow_back_ios_new,
+                  size: 25.0,
+                  color: HexColor(Globalvireables.white),
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                }, // add custom icons also
+              ),
+            ),
+          ),
+
+
         body:Container(
           margin: EdgeInsets.only(top: 15),
           height: MediaQuery.of(context).size.height,
@@ -521,7 +539,7 @@ Spacer(),
       itemselectedFORPOST = data2;
     });
 
-    test();
+  //  test();
 
 
   }
@@ -560,16 +578,11 @@ Spacer(),
 
   }
   check_two_times_is_before(String start_time, String end_time){
-    var format = DateFormat("HH:mm");
 
-
-
-
-    var start = format.parse(start_time);
-    var end = format.parse(end_time);
-    print(start.toString()+"startt  "+end.toString());
-
-
+      var format = DateFormat("HH:mm");
+      var start = format.parse(start_time);
+      var end = format.parse(end_time);
+      print(start.toString()+"startt  "+end.toString());
       print(start.toString()+"startt  "+end.toString());
 
       end = end.add(Duration(days: 1));
@@ -577,11 +590,9 @@ Spacer(),
       final hours = diff.inHours;
       final minutes = diff.inMinutes % 60;
       print('$hours hours $minutes minutes');
-
-
       Globalvireables.duration=(end.hour-start.hour).toString()+":"+(end.minute-start.minute).toString();
+      SendData(context,"","","");
 
-    SendData(context,"","","");
 
   }
 void SendData(BuildContext context,
@@ -686,7 +697,7 @@ deleteImage(int index) async {
         ],
         androidUiSettings: AndroidUiSettings(
             toolbarTitle: 'Cropper',
-            toolbarColor: Colors.deepOrange,
+            toolbarColor: HexColor(Globalvireables.basecolor),
             toolbarWidgetColor: Colors.white,
             initAspectRatio: CropAspectRatioPreset.original,
             lockAspectRatio: false),
