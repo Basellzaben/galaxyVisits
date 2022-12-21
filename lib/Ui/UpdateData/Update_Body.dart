@@ -46,67 +46,36 @@ class _Update_Body extends State<Update_Body>   {
       child: Scaffold(
         key: _scaffoldKey,
         drawerEnableOpenDragGesture: false,
-        backgroundColor: HexColor(Globalvireables.white3),
+        backgroundColor: HexColor(Globalvireables.white),
         endDrawer: NavDrawer(),
-    /*    appBar: PreferredSize(
-          preferredSize: Size.fromHeight(200), // Set this height
-          child: Container(
-            height: 150,
-            width: MediaQuery.of(context).size.width/1.3,
-            decoration: new BoxDecoration(
-                borderRadius: BorderRadius.vertical(
-                    bottom: Radius.elliptical(
-                        MediaQuery.of(context).size.width, 0.0)),
-                color: HexColor(Globalvireables.bluedark)),
-            child: Row(
-              children: [
-                Container(
-                  decoration: new BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.vertical(
-                        bottom: Radius.elliptical(
-                            MediaQuery.of(context).size.width, 20.0)),
-                  ),
-                  height: 65,
-                  margin: EdgeInsets.only(top: 40,left: 10,right: 10),
-                  width: MediaQuery.of(context).size.width/1.1,
-                  child: DropdownButton(
 
-                    isExpanded: true,
-                    value: dropdownvalue,
-                    icon: Icon(Icons.keyboard_arrow_down),
-                    items:items.map((String items) {
-                      return DropdownMenuItem(
-                          value: items,
-                          child: Text(items)
-                      );
-                    }
-                    ).toList(),
-                    onChanged: (String ?newValue){
-                      setState(() {
-                        dropdownvalue = newValue!;
-                      });
-                    },
-                  ),
-                ),
-
-
-
-              ],
-            ),
-          ),
-        ),*/
         body:Container(
           margin: EdgeInsets.only(top: 30),
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
-          color: HexColor(Globalvireables.white3),
+          color: HexColor(Globalvireables.white),
           child: SingleChildScrollView(
             child: Column(
               children: [
+               Align(
+                 alignment: Alignment.bottomLeft,
+                 child: GestureDetector(
+                    onTap: () {},
+                    child: IconButton(
+                      icon: Icon(
+                        Icons.arrow_back_ios_new,
+                        size: 25.0,
+                        color: HexColor(Globalvireables.black),
+                      ),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      }, // add custom icons also
+                    ),
+                  ),
+               ),
                 Center(
-                  child: new Image.asset('assets/update.png'
-                    ,height:250 ,width:250 , ),
+                  child: new Image.asset('assets/update2.png'
+                    ,height:200 ,width:300 , ),
                 ),
                 Container(
                   margin: EdgeInsets.all(15),
@@ -230,13 +199,13 @@ class _Update_Body extends State<Update_Body>   {
 
 
   fillCustomers(BuildContext context, String text) async{
-   // try {
+    try {
       Uri apiUrl = Uri.parse(
           Globalvireables.CustomersAPI + "/" + Globalvireables.username);
 
       showLoaderDialog(context, text);
       http.Response response = await http.get(apiUrl);
-     // if (response.statusCode == 200) {
+      if (response.statusCode == 200) {
 
       /*Map<String, dynamic> data = new Map<String, dynamic>.from(
           json.decode(response.body));*/
@@ -257,17 +226,17 @@ class _Update_Body extends State<Update_Body>   {
       }
 
       getcountcust();
-     /* }else{
+      }else{
         Navigator.pop(context);
         ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text("يوجد مشكلة , يرجى المحاولة لاحقا")));
 
-      }*/
-   /* }catch(_){
+      }
+    }catch(_){
       Navigator.pop(context);
       ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text("يوجد مشكلة , يرجى المحاولة لاحقا")));
-    }*/
+    }
 
   }
   showLoaderDialog(BuildContext context, String text){
@@ -335,26 +304,27 @@ class _Update_Body extends State<Update_Body>   {
       if(list[i]["Unit"]!=null){
         Unit=list[i]["Unit"];
       }
-      await SQLHelper.createitems(Item_Name,
-     Unit,price,Item_No,list[i]["barcode"]);
-      print("count :"+i.toString());
-      if(i==list.length-1){
-        Navigator.pop(context);
+      if(list[i]["barcode"]!=null){
+        barcode=list[i]["barcode"];
       }
-    }}
+      await SQLHelper.createitems(Item_Name,
+     Unit,price,Item_No,barcode);
+      print("count :"+i.toString()+"  Item_No="+Item_No.toString());
+
+    }
+    Navigator.pop(context);}
 
     getcountcust();
 
-  }else{
+ }else{
       Navigator.pop(context);
       ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("يوجد مشكلة , يرجى المحاولة لاحقا")));
-
-    }}catch(_){
+      SnackBar(content: Text("يوجد مشكلة , يرجى المحاولة لاحقا")));
+    }}catch(err){
   ScaffoldMessenger.of(context).showSnackBar(
-  SnackBar(content: Text("يوجد مشكلة , يرجى المحاولة لاحقا")));
+  SnackBar(content: Text(err.toString() +"يوجد مشكلة , يرجى المحاولة لاحقا...")));
   Navigator.pop(context);
-  }
+     }
   }
 
 }

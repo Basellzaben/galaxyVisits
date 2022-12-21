@@ -62,11 +62,11 @@ class _inventory_Body extends State<inventory_Body>   {
 
   @override
   void initState() {
- //   futureData=fetchData();
+  //   futureData=fetchData();
   //  data=fetchData();
     _refreshItems();
-
   }
+
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   final TextEditingController searchcontroler = TextEditingController();
@@ -97,7 +97,6 @@ var count =0;
 
                 new GestureDetector(
                   onTap: (){
-                    Navigator.of(context).pop();
 
 
                     //  barcodeScanning();
@@ -450,7 +449,6 @@ SizedBox(width: 5,)
 
 
                 Container(
-
                   child: Text(": تاريخ الصلاحية",
                       style: TextStyle(fontSize: 18,
                           fontWeight: FontWeight
@@ -460,6 +458,9 @@ SizedBox(width: 5,)
               ],),
             )),
       ),
+
+      Spacer(),
+
       Container(
         padding: const EdgeInsets.only(top: 0.0,bottom: 8),
         alignment: Alignment.center,
@@ -485,6 +486,14 @@ SizedBox(width: 5,)
 
             if( _controllers[index].text.contains('-') || _controllers[index].text.contains(','))
             {
+              Navigator.pop(context);
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text("قيمة الكمية غير صحيحة"),
+              ));
+            }
+            if( _controllers1[index].text.contains('-') || _controllers1[index].text.contains(','))
+            {
+              Navigator.pop(context);
               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                 content: Text("قيمة الكمية غير صحيحة"),
               ));
@@ -492,14 +501,25 @@ SizedBox(width: 5,)
 
             if(_controllers[index].text.isEmpty)
               intArr[index]=0;
-            AddItem(_journals[index]['no'],_journals[index]['name'],intArr[index],int.parse(_controllers1[index].text),_controllers2[index].text);
-            _refreshItems();
-            setState(() {
-              Navigator.pop(context);
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: Text("تمت اضافة المادة"),
-              ));
-            });
+
+         if(!_controllers1[index].text.isEmpty )
+           if(double.parse(_controllers1[index].text)>0) {
+           AddItem(
+               _journals[index]['no'], _journals[index]['name'], intArr[index],
+               int.parse(_controllers1[index].text), _controllers2[index].text);
+           _refreshItems();
+           setState(() {
+             Navigator.pop(context);
+             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+               content: Text("تمت اضافة المادة"),
+             ));
+           });
+         }else{
+           Navigator.pop(context);
+           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+             content: Text("قيمة الكمية غير صحيحة"),
+           ));
+         }
 
           },
         ),),
@@ -597,7 +617,8 @@ SizedBox(width: 5,)
    }
 
       for(var i=0;i<to;i++){
-        _controllers[i].text="1";
+        _controllers[i].text="0";
+        _controllers1[i].text="";
 
       }
 

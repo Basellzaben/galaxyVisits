@@ -498,7 +498,7 @@ s(){
 }
   fillvisited() async{
     Uri apiUrl = Uri.parse(Globalvireables.VisitsListAPI+Globalvireables.username);
-
+print("visites "+Globalvireables.VisitsListAPI+Globalvireables.username);
     http.Response response = await http.get(apiUrl);
     SQLHelper.deletevisit();
     //List<String, dynamic> list = json.decode(response.body);

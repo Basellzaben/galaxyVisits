@@ -33,7 +33,6 @@ dependencies:
   location: ^4.0.0
   http: ^0.13.4
   sqflite: ^2.0.2
-  flutter_barcode_scanner:
   flutter_native_image:
   image_picker:
   image_cropper: ^1.4.1
@@ -71,7 +70,9 @@ flutter:
   assets:
     - assets/
     - assets/logo.png
+    - assets/logo2.png
     - assets/not.png
+    - assets/update2.png
 
   # To add assets to your application, add an assets section, like this:
   # assets:

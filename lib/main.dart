@@ -32,69 +32,37 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 class _MyHomePageState extends State<MyHomePage> {
-
-/*  login ()  {
-    Navigator.push(context,
-        MaterialPageRoute(builder:
-            (context) =>
-            Login_Body()));
-
-
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    if(prefs.getBool('activefingerprint')!=null){
-      if(prefs.getBool('activefingerprint')!){
-        Navigator.pushReplacement(context,
-            MaterialPageRoute(builder:
-                (context) =>
-                Login_Body()));
-
-                }else{
-        Navigator.pushReplacement(context,
-            MaterialPageRoute(builder:
-                (context) =>
-                    FingerPrintAuth()));
-            }}else{
-      Navigator.pushReplacement(context,
-          MaterialPageRoute(builder:
-              (context) =>
-                  FingerPrintAuth()));
-            }
-
-    print(prefs.getBool('activefingerprint').toString()+"savvvve");
-
-
-
-  }*/
-
   @override
   void initState() {
-    super.initState();
-    Timer(Duration(seconds: 5),
-          ()=>
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Login_Body())),
+   super.initState();
+     Timer(Duration(seconds: 5),
+           ()=>
+       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Login_Body())),
 
-    );
+     );
   }
 
   @override
   Widget build(BuildContext context) {
 
     return Scaffold(
-        backgroundColor:Colors.white,
+        backgroundColor:HexColor(Globalvireables.basecolor),
 //backgroundColor: HexColor(Globalvireables.basecolor),
         body: Container(
+          color: HexColor(Globalvireables.basecolor),
           margin: EdgeInsets.only(top: 200),
 
           child: Column(children: [
             Center(
-              child: new Image.asset('assets/logo.jpg'
+              child: new Image.asset('assets/logo2.png'
                 ,height:250 ,width:250 , ),
             ),
-
+Spacer(),
             Container(
-              margin: EdgeInsets.only(top: 200),
+              alignment: Alignment.bottomCenter,
+              margin: EdgeInsets.only(bottom: 16),
               child: Text("Powered By galaxy International Group",style: TextStyle(
-                  color: HexColor(Globalvireables.basecolor),fontSize: 12
+                  color: HexColor(Globalvireables.white),fontSize: 13
               ),),
             )
 

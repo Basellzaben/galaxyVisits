@@ -60,31 +60,33 @@ class _VisitsInfoH_Body extends State<VisitsInfoH_Body>   {
             key: _scaffoldKey,
             backgroundColor: HexColor(Globalvireables.white3),
             drawerEnableOpenDragGesture: false,
-            appBar: PreferredSize(
-              preferredSize: Size.fromHeight(80), // Set this height
-              child: Container(
-                  height: 80,
-                  decoration: new BoxDecoration(
-                      borderRadius: BorderRadius.vertical(
-                          bottom: Radius.elliptical(
-                              MediaQuery.of(context).size.width, 0.0)),
-                      color: HexColor(Globalvireables.bluedark)),
-                  child:
-                  Center(child: Container(
-
-                      margin: EdgeInsets.only(top: 18),
-
-                      child: Text("بيانات الزيارة",style: TextStyle(color: Colors.white,fontSize: 19,fontWeight: FontWeight.w700),)))
-
-                /*Row(
-              children: [
 
 
-
-              ],
-            ),*/
+            appBar: AppBar(
+              backgroundColor: HexColor(Globalvireables.basecolor),
+              title: Row(children: <Widget>[
+                Spacer(),
+                Text(
+                  "بيانات الزيارة",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+              ]),
+              leading: GestureDetector(
+                onTap: () {},
+                child: IconButton(
+                  icon: Icon(
+                    Icons.arrow_back_ios_new,
+                    size: 25.0,
+                    color: HexColor(Globalvireables.white),
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  }, // add custom icons also
+                ),
               ),
             ),
+
+
             body:Container(
 
                 margin: EdgeInsets.only(top: 15),
@@ -328,10 +330,7 @@ if(images.length>0)
   }
 
   void _refreshCustomers() async {
-    //showLoaderDialog(context,"جار جلب العملاء");
-    // showLoaderDialog(context);
-
-    print(Globalvireables.VisitsImageAPI+Globalvireables.visitno + "  images");
+    print(Globalvireables.VisitsImageAPI+"/"+Globalvireables.username+"/"+Globalvireables.visitno + "  images");
 
 print(Globalvireables.VisitsImageAPI+"/"+Globalvireables.username+"/"+Globalvireables.visitno);
     Uri apiUrl = Uri.parse(Globalvireables.VisitsImageAPI+"/"+Globalvireables.username+"/"+Globalvireables.visitno);
@@ -342,7 +341,11 @@ print(Globalvireables.VisitsImageAPI+"/"+Globalvireables.username+"/"+Globalvire
       setState(() {
         images = data;
       });
-
+    if(images.isEmpty){
+      setState(() {
+        _refreshCustomers();
+      });
+    }
     }
 
 
@@ -351,8 +354,9 @@ print(Globalvireables.VisitsImageAPI+"/"+Globalvireables.username+"/"+Globalvire
     //showLoaderDialog(context,"جار جلب العملاء");
     // showLoaderDialog(context);
 
-    print(Globalvireables.VisitsImageAPI+Globalvireables.visitno.toString() + " items");
-
+   // print(Globalvireables.VisitsImageAPI+Globalvireables.visitno.toString() + " items");
+    print("http://"+Globalvireables.connectIP+"/api/Visits/GetCustomerStockList/"+Globalvireables.username+"/"+Globalvireables.visitno.toString()
+    + "item2");
     Uri apiUrl = Uri.parse("http://"+Globalvireables.connectIP+"/api/Visits/GetCustomerStockList/"+Globalvireables.username+"/"+Globalvireables.visitno.toString());
     http.Response response = await http.get(apiUrl);
     var data = await json.decode(response.body);
@@ -361,7 +365,11 @@ print(Globalvireables.VisitsImageAPI+"/"+Globalvireables.username+"/"+Globalvire
     setState(() {
       itemselected = data;
     });
-
+if(itemselected.isEmpty){
+  setState(() {
+    _refreshItems();
+  });
+ }
   }
 
 }

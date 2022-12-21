@@ -60,7 +60,25 @@ class _VisitDetails_Body extends State<VisitDetails_Body>   {
 
   List<Map<String, dynamic>> _journals = [];
   List<Map<String, dynamic>> itemselected = [];
-
+  void showLoaderDialog(BuildContext context) {
+    AlertDialog alert = AlertDialog(
+      content: new Row(
+        children: [
+          CircularProgressIndicator(),
+          Container(
+              margin: EdgeInsets.only(left: 7),
+              child: Text("اغلاق الزيارة ...")),
+        ],
+      ),
+    );
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
 int count =0;
   @override
   Widget build(BuildContext context) {
@@ -150,15 +168,18 @@ int count =0;
                     Spacer(),
 
                     Container(
-                      width: 190,
+                      alignment: Alignment.centerRight,
+                        width: MediaQuery.of(context).size.width/1.5,
                         margin: EdgeInsets.only(left: 5,right: 5,top: 5),
                         child: Text(
+
                          Globalvireables.CustomerName,
                           style: TextStyle(color: Colors.black, fontSize: 18,fontWeight: FontWeight.w800),
                         )),
 
                     Container(
-                        margin: EdgeInsets.only(left: 10,right: 10,top: 5),
+                      width: MediaQuery.of(context).size.width/4,
+                        margin: EdgeInsets.only(left: 0,right: 0,top: 5),
                         child: Text(
                           ': اسم العمـيل',
                           style: TextStyle(color: Colors.black, fontSize: 18,fontWeight: FontWeight.w400),
@@ -318,8 +339,11 @@ Spacer(),
                new InkWell(
                   onTap: () async {
                   setState(() {
-                    deleteItem(itemselected[index]['ItemNo']);
 
+
+                    showAlertDialog(context,index);
+
+               //     deleteItem(itemselected[index]['ItemNo']);
                      });  },
                           child: Center(
                             child: Container(
@@ -373,7 +397,6 @@ Spacer(),
 
                     Container(
                       height: 50,
-
                       width: MediaQuery.of(context).size.width/2.2,
                       margin: EdgeInsets.only(top: 20,left: 5,right: 5),
 
@@ -396,7 +419,7 @@ Spacer(),
                             showDialog(
                                 context: context,
                                 builder: (_) => AlertDialog(
-                                  title: Text('اعلاق الزيارة'),
+                                  title: Text('اغلاق الزيارة'),
                                   content: Text('لا يمكن اغلاق الزيارة بدون جرد للمواد'),
                                 )
                             );
@@ -545,6 +568,45 @@ Spacer(),
   }
 
 
+  showAlertDialog(BuildContext context, int index) {
+
+    // set up the buttons
+    Widget cancelButton = TextButton(
+      child: Text("رجوع"),
+      onPressed:  () {
+
+
+        Navigator.pop(context);
+
+      },
+    );
+    Widget continueButton = TextButton(
+      child: Text("حذف"),
+      onPressed:  () {
+        Navigator.pop(context);
+
+        deleteItem(itemselected[index]['ItemNo']);
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("حذف"),
+      content: Text("هل انت متاكد من حذف الماده"),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
   void deleteItem(String itemno) async {
    await SQLHelper.deleteselectedItem(itemno);
 
@@ -553,7 +615,7 @@ Spacer(),
 
 
   Endvisit() async {
-    try {
+    //try {
       Uri apiUrl = Uri.parse(Globalvireables.timeAPI);
 
       http.Response response = await http.get(apiUrl);
@@ -567,12 +629,12 @@ Spacer(),
 
 
 
-    } catch(_) {
+   /* } catch(_) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text("حدث حطأ اثناء اعتماد بيانات الزيارة , يرجى التاكد من اتصال الانترنت"),
       ));
     }
-
+*/
 
 
 
@@ -597,6 +659,8 @@ Spacer(),
   }
 void SendData(BuildContext context,
     String Note,String Loct,String Duration)async {
+  showLoaderDialog(context);
+
   DateTime now = DateTime.now();
   int Nday = now.weekday;
   String Tr_Data = now.year.toString() + "-" + now.month.toString() + "-" +
@@ -607,7 +671,6 @@ void SendData(BuildContext context,
   Uri apiUrl = Uri.parse(Globalvireables.VisitsPost);
 
   String x = await JsonEncoder().convert(itemselectedFORPOST);
-
 
   Map<String, dynamic> payload = {
     "Start_Time": Globalvireables.startTime + ":00", //string
@@ -626,7 +689,6 @@ void SendData(BuildContext context,
     /*  JsonEncoder().convert(imgFORPOST)*/
   };
 
-
   print("siize"+imgFORPOST.length.toString());
   print("jsonjsonjson : " + payload.toString());
 
@@ -634,13 +696,13 @@ void SendData(BuildContext context,
       headers: { "Content-Type": "application/json"},
       body: json.encode(payload));
 
-  var jsonResponse = jsonDecode(response.body);
-
+  var jsonResponse =await jsonDecode(response.body);
 
   print("wheen" + jsonResponse.toString());
 
 if(jsonResponse.toString().length>10){
   if (jsonResponse["ManNo"] == Globalvireables.manNo) {
+    Navigator.of(context).pop();
 
 
     Globalvireables.CustomerName="حدد العمــيل";
@@ -655,17 +717,23 @@ if(jsonResponse.toString().length>10){
         context, MaterialPageRoute(builder: (context) => Home_Body()));
   }
 else{
+    Navigator.of(context).pop();
+
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text("حدث حطأ اثناء اعتماد بيانات الزيارة , يرجى التاكد من اتصال الانترنت"),
     ));
 
 }}else{
+  Navigator.of(context).pop();
+
   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
     content: Text("حدث حطأ اثناء اعتماد بيانات الزيارة , يرجى التاكد من اتصال الانترنت"),
   ));
 }
 
   } catch(_) {
+    Navigator.of(context).pop();
+
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text("حدث حطأ اثناء اعتماد بيانات الزيارة , يرجى التاكد من اتصال الانترنت"),
     ));
@@ -707,4 +775,9 @@ deleteImage(int index) async {
     );
     return croppedImage;
   }
+
+
+
+
+
 }

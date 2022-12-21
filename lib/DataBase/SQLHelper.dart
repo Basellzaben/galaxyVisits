@@ -144,7 +144,7 @@ class SQLHelper {
   static Future<int> createitems(String name, String unit,double price ,String no,String barcode) async {
     final db = await SQLHelper.db();
 
-    final data = { 'name': name, 'unit': unit,'no':no ,'price':price,'barcode':barcode};
+    final data =await { 'name': name, 'unit': unit,'no':no ,'price':price,'barcode':barcode};
     final id = await db.insert('Items', data,
         conflictAlgorithm: sql.ConflictAlgorithm.replace);
     return id;

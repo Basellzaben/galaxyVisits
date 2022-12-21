@@ -69,14 +69,15 @@ class _Home_Body extends State<Home_Body> {
       minute = now.minute.toString();
     currentTime = now.day.toString() + "/" + now.month.toString() + "/" +
         now.year.toString() + " - " + now.hour.toString() + ":" + minute;
+    // handler = SQLHelper();
+    var data ;
+    SQLHelper.GetCustomers().then((value) => {
 
-/*
+      if(value.length<1){
+        showAlertDialog(context)
+      }
 
-Timer(Duration(seconds: 5),
-        ()=>
-        _refreshCustomers()
-
-);*/
+    });
   }
 
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
@@ -162,13 +163,10 @@ Timer(Duration(seconds: 5),
                   decoration: new BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.vertical(
-                        bottom: Radius.elliptical(
-                            MediaQuery
-                                .of(context)
-                                .size
-                                .width, 20.0)),),
+                        bottom: Radius.circular(
+                         30.0)),),
                   height: 60,
-                  margin: EdgeInsets.only(top: 40, left: 10, right: 10),
+                  margin: EdgeInsets.only(top: 33, left: 10, right: 10),
                   width: MediaQuery
                       .of(context)
                       .size
@@ -186,25 +184,6 @@ Timer(Duration(seconds: 5),
                           fontWeight: FontWeight.w600,
                           fontSize: 16),)),
                   ),
-
-
-                  /*DropdownButton(
-                    isExpanded: true,
-                    value: dropdownvalue,
-                    icon: Icon(Icons.keyboard_arrow_down),
-                    items:items.map((String items) {
-                      return DropdownMenuItem(
-                          value: items,
-                          child: Text(items)
-                      );
-                      }
-                      ).toList(),
-                    onChanged: (String ?newValue){
-                      setState(() {
-                        dropdownvalue = newValue!;
-                      });
-                    },
-                  ),*/
                 ),
 
 
@@ -504,6 +483,52 @@ fillCustomers(String username,String password,BuildContext context) async{
     }
 
   }
+
+
+  showAlertDialog(BuildContext context) {
+
+    // set up the buttons
+    Widget cancelButton = TextButton(
+      child: Text("تم"),
+      onPressed:  () {
+
+
+        Navigator.pop(context);
+
+      },
+    );
+    Widget continueButton = TextButton(
+      child: Text("تحديث البيانات"),
+      onPressed:  () {
+        Navigator.pop(context);
+
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    Update_Body()));
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("يجب تحديث البيانات"),
+      content: Text("يجب تحديث البيانات للحصول على افضل تجربه"),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
 }
 
 
