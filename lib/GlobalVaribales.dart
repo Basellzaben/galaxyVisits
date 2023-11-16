@@ -10,6 +10,8 @@ class Globalvireables {
   static String imageselected="";
   static String lantext="";
   static String visitno="";
+
+
   //Colors
   static String basecolor="#273746";
  // static String basecolor="#6b3054";
@@ -31,7 +33,6 @@ class Globalvireables {
   static String custselected="";
   static String vtimeselected="";
   static String date="";
-
   static String name="";
   static String email="";
   static int sizeCustomers=0;
@@ -52,7 +53,8 @@ class Globalvireables {
   //"+Globalvireables.connectIP+" static ip
   //static String connectIP="37.220.121.20:3752";
   // static String connectIP="10.0.1.50:7580";
- static String connectIP="10.0.1.60:92";
+  //static String connectIP="10.0.1.60:92";
+  static String connectIP="10.0.1.120:9998";
 
 
 }

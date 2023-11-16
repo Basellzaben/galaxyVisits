@@ -11,6 +11,10 @@ import 'package:galaxyvisits/color/HexColor.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:http/http.dart' as http;
+
+import '../../widget/Widgets.dart';
+import '../Home/Home_Body.dart';
+import '../VisitsHistory/VisitsHistory_Body.dart';
 class Update_Body extends StatefulWidget {
   @override
   _Update_Body createState() => _Update_Body();
@@ -44,10 +48,49 @@ class _Update_Body extends State<Update_Body>   {
     return new WillPopScope(
       onWillPop: () async => true,
       child: Scaffold(
+        bottomNavigationBar: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
+          elevation: 8,
+          selectedItemColor: HexColor(Globalvireables.white),
+          unselectedItemColor: Colors.white,
+          backgroundColor: HexColor(Globalvireables.basecolor),
+          items: [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.update,),
+              label: 'تحديث البيانات',
+            ),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.home),
+                label: 'الرئيسية'),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.location_history),
+                label: 'سجل الزيارات'),
+          ],
+          iconSize: 30 ,
+          unselectedFontSize: 12 ,
+          selectedFontSize: 16 ,
+          showUnselectedLabels: true,
+          currentIndex: selectedIndex,
+          selectedIconTheme:
+          IconThemeData(color: HexColor(Globalvireables.white)),
+          onTap: _onItemTapped,
+        ),
+
+        appBar: AppBar(
+          backgroundColor: HexColor(Globalvireables.basecolor),
+          bottomOpacity: 800.0,
+          iconTheme: IconThemeData(color: Colors.white),
+          elevation: 4.0,
+          title: Widgets.Appbar(
+            context,
+            'تحديث البيانات',
+            'AR',
+          ),
+        ),
         key: _scaffoldKey,
         drawerEnableOpenDragGesture: false,
         backgroundColor: HexColor(Globalvireables.white),
-        endDrawer: NavDrawer(),
+      //  endDrawer: NavDrawer(),
 
         body:Container(
           margin: EdgeInsets.only(top: 30),
@@ -57,22 +100,6 @@ class _Update_Body extends State<Update_Body>   {
           child: SingleChildScrollView(
             child: Column(
               children: [
-               Align(
-                 alignment: Alignment.bottomLeft,
-                 child: GestureDetector(
-                    onTap: () {},
-                    child: IconButton(
-                      icon: Icon(
-                        Icons.arrow_back_ios_new,
-                        size: 25.0,
-                        color: HexColor(Globalvireables.black),
-                      ),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      }, // add custom icons also
-                    ),
-                  ),
-               ),
                 Center(
                   child: new Image.asset('assets/update2.png'
                     ,height:200 ,width:300 , ),
@@ -326,5 +353,22 @@ class _Update_Body extends State<Update_Body>   {
   Navigator.pop(context);
      }
   }
+  int selectedIndex = 0;
+  final List<Widget> nav = [
+    Update_Body(),
+    Home_Body(),
+    VisitsHistory_Body(),
+  ];
+  _onItemTapped(int index) {
 
+
+    if(index != 0){
+      setState(() {
+        selectedIndex = index;
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => nav[index]),
+        );
+      });}
+  }
 }

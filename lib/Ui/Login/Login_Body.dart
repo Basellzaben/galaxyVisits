@@ -26,11 +26,13 @@ class _Login_Body extends State<Login_Body> {
 
   @override
   void initState() {
+    Getrememper();
     Globalvireables.CustomerName = "حدد العمــيل";
     getSharedPreferences();
     // fillCustomers();
     // x();
   }
+  var check = false;
 
   getSharedPreferences() async {
     prefs = await SharedPreferences.getInstance();
@@ -175,6 +177,42 @@ class _Login_Body extends State<Login_Body> {
                                        ],
                                      ),*/
 
+                          Align(
+                            alignment: Alignment.topLeft,
+                            child: Container(
+                              margin: EdgeInsets.only(
+                                  left: 25, right: 25, top: 0),
+                              child: Row(
+                                children: [
+                                  Checkbox(
+                                      value: check,
+                                      //set variable for value
+                                      onChanged: (bool? value) async {
+                                        setState(()  {
+                                          check = !check;
+
+                                          if(!check){
+                                            prefs.setString('username','');
+                                            prefs.setString('password','');
+                                          }
+
+                                          //Provider.of<LoginProvider>(context, listen: false).setRemember(check);
+                                          //   saveREstate(check.toString());
+                                        });
+                                      }),
+                                  Text(
+                                      'تذكرني',
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 12 )),
+                                ],
+                              ),
+                            ),
+                          )
+,
+
+
                           Container(
                             height: 50,
                             width: MediaQuery.of(context).size.width / 1.3,
@@ -203,6 +241,9 @@ class _Login_Body extends State<Login_Body> {
                               },
                             ),
                           ),
+
+
+
 
                         ]),
                       )),
@@ -261,6 +302,12 @@ class _Login_Body extends State<Login_Body> {
       Globalvireables.email = jsonResponse["Email"];
       Globalvireables.manNo = jsonResponse["Id"];
 
+
+
+      prefs.setString('username',username);
+      prefs.setString('password',password);
+
+
       setState(() {
         if (jsonResponse["Id"] != 0) {
           Navigator.pushReplacement(
@@ -309,4 +356,28 @@ class _Login_Body extends State<Login_Body> {
           list[i]["Name"], list[i]["Person"], list[i]["No"]);
     }
   }
+  Getrememper() async {
+    prefs = await SharedPreferences.getInstance();
+
+
+
+      if(prefs.getString('password').toString().length>1 && prefs.getString('password').toString()!='null'
+          && prefs.getString('username').toString()!=null){
+        check=true;
+
+        passwordcontroler.text= await prefs.getString('password').toString();
+        namecontroler.text=await prefs.getString('username').toString();
+      //  Login(namecontroler.text.toString(),passwordcontroler.text.toString(),context);
+      }else{
+        passwordcontroler.text='';
+        namecontroler.text='';
+      }
+
+setState(() {
+
+});
+
+  }
+
+
 }

@@ -11,7 +11,9 @@ import 'package:galaxyvisits/color/HexColor.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../widget/Widgets.dart';
 import '../CustomersDialog.dart';
 class Home_Body extends StatefulWidget {
   @override
@@ -89,6 +91,35 @@ class _Home_Body extends State<Home_Body> {
     return WillPopScope(
       onWillPop: () async => true,
       child: Scaffold(
+
+        bottomNavigationBar: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
+          elevation: 8,
+          selectedItemColor: HexColor(Globalvireables.white),
+          unselectedItemColor: Colors.white,
+          backgroundColor: HexColor(Globalvireables.basecolor),
+          items: [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.update,),
+              label: 'تحديث البيانات',
+            ),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.home),
+                label: 'الرئيسية'),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.location_history),
+                label: 'سجل الزيارات'),
+          ],
+          iconSize: 30 ,
+          unselectedFontSize: 12 ,
+          selectedFontSize: 16 ,
+          showUnselectedLabels: true,
+          currentIndex: selectedIndex,
+          selectedIconTheme:
+          IconThemeData(color: HexColor(Globalvireables.white)),
+          onTap: _onItemTapped,
+        ),
+
         key: _scaffoldKey,
         drawerEnableOpenDragGesture: false,
         backgroundColor: HexColor(Globalvireables.white3),
@@ -96,7 +127,6 @@ class _Home_Body extends State<Home_Body> {
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(180), // Set this height
           child: Container(
-            height: 180,
             width: MediaQuery
                 .of(context)
                 .size
@@ -112,50 +142,120 @@ class _Home_Body extends State<Home_Body> {
             child: Column(
               children: [
 
-                Container(
-                  margin: EdgeInsets.only(top: 16),
-                  child: Row(children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    margin: EdgeInsets.only(top: 20),
+                    child: Row(children: [
 
-                    Container(
-                        margin: EdgeInsets.only(left: 5, right: 5, top: 18),
-                        alignment: Alignment.centerLeft,
-                        child: Icon(
-                          Icons.supervised_user_circle_sharp,
-                          size: 35.0,
-                          color: HexColor(Globalvireables.white),
+                      Container(
+                          margin: EdgeInsets.only(left: 5, right: 5, top: 18),
+                          alignment: Alignment.centerLeft,
+                          child: Icon(
+                            Icons.supervised_user_circle_sharp,
+                            size: 35.0,
+                            color: HexColor(Globalvireables.white),
 
-                        )
-                    ),
-                    Container(
-                        margin: EdgeInsets.only(left: 0, right: 0, top: 17),
-                        alignment: Alignment.centerLeft,
-                        child: Text(Globalvireables.username, style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w700),)
-                    ),
+                          )
+                      ),
+                      Container(
+                          margin: EdgeInsets.only(left: 0, right: 0, top: 17),
+                          alignment: Alignment.centerLeft,
+                          child: Text(Globalvireables.username, style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w700),)
+                      ),
 
 
-                    Spacer(),
-                    GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            Navigator.push(context, MaterialPageRoute(
-                                builder: (context) => Login_Body()));
-                          });
-                        },
-                        child: Container(
-                            margin: EdgeInsets.only(left: 5, right: 5, top: 18),
-                            alignment: Alignment.centerLeft,
-                            child: Icon(
-                              Icons.logout,
-                              size: 25.0,
-                              color: HexColor(Globalvireables.white),
+                      Spacer(),
+                      GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              Navigator.push(context, MaterialPageRoute(
+                                  builder: (context) => Login_Body()));
+                            });
+                          },
+                          child: Container(
+                              margin: EdgeInsets.only(left: 5, right: 5, top: 18),
+                              alignment: Alignment.centerLeft,
+                              child:  GestureDetector(
+                                onTap: () async {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        title: Text(
+                                            'تسجيل الخروج',
+                                            style: TextStyle(
+                                                fontSize: 22 )),
+                                        content: Text(
+                                         'هل أنت متأكد أنك تريد تسجيل الخروج ؟',
+                                          style: TextStyle(
+                                              fontSize:
+                                              14 ),
+                                        ),
+                                        actions: [
+                                          TextButton(
+                                            //  textColor: Colors.black,
+                                            onPressed: () {
 
-                            )
-                        )),
+                                              cleanRemember();
 
-                  ]),
+                                              Navigator.of(context)
+                                                  .pushAndRemoveUntil(
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        Login_Body(),
+                                                  ),
+                                                      (Route<dynamic>
+                                                  route) =>
+                                                  false);
+                                            },
+                                            child: Text(
+                                             'تسجيل الخروج',
+                                              style: TextStyle(
+                                                  color: Colors.redAccent,
+                                                  fontSize: 15 ),
+                                            ),
+                                          ),
+                                          TextButton(
+                                            // textColor: Colors.black,
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+
+
+                                            },
+                                            child: Text(
+                                              'إلغاء',
+                                              style: TextStyle(
+                                                  color: Colors.black87,
+                                                  fontSize: 15 ),
+                                            ),
+                                          ),
+                                        ],
+
+
+
+
+
+
+                                      );
+
+                                    },
+                                  );
+                                },
+                                child: Icon(
+                                  Icons.logout,
+                                  size: 25.0,
+                                  color: HexColor(Globalvireables.white),
+
+                                ),
+                              )
+                          )),
+
+                    ]),
+                  ),
                 ),
 
 
@@ -164,7 +264,11 @@ class _Home_Body extends State<Home_Body> {
                     color: Colors.white,
                     borderRadius: BorderRadius.vertical(
                         bottom: Radius.circular(
-                         30.0)),),
+                         10.0),
+
+                        top: Radius.circular(
+                            10.0)
+                    ),),
                   height: 60,
                   margin: EdgeInsets.only(top: 33, left: 10, right: 10),
                   width: MediaQuery
@@ -181,8 +285,8 @@ class _Home_Body extends State<Home_Body> {
                     child: Center(child: Text(
                       Globalvireables.CustomerName, textAlign: TextAlign.center,
                       style: TextStyle(color: Colors.black,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 16),)),
+                          fontWeight: FontWeight.w500,
+                          fontSize: 18),)),
                   ),
                 ),
 
@@ -192,7 +296,7 @@ class _Home_Body extends State<Home_Body> {
           ),
         ),
         body: Container(
-          margin: EdgeInsets.only(top: 30),
+          margin: EdgeInsets.only(top: 0),
           height: MediaQuery
               .of(context)
               .size
@@ -206,7 +310,7 @@ class _Home_Body extends State<Home_Body> {
             child: Column(
               children: [
 
-
+/*
                 Container(
                     margin: EdgeInsets.only(bottom: 5, top: 10),
                     /*  child: Icon(
@@ -232,12 +336,12 @@ class _Home_Body extends State<Home_Body> {
                     currentTime,
                     style: TextStyle(fontSize: 25),
                   ),
-                ),
+                ),*/
                 Card(
                   color: HexColor(Globalvireables.basecolor),
                   child: Container(
-                    margin: EdgeInsets.all(2),
-                    height: 250,
+                    margin: EdgeInsets.all(0),
+                    height: MediaQuery.of(context).size.height/1.8,
                     child: GoogleMap(
                       initialCameraPosition: CameraPosition(
                           target: _initialcameraposition),
@@ -248,12 +352,12 @@ class _Home_Body extends State<Home_Body> {
                   ),),
 
                 Container(
-                  margin: EdgeInsets.only(right: 5, left: 5, top: 15),
+                  margin: EdgeInsets.only(right: 5, left: 5, top: 20),
                   height: 50,
                   width: MediaQuery
                       .of(context)
                       .size
-                      .width,
+                      .width/1.5,
                   color: HexColor(Globalvireables.white),
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
@@ -261,7 +365,7 @@ class _Home_Body extends State<Home_Body> {
                     child: Text(
                       "بدء الزيارة"
                       ,
-                      style: TextStyle(color: HexColor(Globalvireables.white)),
+                      style: TextStyle(fontWeight: FontWeight.w700,color: HexColor(Globalvireables.white)),
                     ),
                     onPressed:
                         () {
@@ -281,7 +385,7 @@ class _Home_Body extends State<Home_Body> {
                   ),
                 ),
 
-                Container(
+              /*  Container(
 
                   alignment: Alignment.center,
                   height: 50,
@@ -346,7 +450,7 @@ class _Home_Body extends State<Home_Body> {
                     ],
                   ),
                 )
-
+*/
 
               ],
             ),
@@ -527,6 +631,32 @@ fillCustomers(String username,String password,BuildContext context) async{
         return alert;
       },
     );
+  }
+  int selectedIndex = 1;
+  final List<Widget> nav = [
+    Update_Body(),
+    Home_Body(),
+    VisitsHistory_Body(),
+  ];
+  _onItemTapped(int index) {
+
+
+    if(index != 1){
+      setState(() {
+        selectedIndex = index;
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => nav[index]),
+        );
+      });}
+  }
+
+  cleanRemember() async {
+    var prefs = await SharedPreferences.getInstance();
+
+    prefs.setString('username','');
+    prefs.setString('password','');
+
   }
 
 }

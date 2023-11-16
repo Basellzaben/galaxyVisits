@@ -170,7 +170,7 @@ margin: EdgeInsets.only(top: 5),
       child: Container(
         margin: EdgeInsets.only(top: 120),
         child: new Image.asset('assets/notfound.png'
-          ,height:100 ,width:100 , ),
+           ),
 
       ))
 
