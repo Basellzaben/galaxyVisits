@@ -55,6 +55,7 @@ class _Login_Body extends State<Login_Body> {
   final TextEditingController namecontroler = TextEditingController();
   final TextEditingController passwordcontroler = TextEditingController();
 
+
   @override
   Widget build(BuildContext context) {
     return new WillPopScope(
@@ -66,6 +67,8 @@ class _Login_Body extends State<Login_Body> {
           width: MediaQuery.of(context).size.width,
           fit: BoxFit.cover,
         ),
+
+
         Scaffold(
           key: _scaffoldKey,
           backgroundColor: Colors.transparent,
@@ -93,168 +96,179 @@ class _Login_Body extends State<Login_Body> {
                         ),
 
                         // margin: EdgeInsets.only(top: 5),
-                        child: Column(children: [
-                          Container(
-                              margin: EdgeInsets.only(
-                                  top: 40, bottom: 18, left: 20, right: 20),
-                              child: TextField(
-                                controller: namecontroler,
-                                decoration: InputDecoration(
-                                  prefixIcon:
-                                      Icon(Icons.supervised_user_circle),
-                                  border: OutlineInputBorder(),
-                                  focusedBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color: HexColor(
-                                              Globalvireables.basecolor),
-                                          width: 0.0),
-                                      borderRadius:
-                                          BorderRadius.circular(10.0)),
-                                  enabledBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color: Colors.black, width: 1.0),
-                                      borderRadius:
-                                          BorderRadius.circular(10.0)),
-                                  contentPadding: EdgeInsets.only(
-                                      top: 18, bottom: 18, right: 20, left: 20),
-                                  fillColor: Colors.white,
-                                  filled: true,
-                                  hintText: 'اسم المستخدم',
+                        child: SingleChildScrollView(
+                          child: Column(children: [
+                            Container(
+                                margin: EdgeInsets.only(
+                                    top: 40, bottom: 18, left: 20, right: 20),
+                                child: TextField(
+                                  controller: namecontroler,
+                                  decoration: InputDecoration(
+                                    prefixIcon:
+                                        Icon(Icons.supervised_user_circle),
+                                    border: OutlineInputBorder(),
+                                    focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: HexColor(
+                                                Globalvireables.basecolor),
+                                            width: 0.0),
+                                        borderRadius:
+                                            BorderRadius.circular(10.0)),
+                                    enabledBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: Colors.black, width: 1.0),
+                                        borderRadius:
+                                            BorderRadius.circular(10.0)),
+                                    contentPadding: EdgeInsets.only(
+                                        top: 18, bottom: 18, right: 20, left: 20),
+                                    fillColor: Colors.white,
+                                    filled: true,
+                                    hintText: 'اسم المستخدم',
+                                  ),
+                                )),
+                            Container(
+                                margin: EdgeInsets.all(20),
+                                child: TextField(
+                                  controller: passwordcontroler,
+                                  decoration: InputDecoration(
+                                    prefixIcon: Icon(Icons.password_sharp),
+                                    border: OutlineInputBorder(),
+                                    focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: HexColor(
+                                                Globalvireables.basecolor),
+                                            width: 0.0),
+                                        borderRadius:
+                                            BorderRadius.circular(10.0)),
+                                    enabledBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: Colors.black, width: 1.0),
+                                        borderRadius:
+                                            BorderRadius.circular(10.0)),
+                                    contentPadding: EdgeInsets.only(
+                                        top: 18, bottom: 18, right: 20, left: 20),
+                                    fillColor: Colors.white,
+                                    filled: true,
+                                    hintText: 'كلمة المرور',
+                                  ),
+                                )),
+                          
+                            /*      Row(
+                                         children: [
+                          , Text(
+                                             "تحديث الكل",
+                                             style: TextStyle(
+                                                 color: Colors.black87,
+                                                 fontWeight: FontWeight.w900,fontSize: 20),
+                                           ),
+                                           Container(
+                                             width: MediaQuery.of(context).size.width/2,
+                                             child: CheckboxListTile(
+                                               contentPadding: EdgeInsets.all(0),
+                                              activeColor: Colors.green,
+                                              checkColor:Colors.white,
+                          
+                                              //    <-- label
+                                              value: rem,
+                                              onChanged: (newValue) {
+                                                setState(() {
+                                                  rem = newValue!;
+                                                });
+                                              },
+                                      ),
+                                           ),
+                          
+                                         ],
+                                       ),*/
+                          
+                            Align(
+                              alignment: Alignment.topLeft,
+                              child: Container(
+                                margin: EdgeInsets.only(
+                                    left: 25, right: 25, top: 0),
+                                child: Row(
+                                  children: [
+                                    Checkbox(
+                                        value: check,
+                                        //set variable for value
+                                        onChanged: (bool? value) async {
+                                          setState(()  {
+                                            check = !check;
+                          
+                                            if(!check){
+                                              prefs.setString('username','');
+                                              prefs.setString('password','');
+                                            }
+                          
+                                            //Provider.of<LoginProvider>(context, listen: false).setRemember(check);
+                                            //   saveREstate(check.toString());
+                                          });
+                                        }),
+                                    Text(
+                                        'تذكرني',
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 12 )),
+                                  ],
                                 ),
-                              )),
-                          Container(
-                              margin: EdgeInsets.all(20),
-                              child: TextField(
-                                controller: passwordcontroler,
-                                decoration: InputDecoration(
-                                  prefixIcon: Icon(Icons.password_sharp),
-                                  border: OutlineInputBorder(),
-                                  focusedBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color: HexColor(
-                                              Globalvireables.basecolor),
-                                          width: 0.0),
-                                      borderRadius:
-                                          BorderRadius.circular(10.0)),
-                                  enabledBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color: Colors.black, width: 1.0),
-                                      borderRadius:
-                                          BorderRadius.circular(10.0)),
-                                  contentPadding: EdgeInsets.only(
-                                      top: 18, bottom: 18, right: 20, left: 20),
-                                  fillColor: Colors.white,
-                                  filled: true,
-                                  hintText: 'كلمة المرور',
+                              ),
+                            )
+                          ,
+                          
+                          
+                            Container(
+                              height: 50,
+                              width: MediaQuery.of(context).size.width / 1.3,
+                              margin: EdgeInsets.only(top: 44),
+                              color: HexColor(Globalvireables.white),
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  primary: HexColor(Globalvireables.basecolor),
                                 ),
-                              )),
-
-                          /*      Row(
-                                       children: [
-, Text(
-                                           "تحديث الكل",
-                                           style: TextStyle(
-                                               color: Colors.black87,
-                                               fontWeight: FontWeight.w900,fontSize: 20),
-                                         ),
-                                         Container(
-                                           width: MediaQuery.of(context).size.width/2,
-                                           child: CheckboxListTile(
-                                             contentPadding: EdgeInsets.all(0),
-                                            activeColor: Colors.green,
-                                            checkColor:Colors.white,
-
-                                            //    <-- label
-                                            value: rem,
-                                            onChanged: (newValue) {
-                                              setState(() {
-                                                rem = newValue!;
-                                              });
-                                            },
-                                    ),
-                                         ),
-
-                                       ],
-                                     ),*/
-
-                          Align(
-                            alignment: Alignment.topLeft,
-                            child: Container(
-                              margin: EdgeInsets.only(
-                                  left: 25, right: 25, top: 0),
-                              child: Row(
-                                children: [
-                                  Checkbox(
-                                      value: check,
-                                      //set variable for value
-                                      onChanged: (bool? value) async {
-                                        setState(()  {
-                                          check = !check;
-
-                                          if(!check){
-                                            prefs.setString('username','');
-                                            prefs.setString('password','');
-                                          }
-
-                                          //Provider.of<LoginProvider>(context, listen: false).setRemember(check);
-                                          //   saveREstate(check.toString());
-                                        });
-                                      }),
-                                  Text(
-                                      'تذكرني',
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 12 )),
-                                ],
+                                child: Text(
+                                  "تسجيل الدخول",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 17,
+                                      color: HexColor(Globalvireables.white)),
+                                ),
+                                onPressed: () async {
+                                  setState(() {
+                                    //Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Home_Body()));
+                          
+                                    showLoaderDialog(context);
+                          
+                                    Login(namecontroler.text,
+                                        passwordcontroler.text, context);
+                                  });
+                                },
                               ),
                             ),
-                          )
-,
-
-
-                          Container(
-                            height: 50,
-                            width: MediaQuery.of(context).size.width / 1.3,
-                            margin: EdgeInsets.only(top: 44),
-                            color: HexColor(Globalvireables.white),
-                            child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                primary: HexColor(Globalvireables.basecolor),
-                              ),
-                              child: Text(
-                                "تسجيل الدخول",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 17,
-                                    color: HexColor(Globalvireables.white)),
-                              ),
-                              onPressed: () async {
-                                setState(() {
-                                  //Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Home_Body()));
-
-                                  showLoaderDialog(context);
-
-                                  Login(namecontroler.text,
-                                      passwordcontroler.text, context);
-                                });
-                              },
-                            ),
-                          ),
-
-
-
-
-                        ]),
+                          
+                          
+                          
+                          
+                          ]),
+                        ),
                       )),
                 )
               ]),
             ),
           ),
+
+
         ),
+
+
       ]),
     );
+
   }
+
+
+
+
 
   showLoaderDialog(BuildContext context) {
     AlertDialog alert = AlertDialog(
@@ -275,7 +289,6 @@ class _Login_Body extends State<Login_Body> {
       },
     );
   }
-
   Login(String username, String password, BuildContext context) async {
     prefs = await SharedPreferences.getInstance();
     String? value = prefs.getString("username");
@@ -343,7 +356,6 @@ class _Login_Body extends State<Login_Body> {
 */
     }
   }
-
   fillCustomers() async {
     Uri apiUrl = Uri.parse(Globalvireables.CustomersAPI);
 

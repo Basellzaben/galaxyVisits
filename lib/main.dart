@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:device_preview/device_preview.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:galaxyvisits/GlobalVaribales.dart';
@@ -10,7 +11,12 @@ import 'Ui/Login/Login_Body.dart';
 Future<void> main() async {
   //GestureBinding.instance?.resamplingEnabled = true;
 
-  runApp(MyApp());
+  runApp(
+
+    DevicePreview(enabled: true,builder:(context)=>  MyApp(),));
+
+
+
 }
 
 class MyApp extends StatelessWidget {
