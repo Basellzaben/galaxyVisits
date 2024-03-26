@@ -130,7 +130,7 @@ class _Update_Body extends State<Update_Body>   {
                 color:HexColor(Globalvireables.white),
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    primary:HexColor(Globalvireables.basecolor),
+                    backgroundColor: HexColor(Globalvireables.basecolor),
                   ),
                   child: Text(
                     "تحديث العملاء"
@@ -185,7 +185,7 @@ class _Update_Body extends State<Update_Body>   {
                               color:HexColor(Globalvireables.white),
                               child: ElevatedButton(
                                 style: ElevatedButton.styleFrom(
-                                  primary:HexColor(Globalvireables.basecolor),
+                                  backgroundColor: HexColor(Globalvireables.basecolor),
                                 ),
                                 child: Text(
                                   "تحديث المواد"

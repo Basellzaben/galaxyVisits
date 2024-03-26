@@ -224,7 +224,7 @@ class _Login_Body extends State<Login_Body> {
                               color: HexColor(Globalvireables.white),
                               child: ElevatedButton(
                                 style: ElevatedButton.styleFrom(
-                                  primary: HexColor(Globalvireables.basecolor),
+                                  backgroundColor: HexColor(Globalvireables.basecolor),
                                 ),
                                 child: Text(
                                   "تسجيل الدخول",

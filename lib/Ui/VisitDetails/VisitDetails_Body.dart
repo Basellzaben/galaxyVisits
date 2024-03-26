@@ -254,7 +254,7 @@ class _VisitDetails_Body extends State<VisitDetails_Body> {
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
                             // shape: CircleBorder(),
-                            primary: HexColor(Globalvireables.basecolor),
+                            backgroundColor: HexColor(Globalvireables.basecolor),
                           ),
                           child: Container(
                             width: 100,
@@ -322,7 +322,7 @@ class _VisitDetails_Body extends State<VisitDetails_Body> {
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
                             // shape: CircleBorder(),
-                            primary: HexColor(Globalvireables.basecolor),
+                            backgroundColor: HexColor(Globalvireables.basecolor),
                           ),
                           child: Container(
                             width: 100,
@@ -482,7 +482,7 @@ class _VisitDetails_Body extends State<VisitDetails_Body> {
                         Spacer(),
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                            primary: HexColor(Globalvireables.basecolor),
+                            backgroundColor: HexColor(Globalvireables.basecolor),
                           ),
                           child: Text(
                             "اغلاق الزيارة",
@@ -506,7 +506,7 @@ class _VisitDetails_Body extends State<VisitDetails_Body> {
                         Spacer(),
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                            primary: HexColor(Globalvireables.white2),
+                            backgroundColor: HexColor(Globalvireables.white2),
                           ),
                           child: Text(
                             "الغاء الزيارة",

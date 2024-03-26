@@ -361,7 +361,7 @@ class _Home_Body extends State<Home_Body> {
                   color: HexColor(Globalvireables.white),
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      primary: HexColor(Globalvireables.basecolor),),
+                      backgroundColor: HexColor(Globalvireables.basecolor),),
                     child: Text(
                       "بدء الزيارة"
                       ,

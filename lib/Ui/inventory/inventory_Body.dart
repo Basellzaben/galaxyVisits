@@ -178,7 +178,7 @@ var count =0;
                     child: ElevatedButton(
 
                       style: ElevatedButton.styleFrom(
-                        primary:HexColor(Globalvireables.basecolor),
+                        backgroundColor: HexColor(Globalvireables.basecolor),
 
                       ),
                       child: Text(
@@ -467,7 +467,7 @@ SizedBox(width: 5,)
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
             // shape: CircleBorder(),
-            primary: HexColor(Globalvireables.basecolor),
+            backgroundColor: HexColor(Globalvireables.basecolor),
           ),
           child: Container(
             width: MediaQuery.of(context).size.height/2.5,

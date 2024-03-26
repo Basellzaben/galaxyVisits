@@ -54,7 +54,8 @@ class Globalvireables {
   //static String connectIP="37.220.121.20:3752";
   // static String connectIP="10.0.1.50:7580";
   //static String connectIP="10.0.1.60:92";
-  static String connectIP="10.0.1.120:9998";
+  //static String connectIP="10.0.1.120:9998";
+  static String connectIP="192.168.10.49:3755";
 
 
 }
