@@ -1,5 +1,6 @@
+// ignore_for_file: use_key_in_widget_constructors, file_names
+
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:galaxyvisits/color/HexColor.dart';
 
 import '../../GlobalVaribales.dart';
@@ -16,21 +17,21 @@ class NavDrawer extends StatelessWidget {
         children: <Widget>[
           DrawerHeader(
 
-            child: Text(
+            child: const Text(
               'Galaxy group systems',
               style: TextStyle(color: Colors.white, fontSize: 25,fontWeight: FontWeight.w300),
             ),
             decoration: BoxDecoration(
                 color: HexColor(Globalvireables.basecolor),
-                image: DecorationImage(
+                image: const DecorationImage(
                     fit: BoxFit.fill,
                     image: AssetImage('assets/draw.jpg'))),
           ),
           //https://play.google.com/store/apps/details?id=com.baselalzaben99.myapplicationmaps&hl=ar&gl=US
           ListTile(
 
-            leading: Icon(Icons.share,color: Colors.lightGreen,),
-            title: Container(child: Text("تحديث البيانات")),
+            leading: const Icon(Icons.share,color: Colors.lightGreen,),
+            title: Container(child: const Text("تحديث البيانات")),
             onTap: () => {
 
             /*  Share.share( "https://play.google.com/store/apps/details?id=com.galaxyinternational.cards&hl=ar&gl=US", subject:''),
@@ -93,8 +94,8 @@ class NavDrawer extends StatelessWidget {
             height: 280,
             alignment: Alignment.bottomCenter,
             child: Container(
-                margin: EdgeInsets.only(bottom: 10),
-                child: Text("version 1.0 - 2021",style: TextStyle(color: Colors.black26,fontWeight: FontWeight.w300),)),
+                margin: const EdgeInsets.only(bottom: 10),
+                child: const Text("version 1.0 - 2021",style: TextStyle(color: Colors.black26,fontWeight: FontWeight.w300),)),
           ),
 
         ],

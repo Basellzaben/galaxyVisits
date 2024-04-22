@@ -1,30 +1,30 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
+// import 'package:flutter/cupertino.dart';
+// import 'package:flutter/material.dart';
 
-import 'Home_Body.dart';
+// import 'Home_Body.dart';
 
-void main() {
-  runApp(Home_Main());
-}
-class Home_Main extends StatefulWidget {
-  @override
-  _MyAppState createState() => _MyAppState();
-}
+// void main() {
+//   runApp(Home_Main());
+// }
+// class Home_Main extends StatefulWidget {
+//   @override
+//   _MyAppState createState() => _MyAppState();
+// }
 
 
-class _MyAppState extends State<Home_Main> {
+// class _MyAppState extends State<Home_Main> {
 
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Home_Body(),
-      debugShowCheckedModeBanner: false,
-      title: '',
-      theme: ThemeData(
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       home: Home_Body(),
+//       debugShowCheckedModeBanner: false,
+//       title: '',
+//       theme: ThemeData(
 
-        primarySwatch: Colors.deepPurple,
-      ),
-      //home: MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
-}
+//         primarySwatch: Colors.deepPurple,
+//       ),
+//       //home: MyHomePage(title: 'Flutter Demo Home Page'),
+//     );
+//   }
+// }

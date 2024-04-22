@@ -1,4 +1,5 @@
-import 'package:flutter/cupertino.dart';
+// ignore_for_file: non_constant_identifier_names, unnecessary_new, unnecessary_this, prefer_collection_literals, file_names
+
 
 //Doctor.dart
 
@@ -15,7 +16,7 @@ class ImageListModel {
   String? ImgBase64;
   String? Item_Name;
   String? Ename;
-
+  String? Note;
 
   ImageListModel(
       {this.ID,
@@ -30,6 +31,7 @@ class ImageListModel {
         this.ImgBase64,
         this.Item_Name,
         this.Ename,
+        this.Note
       });
 
   ImageListModel.fromJson(Map<String, dynamic> json) {
@@ -45,6 +47,7 @@ class ImageListModel {
     ImgBase64 = json['ImgBase64'];
     Item_Name = json['Item_Name'];
     Ename = json['Ename'];
+    Note = json['Note'];
   }
 
   Map<String, dynamic> toJson() {
@@ -61,6 +64,7 @@ class ImageListModel {
     data['ImgBase64'] = this.ImgBase64;
     data['Item_Name'] = this.Item_Name;
     data['Ename'] = this.Ename;
+    data['Note'] = this.Note;
     return data;
   }
 }

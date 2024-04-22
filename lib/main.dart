@@ -1,25 +1,48 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'dart:async';
-import 'package:device_preview/device_preview.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:galaxyvisits/GlobalVaribales.dart';
+import 'package:galaxyvisits/Ui/Home/Home_Body.dart';
+import 'package:galaxyvisits/Ui/Locatethecustomer/Locatecustomer_main.dart';
+import 'package:galaxyvisits/ViewModel/CustomerViewModel.dart';
+import 'package:galaxyvisits/ViewModel/GlobalViewModel/HomeViewModel.dart';
+import 'package:galaxyvisits/ViewModel/LoginViewModel.dart';
+import 'package:galaxyvisits/ViewModel/VisitViewModel.dart';
 import 'package:galaxyvisits/color/HexColor.dart';
-
-import 'Ui/Home/Home_Body.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:provider/provider.dart';
 import 'Ui/Login/Login_Body.dart';
+import 'ViewModel/SalesManViewModel.dart';
 
 Future<void> main() async {
+  var ViewModel = HomeViewModel();
+  ViewModel.startTimer();
+  var ViewModel2 = CustomerViewModel();
+  ViewModel2.startTimer();
   //GestureBinding.instance?.resamplingEnabled = true;
 
   runApp(
+MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (_) => HomeViewModel()),
+      ChangeNotifierProvider(create: (_) => CustomerViewModel()),
+      ChangeNotifierProvider(create: (_) => VisitViewModel()),
+      ChangeNotifierProvider(create: (_) => LoginViewModel()),
+      ChangeNotifierProvider(create: (_) => SalesManViewModel()),
+    ], child:    const MyApp(),
+  )
+  );
 
-    DevicePreview(enabled: true,builder:(context)=>  MyApp(),));
+
 
 
 
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -27,26 +50,35 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.green,
       ),
-      home: MyHomePage(),
+      home: const MyHomePage(),
       debugShowCheckedModeBanner: false,
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
+  const MyHomePage({Key? key}) : super(key: key);
+
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
 class _MyHomePageState extends State<MyHomePage> {
   @override
-  void initState() {
-   super.initState();
-     Timer(Duration(seconds: 5),
-           ()=>
-       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Login_Body())),
+void initState() {
+  super.initState();
+  var viewModel = Provider.of<CustomerViewModel>(context, listen: false);
+  var HomeModel = Provider.of<HomeViewModel>(context, listen: false);
+  getlocation().then((position) {
+    HomeModel.setData(position.latitude.toString(), position.longitude.toString());
+    viewModel.setdata(position.latitude.toString(), position.longitude.toString());
+  });
+    Timer(const Duration(seconds: 5), () => Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Login_Body())));
 
-     );
-  }
+}
+
+Future<Position> getlocation() async {
+  return await Geolocator.getCurrentPosition();
+}
 
   @override
   Widget build(BuildContext context) {
@@ -56,17 +88,17 @@ class _MyHomePageState extends State<MyHomePage> {
 //backgroundColor: HexColor(Globalvireables.basecolor),
         body: Container(
           color: HexColor(Globalvireables.basecolor),
-          margin: EdgeInsets.only(top: 200),
+          margin: const EdgeInsets.only(top: 200),
 
           child: Column(children: [
             Center(
-              child: new Image.asset('assets/logo2.png'
+              child: Image.asset('assets/logo2.png'
                 ,height:250 ,width:250 , ),
             ),
-Spacer(),
+const Spacer(),
             Container(
               alignment: Alignment.bottomCenter,
-              margin: EdgeInsets.only(bottom: 16),
+              margin: const EdgeInsets.only(bottom: 16),
               child: Text("Powered By galaxy International Group",style: TextStyle(
                   color: HexColor(Globalvireables.white),fontSize: 13
               ),),

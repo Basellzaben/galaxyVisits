@@ -1,14 +1,17 @@
-import 'package:flutter/cupertino.dart';
+// ignore_for_file: camel_case_types, file_names
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 import 'VisitDetails_Body.dart';
 
 void main() {
-  GestureBinding.instance?.resamplingEnabled = true;
-  runApp(VisitDetails_Main());
+  GestureBinding.instance.resamplingEnabled = true;
+  runApp(const VisitDetails_Main());
 }
 class VisitDetails_Main extends StatefulWidget {
+  const VisitDetails_Main({Key? key}) : super(key: key);
+
   @override
   _MyAppState createState() => _MyAppState();
 }
@@ -19,7 +22,7 @@ class _MyAppState extends State<VisitDetails_Main> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: VisitDetails_Body(),
+      home: const VisitDetails_Body(),
       debugShowCheckedModeBanner: false,
       title: '',
       theme: ThemeData(

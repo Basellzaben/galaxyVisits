@@ -1,9 +1,8 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:galaxyvisits/GlobalVaribales.dart';
-import 'dart:math' as math;
+// ignore_for_file: non_constant_identifier_names
 
-import '../color/HexColor.dart';
+import 'package:flutter/material.dart';
+
+
 class Widgets {
 
   static Widget Appbar(BuildContext context,
@@ -15,20 +14,20 @@ class Widgets {
       child: Container(
 
         color:Colors.transparent,
-        padding: EdgeInsets.only(left: 5, right: 5),
+        padding: const EdgeInsets.only(left: 5, right: 5),
         child: Row(
           children: [
-            SizedBox(
+            const SizedBox(
               width: 4,
             ),
             Text(
               title,
-              style: TextStyle(
+              style: const TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.w700,
                   fontSize: 21.5 ),
             ),
-            Spacer(),
+            const Spacer(),
            Container()
           ],
         ),
@@ -36,18 +35,18 @@ class Widgets {
     );}else{
       return Container(
         color: Colors.transparent,
-        padding: EdgeInsets.only(left: 5, right: 5),
+        padding: const EdgeInsets.only(left: 5, right: 5),
         child: Row(
           children: [
-            Spacer(),
+            const Spacer(),
             Text(
               title,
-              style: TextStyle(
+              style: const TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.w700,
                   fontSize: 21.5 ),
             ),
-            SizedBox(
+            const SizedBox(
               width: 0,
             ),
 
