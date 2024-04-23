@@ -142,6 +142,11 @@ class SQLHelper {
     final db = await SQLHelper.db();
     return db.query('PayloadImages', where: 'PayloadId = ?', whereArgs: [payloadId]);
   }
+  // remove data from userdefintion
+  static Future<void> clearUserDefinition() async {
+    final db = await SQLHelper.db();
+    await db.delete('UserDefinition');
+  }
 
  static Future<void> setUserDefinition(UserDefinition user) async {
     final db = await SQLHelper.db();

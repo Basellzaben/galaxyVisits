@@ -487,11 +487,10 @@ class _VisitDetails_Body extends State<VisitDetails_Body> {
                                 ViewModel.setimgs(data);
                                       var customerviewModel = Provider.of<CustomerViewModel>(context, listen: false);
              await customerviewModel.getCustomers();
-                                Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const Home_Body()));
+                                   Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => const Home_Body()),
+              (route) => false);
                               },
                             ),
                             const Spacer(),

@@ -67,20 +67,20 @@ class LoginViewModel with ChangeNotifier {
 
     if (response.statusCode == 200) {
       final List<dynamic> jsonList = jsonDecode(response.body);
-      try{
+      try {
+        await SQLHelper.clearUserDefinition();
         for (var item in jsonList) {
-        try{
-         final db = await SQLHelper.db();
-        await db.insert('UserDefinition', item);
-        }catch(e){
-          print(e);
+          try {
+            final db = await SQLHelper.db();
+            await db.insert('UserDefinition', item);
+          } catch (e) {
+            print(e);
+          }
         }
-      
-      }
-      }catch(e){
+      } catch (e) {
         print(e);
       }
-      
+
       return jsonList.map((json) => UserDefinition.fromJson(json)).toList();
     } else {
       throw Exception('Failed to load user definitions');
@@ -100,87 +100,88 @@ class LoginViewModel with ChangeNotifier {
       String? Ip = await _getId();
       UserDefinition? User = await SQLHelper.checkLoginAndGetUserData(
           namecontroler.text, passwordcontroler.text);
-      if (User != null) {
-        if (Ip != User.ipDevice) {
-          showDialog(
-              context: context,
-              builder: (_) => const AlertDialog(
-                    title: Text('تسجيل الدخول'),
-                    content: Text('لا يمكنك تسجيل الدخول في عدة اجهزة'),
-                  ));
-        } else {
-          Globalvireables.username = namecontroler.text;
-          Globalvireables.email = User.email;
-          Globalvireables.manNo = User.id;
+      try {
+        try {
+          await fetchUserDefinitions(Globalvireables.GetUser);
+        } catch (e) {
+          Uri apiUrl = Uri.parse(Globalvireables.loginAPI);
+          final json = {
+            "UserName": namecontroler.text,
+            "Password": passwordcontroler.text,
+            "IP_Device": IpDevice
+          };
 
+          http.Response response = await http.post(apiUrl, body: json);
+
+          var jsonResponse = jsonDecode(response.body);
+          Globalvireables.username = namecontroler.text;
+          Globalvireables.email = jsonResponse["Email"];
+          Globalvireables.manNo = jsonResponse["Id"];
           prefs.setString('username', namecontroler.text);
           prefs.setString('password', passwordcontroler.text);
-           Position _position = await Geolocator.getCurrentPosition();
-          var viewModel =
-              Provider.of<CustomerViewModel>(context, listen: false);
-          var HomeModel = Provider.of<HomeViewModel>(context, listen: false);
-          await HomeModel.setData(
-              _position.latitude.toString(), _position.longitude.toString());
-          await viewModel.setdata(
-              _position.latitude.toString(), _position.longitude.toString());
-          setisloading(false);
-          Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (context) => Home_Body()));
+
+          if (jsonResponse["Id"] != 0 && jsonResponse["IP"] != -2) {
+            Position _position = await Geolocator.getCurrentPosition();
+            var viewModel =
+                Provider.of<CustomerViewModel>(context, listen: false);
+            var HomeModel = Provider.of<HomeViewModel>(context, listen: false);
+            await HomeModel.setData(
+                _position.latitude.toString(), _position.longitude.toString());
+            await viewModel.setdata(
+                _position.latitude.toString(), _position.longitude.toString());
+            setisloading(false);
+            Navigator.pushReplacement(
+                context, MaterialPageRoute(builder: (context) => Home_Body()));
+          } else if (jsonResponse["IP"] == -2) {
+            setisloading(false);
+
+            showDialog(
+                context: context,
+                builder: (_) => const AlertDialog(
+                      title: Text('تسجيل الدخول'),
+                      content: Text('لا يمكنك تسجيل الدخول في عدة اجهزة'),
+                    ));
+          } else {
+            setisloading(false);
+
+            showDialog(
+                context: context,
+                builder: (_) => const AlertDialog(
+                      title: Text('تسجيل الدخول'),
+                      content: Text('كلمة المرور او اسم المستخدم غير صحيح'),
+                    ));
+          }
         }
-      } else {
-        try{
-        await fetchUserDefinitions(Globalvireables.GetUser);
-        }catch (e){
-  Uri apiUrl = Uri.parse(Globalvireables.loginAPI);
-        final json = {
-          "UserName": namecontroler.text,
-          "Password": passwordcontroler.text,
-          "IP_Device": IpDevice
-        };
+      } catch (e) {
+        if (User != null) {
+          if (Ip != User.ipDevice) {
+            showDialog(
+                context: context,
+                builder: (_) => const AlertDialog(
+                      title: Text('تسجيل الدخول'),
+                      content: Text('لا يمكنك تسجيل الدخول في عدة اجهزة'),
+                    ));
+          } else {
+            Globalvireables.username = namecontroler.text;
+            Globalvireables.email = User.email;
+            Globalvireables.manNo = User.id;
 
-        http.Response response = await http.post(apiUrl, body: json);
-
-        var jsonResponse = jsonDecode(response.body);
-        Globalvireables.username = namecontroler.text;
-        Globalvireables.email = jsonResponse["Email"];
-        Globalvireables.manNo = jsonResponse["Id"];
-        prefs.setString('username', namecontroler.text);
-        prefs.setString('password', passwordcontroler.text);
-
-        if (jsonResponse["Id"] != 0 && jsonResponse["IP"] != -2) {
-          Position _position = await Geolocator.getCurrentPosition();
-          var viewModel =
-              Provider.of<CustomerViewModel>(context, listen: false);
-          var HomeModel = Provider.of<HomeViewModel>(context, listen: false);
-          await HomeModel.setData(
-              _position.latitude.toString(), _position.longitude.toString());
-          await viewModel.setdata(
-              _position.latitude.toString(), _position.longitude.toString());
-          setisloading(false);
-          Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (context) => Home_Body()));
-        } else if (jsonResponse["IP"] == -2) {
-          setisloading(false);
-
-          showDialog(
-              context: context,
-              builder: (_) => const AlertDialog(
-                    title: Text('تسجيل الدخول'),
-                    content: Text('لا يمكنك تسجيل الدخول في عدة اجهزة'),
-                  ));
-        } else {
-          setisloading(false);
-
-          showDialog(
-              context: context,
-              builder: (_) => const AlertDialog(
-                    title: Text('تسجيل الدخول'),
-                    content: Text('كلمة المرور او اسم المستخدم غير صحيح'),
-                  ));
+            prefs.setString('username', namecontroler.text);
+            prefs.setString('password', passwordcontroler.text);
+            Position _position = await Geolocator.getCurrentPosition();
+            var viewModel =
+                Provider.of<CustomerViewModel>(context, listen: false);
+            var HomeModel = Provider.of<HomeViewModel>(context, listen: false);
+            await HomeModel.setData(
+                _position.latitude.toString(), _position.longitude.toString());
+            await viewModel.setdata(
+                _position.latitude.toString(), _position.longitude.toString());
+            setisloading(false);
+            Navigator.pushReplacement(
+                context, MaterialPageRoute(builder: (context) => Home_Body()));
+          }
         }
       }
-        }
-      
     } catch (_) {
       setisloading(false);
 

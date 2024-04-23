@@ -24,7 +24,12 @@ class VisitViewModel with ChangeNotifier {
     _isloading = value;
     notifyListeners();
   }
-
+  List<Map<String, dynamic>> _journals = [];
+  List<Map<String, dynamic>> get journals => _journals;
+final List<TextEditingController> controllers = [];
+  final List<TextEditingController> controllers1 = [];
+  final List<TextEditingController> controllers2 = [];
+  final List<TextEditingController> controllers3 = [];
   List<Map<String, dynamic>> itemselected = [];
   List<Map<String, dynamic>> imgs = [];
   List<Map<String, dynamic>> imgFORPOST = [];
@@ -221,8 +226,10 @@ class VisitViewModel with ChangeNotifier {
             content:
                 Text(" تم اغلاق الزيارة بنجاح , " + Globalvireables.username),
           ));
-          Navigator.pushReplacement(context,
-              MaterialPageRoute(builder: (context) => const Home_Body()));
+          Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => const Home_Body()),
+              (route) => false);
         } else {
           setisloading(false);
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
@@ -279,8 +286,10 @@ class VisitViewModel with ChangeNotifier {
       var data = await SQLHelper.GetImgs();
       setimgs(data);
       setisloading(false);
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => const Home_Body()));
+         Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => const Home_Body()),
+              (route) => false);
       // Navigator.of(context).pop();
       customersViewModel.setCustomerName("حدد العمــيل");
       customersViewModel.setCustomerNo(0);
@@ -463,6 +472,48 @@ class VisitViewModel with ChangeNotifier {
       ));
     }
     setisloading(false);
+  }
+
+   void refreshItemsinv() async {
+    setisloading(true);
+        //showLoaderDialog(context,"جار جلب العملاء");
+    // showLoaderDialog(context);
+
+    int to;
+    var data = await SQLHelper.GetItems();
+      _journals = data;
+    var now = DateTime.now();
+    var formatter = DateFormat('yyyy-MM-dd');
+    print(data.toString() + " thiss");
+    if (data.length > 50) {
+      to = 49;
+    } else {
+      to = data.length;
+    }
+    for (var i = 0; i < to; i++) {
+      controllers.add(TextEditingController());
+      controllers[i].text = 1.toString();
+
+      controllers1.add(TextEditingController());
+      controllers1[i].text = 0.toString();
+
+      controllers2.add(TextEditingController());
+      String formattedDate = formatter.format(now);
+      controllers2[i].text = formattedDate;
+
+      controllers3.add(TextEditingController());
+      controllers3[i].text = "";
+    }
+
+    for (var i = 0; i < to; i++) {
+      controllers[i].text = "0";
+      controllers1[i].text = "";
+    }
+    setisloading(false);
+  }
+   Future<dynamic> refreshSearch(String txt) async {
+    var data = await SQLHelper.search(txt);
+      _journals = data;
   }
  
   

@@ -64,7 +64,8 @@ class Globalvireables {
   //static String connectIP="10.0.1.60:92";
   //static String connectIP="10.0.1.120:9998";
   // static String connectIP="10.0.1.50:3755";
-  static String connectIP="10.0.1.60:9870";
+  // static String connectIP="10.0.1.60:9870";
+  static String connectIP="192.168.20.106:1221";
 
   static TextStyle? styleHedear = GoogleFonts.aBeeZee(
     fontSize: 20,

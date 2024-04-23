@@ -50,6 +50,7 @@ dependencies:
   google_fonts: ^4.0.4
   lottie: ^3.0.0
   geocoding: ^3.0.0
+  connectivity_plus: ^6.0.3
 
 dev_dependencies:
   flutter_test:

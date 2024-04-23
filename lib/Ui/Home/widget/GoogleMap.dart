@@ -52,43 +52,42 @@ class _GoogleMapWidget extends State<GoogleMapWidget> {
                           borderRadius: BorderRadius.circular(20),
                           child: GoogleMap(
                               markers: Set.from(value.cusNo == 0.0
-                                  ? value.customers.map((customer) => Marker(
-                                        onTap: () {
-                                          if (customer.name ==
-                                              'Current Location') {
-                                            return;
-                                          }
-                                          value.setCustomerName(customer.name!);
-                                          value.setCustomerNo(customer.no!);
-                                          value.CustomerVisit.clear();
-                                          if (!value.CustomerVisit.any(
-                                              (marker) =>
-                                                  marker.name ==
-                                                  'Current Location')) {
-                                            value.CustomerVisit.add(Customer(
-                                                name: 'Current Location',
-                                                locX: model.X_Lat,
-                                                locY: model.Y_Long));
-                                          }
-                                          value.CustomerVisit.add(Customer(
-                                            name: customer.name,
-                                            locX: customer.locX,
-                                            locY: customer.locY,
-                                            no: customer.no,
-                                          ));
-                                        },
-                                        markerId: MarkerId(customer.name!),
-                                        position: LatLng(
-                                            double.parse(customer.locX!),
-                                            double.parse(customer.locY!)),
-                                        infoWindow: InfoWindow(
-                                          title: customer.name,
-                                        ),
-                                        icon:
-                                            customer.name == "Current Location"
-                                                ? model.customPersonIcon
-                                                : model.customcompanyicon,
-                                      ))
+                                  ? value.customers
+    .where((customer) => customer.locX != "0") // Filter customers with loc != 0
+    .map((customer) => Marker(
+          onTap: () {
+            if (customer.name == 'Current Location') {
+              return;
+            }
+            value.setCustomerName(customer.name!);
+            value.setCustomerNo(customer.no!);
+            value.CustomerVisit.clear();
+            if (!value.CustomerVisit.any((marker) =>
+                marker.name == 'Current Location')) {
+              value.CustomerVisit.add(Customer(
+                  name: 'Current Location',
+                  locX: model.X_Lat,
+                  locY: model.Y_Long));
+            }
+            value.CustomerVisit.add(Customer(
+              name: customer.name,
+              locX: customer.locX,
+              locY: customer.locY,
+              no: customer.no,
+            ));
+          },
+          markerId: MarkerId(customer.name!),
+          position: LatLng(
+              double.parse(customer.locX!),
+              double.parse(customer.locY!)),
+          infoWindow: InfoWindow(
+            title: customer.name,
+          ),
+          icon: customer.name == "Current Location"
+              ? model.customPersonIcon
+              : model.customcompanyicon,
+        ))
+    .toList()
                                   : value.CustomerVisit.map((customer) =>
                                       Marker(
                                         markerId: MarkerId(customer.name!),
