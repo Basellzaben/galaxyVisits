@@ -1,5 +1,7 @@
 // ignore_for_file: file_names
 
+import 'dart:async';
+
 import 'package:galaxyvisits/GlobalVaribales.dart';
 import 'package:galaxyvisits/ViewModel/GlobalViewModel/HomeViewModel.dart';
 import 'package:galaxyvisits/color/HexColor.dart';
@@ -113,10 +115,12 @@ class LogoutOverlayStatecard extends State<CustomersDialog>
                         itemCount: model.journals.length,
                         itemBuilder: (context, index) => GestureDetector(
                               onTap: () {
+                                print(model.journals[index]['name']);
                                 model.setCustomerName(
                                     model.journals[index]['name']);
+                                    print(model.journals[index]['branchid']);
                                 model
-                                    .setCustomerNo(model.journals[index]['no']);
+                                    .setCustomerNo(model.journals[index]['branchid'].toDouble());
                                 model.CustomerVisit.clear();
                                 if (!model.CustomerVisit.any((marker) =>
                                     marker.name == 'Current Location')) {
@@ -125,10 +129,15 @@ class LogoutOverlayStatecard extends State<CustomersDialog>
                                       locX: model.myLocX,
                                       locY: model.myLocY));
                                 }
+                                print(model.journals[index]['locX']);
                                 model.CustomerVisit.add(Customer(
                                   name: model.journals[index]['name'],
-                                  locX: model.journals[index]['locX'],
-                                  locY: model.journals[index]['locY'],
+                                  locX: model.journals[index]['locX'] == ""
+                                      ? "0"
+                                      : model.journals[index]['locX'],
+                                  locY: model.journals[index]['locY'] == ""
+                                      ? "0"
+                                      : model.journals[index]['locY'],
                                   no: model.journals[index]['no'],
                                 ));
                                 Navigator.of(context).pop();

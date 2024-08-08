@@ -10,6 +10,7 @@ import 'package:galaxyvisits/Ui/Home/widget/GoogleMap.dart';
 import 'package:galaxyvisits/Ui/Home/widget/Header_Widget.dart';
 import 'package:galaxyvisits/Ui/UpdateData/Update_Body.dart';
 import 'package:galaxyvisits/Ui/VisitsHistory/VisitsHistory_Body.dart';
+import 'package:galaxyvisits/ViewModel/LoginViewModel.dart';
 import 'package:galaxyvisits/color/HexColor.dart';
 import 'package:galaxyvisits/widget/Drawers.dart';
 import 'package:galaxyvisits/widget/customDiloag.dart';
@@ -35,7 +36,9 @@ class _Home_Body extends State<Home_Body> {
   void initState() {
     super.initState();
       final viewModel = context.read<CustomerViewModel>();
+      final loginviewmodel = context.read<LoginViewModel>();
          WidgetsBinding.instance.addPostFrameCallback((_) async{
+          loginviewmodel.GetManType();
     await  SQLHelper.getSettings().then((value) {
         viewModel.setSetting(value);
       if(value["isOpen"]==1) {

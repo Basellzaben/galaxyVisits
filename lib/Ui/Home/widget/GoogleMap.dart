@@ -53,14 +53,14 @@ class _GoogleMapWidget extends State<GoogleMapWidget> {
                           child: GoogleMap(
                               markers: Set.from(value.cusNo == 0.0
                                   ? value.customers
-    .where((customer) => customer.locX != "0") // Filter customers with loc != 0
+.where((customer) => customer.locX != "0" && customer.locX != "")
     .map((customer) => Marker(
           onTap: () {
             if (customer.name == 'Current Location') {
               return;
             }
             value.setCustomerName(customer.name!);
-            value.setCustomerNo(customer.no!);
+            value.setCustomerNo(customer.branchId!.toDouble());
             value.CustomerVisit.clear();
             if (!value.CustomerVisit.any((marker) =>
                 marker.name == 'Current Location')) {
@@ -103,8 +103,10 @@ class _GoogleMapWidget extends State<GoogleMapWidget> {
                                                 : model.customcompanyicon,
                                       ))),
                               initialCameraPosition: _kJordan,
-                              mapType: MapType.normal,
-                              onMapCreated: model.onMapCreated))),
+                              mapType: MapType.hybrid,
+                              onMapCreated: model.onMapCreated
+                              
+                              ))),
                 ),
               ),
             );

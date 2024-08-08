@@ -1,17 +1,13 @@
 // ignore_for_file: non_constant_identifier_names, avoid_print, prefer_typing_uninitialized_variables
 
 import 'dart:async';
-import 'dart:convert';
-import 'package:galaxyvisits/Ui/VisitsInfoH/VisitsHistory_Body.dart';
 import 'package:galaxyvisits/ViewModel/VisitViewModel.dart';
 import 'package:galaxyvisits/widget/loading.dart';
-import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:galaxyvisits/DataBase/SQLHelper.dart';
 import 'package:galaxyvisits/GlobalVaribales.dart';
 import 'package:galaxyvisits/Models/itemsinfo.dart';
 import 'package:galaxyvisits/color/HexColor.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import '../../widget/Widgets.dart';
 import '../Home/Home_Body.dart';
@@ -85,8 +81,7 @@ class _VisitHistoryOffLine extends State<VisitHistoryOffLine> {
                     margin: const EdgeInsets.only(top: 10),
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        primary: HexColor(Globalvireables.basecolor),
-                        onPrimary: Colors.white,
+                        foregroundColor: Colors.white, backgroundColor: HexColor(Globalvireables.basecolor),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10.0),
                         ),
@@ -225,20 +220,9 @@ class _VisitHistoryOffLine extends State<VisitHistoryOffLine> {
 
   int selectedIndex = 2;
   final List<Widget> nav = [
-    Update_Body(),
+    const Update_Body(),
     const Home_Body(),
     const VisitHistoryOffLine(),
   ];
 
-  _onItemTapped(int index) {
-    if (index != 2) {
-      setState(() {
-        selectedIndex = index;
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => nav[index]),
-        );
-      });
-    }
-  }
 }

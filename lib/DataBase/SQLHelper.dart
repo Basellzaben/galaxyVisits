@@ -368,7 +368,7 @@ static Future<Map<String, dynamic>> getPayloadById(int id) async {
 
   static Future<List<Map<String, dynamic>>> GetItems() async {
     final db = await SQLHelper.db();
-    return db.query('Items', orderBy: "id");
+    return db.query('Items', orderBy: "name");
   }
 
   static Future<int> createCustomers(String name, String person, int no,
@@ -466,24 +466,24 @@ static Future<Map<String, dynamic>> getPayloadById(int id) async {
     }
 
     if (search == "All") {
-      return db.query('Items', orderBy: "id");
+      return db.query('Items', orderBy: "name");
     }
 
-    return db.query('Items', orderBy: "id");
+    return db.query('Items', orderBy: "name");
   }
 
   static Future<List<Map<String, dynamic>>> searchbar(String? search) async {
     final db = await SQLHelper.db();
     if (search != null) if (search.isNotEmpty) {
       return db.query('Items',
-          orderBy: "id", where: " barcode" " LIKE  '%" + search + "%'");
+          orderBy: "name", where: " barcode" " LIKE  '%" + search + "%'");
     }
 
     if (search == "All") {
-      return db.query('Items', orderBy: "id");
+      return db.query('Items', orderBy: "name");
     }
 
-    return db.query('Items', orderBy: "id");
+    return db.query('Items', orderBy: "name");
   }
 
   static Future<List<Map<String, dynamic>>> searchCustomers(

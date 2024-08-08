@@ -8,6 +8,8 @@ import 'package:galaxyvisits/GlobalVaribales.dart';
 import 'package:galaxyvisits/color/HexColor.dart';
 import 'package:provider/provider.dart';
 
+import '../../../ViewModel/SalesManViewModel.dart';
+
 class ButtonWidget extends StatefulWidget {
   const ButtonWidget({
     Key? key,
@@ -20,8 +22,8 @@ class ButtonWidget extends StatefulWidget {
 class _ButtonWidget extends State<ButtonWidget> {
   @override
   Widget build(BuildContext context) {
-    return Consumer2<HomeViewModel, CustomerViewModel>(
-        builder: (context, model, value, child) => value.cusNo == 0
+    return Consumer3<HomeViewModel, CustomerViewModel,SalesManViewModel>(
+        builder: (context, model, value,salesModel, child) => value.cusNo == 0
             ? const SizedBox()
             : (value.isopen == 0
                 ? Positioned(
@@ -61,9 +63,35 @@ class _ButtonWidget extends State<ButtonWidget> {
                                   fontWeight: FontWeight.w700,
                                   color: HexColor(Globalvireables.white)),
                             ),
-                            onPressed: () {
+                            onPressed: () async{
                               if (value.cusNo > 0) {
+                                value.setisloading(true);
+                               await salesModel.GetManStatus();
+                               if(salesModel.salesManModel.actionNo != null){
+                                if(salesModel.salesManModel.actionNo! > 0){
                                 value.Startvisit(context);
+
+                                }else{
+                                  value.setisloading(false);
+                                    showDialog(
+                                    context: context,
+                                    builder: (_) => const AlertDialog(
+                                          title: Text('بدء الزيارة'),
+                                          content: Text(
+                                              'الرجاء الذهاب الى صفحة الدوام لبدء الدوام قبل بدء الزيارة'),
+                                        ));
+                                }
+                                }else{
+                                  value.setisloading(false);
+                                      showDialog(
+                                      context: context,
+                                      builder: (_) => const AlertDialog(
+                                            title: Text('بدء الزيارة'),
+                                            content: Text(
+                                                'الرجاء الذهاب الى صفحة الدوام لبدء الدوام قبل بدء الزيارة'),
+                                          ));
+
+                               }
                               } else {
                                 showDialog(
                                     context: context,

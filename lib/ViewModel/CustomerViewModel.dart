@@ -107,7 +107,7 @@ class CustomerViewModel with ChangeNotifier {
       setisloading(false);
       return;
     } else {
-      var index = _customers.indexWhere((element) => element.no == _cusNo);
+      var index = _customers.indexWhere((element) => element.branchId == _cusNo);
       _customers[index].locX = X_Lat.toString();
       _customers[index].locY = Y_Long.toString();
       try {
@@ -119,8 +119,8 @@ class CustomerViewModel with ChangeNotifier {
           final db = await SQLHelper.db();
 
           await db.execute(
-            'UPDATE Customers SET locX = ?, locY = ? WHERE no = ?',
-            [X_Lat, Y_Long, _cusNo],
+            'UPDATE Customers SET locX = ?, locY = ? WHERE branchid = ?',
+            [X_Lat, Y_Long, cust],
           );
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: const Text('تم حفظ الموقع بنجاح'),
@@ -177,6 +177,11 @@ class CustomerViewModel with ChangeNotifier {
   }
 
   Future<void> getCustomers() async {
+      Position _position = await Geolocator.getCurrentPosition();             
+            await setMyLocation(
+                _position.latitude.toString(), _position.longitude.toString());
+            await setMyLocation(
+                _position.latitude.toString(), _position.longitude.toString());
     if (_cusNo == 0.0) {
       _customers.clear();
       final db = await SQLHelper.db();
@@ -269,7 +274,7 @@ class CustomerViewModel with ChangeNotifier {
     setisloading(true);
     try {
       Globalvireables.index =
-          _customers.indexWhere((element) => element.no == _cusNo);
+          _customers.indexWhere((element) => element.branchId == _cusNo);
       Globalvireables.nocustomer = _cusNo;
       await calculateDistance(context);
     } catch (e) {
@@ -317,7 +322,7 @@ class CustomerViewModel with ChangeNotifier {
         await SQLHelper.updateCusName(_CustomerName);
         Globalvireables.nocustomer = _cusNo;
         Globalvireables.index =
-            _customers.indexWhere((element) => element.no == _cusNo);
+            _customers.indexWhere((element) => element.branchId == _cusNo);
         setisloading(false);
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => inventory_Body()));

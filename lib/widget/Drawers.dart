@@ -1,13 +1,16 @@
 // ignore_for_file: library_private_types_in_public_api, file_names
 
 import 'package:flutter/material.dart';
-import 'package:galaxyvisits/Ui/Locatethecustomer/Locatecustomer_main.dart';
+import 'package:galaxyvisits/GlobalVaribales.dart';
 import 'package:galaxyvisits/Ui/Login/Login_Body.dart';
 import 'package:galaxyvisits/Ui/Permanency%20status/PermanencyStatus_body.dart';
-import 'package:galaxyvisits/Ui/Permanency%20status/PermanencyStatus_main.dart';
+import 'package:galaxyvisits/Ui/Permanency%20status/permanencyAdmin.dart';
+import 'package:galaxyvisits/Ui/VisitDetailsAdmin/VisitDetailAdmin.dart';
 import 'package:galaxyvisits/Ui/visitHistoryOffline/VisitHistoryOffLine.dart';
 import 'package:galaxyvisits/widget/CustomWidget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../Ui/Locatethecustomer/LocateCustomer_Body.dart';
 
 class HomeDrawers extends StatefulWidget {
   const HomeDrawers({Key? key}) : super(key: key);
@@ -32,7 +35,7 @@ class _HomeDrawersState extends State<HomeDrawers> {
               title: const Text("موقع العميل"),
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => LocateCustomer_Main(),
+                  builder: (context) => LocateCustomer(),
                 ));
               },
             ),
@@ -66,6 +69,51 @@ class _HomeDrawersState extends State<HomeDrawers> {
                 // ));
               },
             ),
+        
+            Globalvireables.ManType == 2 ?  
+            Column(
+              children: [
+  const Divider(),
+         ListTile(
+              leading: const Icon(Icons.menu_book),
+              title: const Text("قائمة جرد العملاء"),
+              onTap: () async{
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const VisitDetailAdmin()));
+
+                // Navigator.of(context).push(MaterialPageRoute(
+                //   builder: (context) => PermanencyStatus_main(),
+                // ));
+              },
+            )
+              ],
+            )
+           :SizedBox(),
+        
+            Globalvireables.ManType == 2 ?  
+            Column(
+              children: [
+  const Divider(),
+         ListTile(
+          // edit icon to employee icon
+              leading: const Icon(Icons.person),
+              title: const Text("قائمة دوام الموظفين"),
+              onTap: () async{
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const PermanencyStatusAdmin()));
+
+                // Navigator.of(context).push(MaterialPageRoute(
+                //   builder: (context) => PermanencyStatus_main(),
+                // ));
+              },
+            )
+              ],
+            )
+           :SizedBox(),
             const Divider(),
             ListTile(
               leading: const Icon(Icons.exit_to_app),

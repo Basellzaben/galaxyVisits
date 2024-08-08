@@ -1,12 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:galaxyvisits/GlobalVaribales.dart';
 import 'package:galaxyvisits/ViewModel/SalesManViewModel.dart';
 import 'package:galaxyvisits/color/HexColor.dart';
 import 'package:galaxyvisits/widget/loading.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
@@ -20,7 +16,6 @@ class PermanencyStatus_body extends StatefulWidget {
 class _PermanencyStatus_bodyState extends State<PermanencyStatus_body> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     var ViewModel = Provider.of<SalesManViewModel>(context, listen: false);
     ViewModel.GetManStatus();

@@ -14,6 +14,7 @@ class Globalvireables {
   static String imageselected="";
   static String lantext="";
   static String visitno="";
+  static int? ManType;
 
 
   //Colors
@@ -34,9 +35,13 @@ class Globalvireables {
   static String VisitsPost="http://"+Globalvireables.connectIP+"/api/Visits/PostManVisit";
   static String UpdateManStatus="http://"+Globalvireables.connectIP+"/api/SalesMan/UpdateManStatus";
   static String GetManStatus="http://"+Globalvireables.connectIP+"/api/SalesMan/GetManStatus";
+  static String GetAllSalesManAtt="http://"+Globalvireables.connectIP+"/api/SalesMan/GetAllSalesMan";
   static String VisitsListAPI="http://"+Globalvireables.connectIP+"/api/Visits/GetManVisitsList/";
+  static String DropDownlist="http://"+Globalvireables.connectIP+"/api/Visits/GetfollowerMan/";
+  static String ListVisitDetail="http://"+Globalvireables.connectIP+"/api/Visits/GetVisitDetails/";
   static String VisitsImageAPI="http://"+Globalvireables.connectIP+"/api/Visits/GetVisitsImagesList/";
   static String VisitsitemsAPI="http://"+Globalvireables.connectIP+"/api/Visits/GetCustomerStockList/";
+  static String Getusertype="http://"+Globalvireables.connectIP+"/api/Login/Getusertype/";
   static String UpdateLoc="http://"+Globalvireables.connectIP+"/api/Customers/UpdateLoc";
   static String custselected="";
   static String vtimeselected="";

@@ -15,6 +15,7 @@ import 'package:galaxyvisits/color/HexColor.dart';
 import '../../Models/CustomerStockListModel.dart';
 import '../../Models/ImageListModel.dart';
 
+// ignore: must_be_immutable
 class VisitInfoOff extends StatefulWidget {
   int id;
    VisitInfoOff({
@@ -203,7 +204,7 @@ class _VisitInfoOff extends State<VisitInfoOff> {
                 ],
               ),
              
-              Divider(),
+              const Divider(),
               Center(
                 child: Container(
                   margin: const EdgeInsets.only(left: 10, right: 10, top: 20),
@@ -268,7 +269,7 @@ class _VisitInfoOff extends State<VisitInfoOff> {
                                           child: Container(
                                               margin: const EdgeInsets.only(
                                                   top: 5, bottom: 5),
-                                              child:  Text(
+                                              child:  const Text(
                                                 'لم يتم ارفاق صور',
                                                 style: TextStyle(
                                                     fontSize: 18,
@@ -287,7 +288,7 @@ class _VisitInfoOff extends State<VisitInfoOff> {
                   ),
                 ),
               ),
-              Divider(),
+              const Divider(),
               Container(
                 margin: const EdgeInsets.only(left: 10, right: 10, top: 20),
                 alignment: Alignment.bottomRight,
@@ -385,7 +386,7 @@ class _VisitInfoOff extends State<VisitInfoOff> {
                                                                       FontWeight
                                                                           .bold),
                                                             ),
-                                                            SizedBox(height: 8,),
+                                                            const SizedBox(height: 8,),
                                                             Text(
                                                               inv.name.toString(),
                                                               textAlign:
@@ -405,7 +406,7 @@ class _VisitInfoOff extends State<VisitInfoOff> {
                                                       ),
                                                     ],
                                                   ),
-                                                 Divider(),
+                                                 const Divider(),
                                                   Row(
                                           children: [
                                             Expanded(
@@ -458,7 +459,7 @@ class _VisitInfoOff extends State<VisitInfoOff> {
                                             ],)
                                             
                                             )
-                                          :SizedBox()
+                                          :const SizedBox()
                                           ]
                                         )
                                                 ],

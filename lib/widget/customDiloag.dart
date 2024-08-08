@@ -154,13 +154,13 @@ class CustomDialog {
                           : SizedBox(),
                                 Text(
                 title,
-                style: Theme.of(context).textTheme.headline5,
+                style: Theme.of(context).textTheme.headlineSmall,
               ),
               const SizedBox(height: 8.0),
               body ??
                   Text(
                     content,
-                    style: Theme.of(context).textTheme.headline6,
+                    style: Theme.of(context).textTheme.titleLarge,
                     textAlign: TextAlign.center,
                   ),
               const SizedBox(height: 10.0),

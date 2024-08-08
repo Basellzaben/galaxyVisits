@@ -7,6 +7,7 @@ import 'package:galaxyvisits/ViewModel/CustomerViewModel.dart';
 import 'package:galaxyvisits/ViewModel/GlobalViewModel/HomeViewModel.dart';
 import 'package:galaxyvisits/color/HexColor.dart';
 import 'package:galaxyvisits/widget/loading.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 
@@ -33,6 +34,11 @@ class _LocateCustomer extends State<LocateCustomer> {
   @override
   void initState() {
     super.initState();
+      WidgetsBinding.instance.addPostFrameCallback((_) async{
+               var customerviewModel = Provider.of<CustomerViewModel>(context, listen: false);
+   Position _position = await Geolocator.getCurrentPosition();         
+customerviewModel.setdata(_position.latitude.toString(), _position.longitude.toString());
+    });
   }
 
   final TextEditingController searchcontroler = TextEditingController();
@@ -48,8 +54,6 @@ class _LocateCustomer extends State<LocateCustomer> {
         appBar: AppBar(
            leading: BackButton(
             onPressed: () async{
-            var customerviewModel = Provider.of<CustomerViewModel>(context, listen: false);
-            //  await customerviewModel.getCustomers();
               Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Home_Body()));
             },
             
@@ -124,7 +128,7 @@ class _LocateCustomer extends State<LocateCustomer> {
                         },
                         initialCameraPosition:
                             CameraPosition(target: _initialcameraposition),
-                        mapType: MapType.normal,
+                        mapType: MapType.hybrid,
                         onMapCreated: model.onMapCreated,
                         onLongPress: (value){
                           model.setdata(value.latitude.toString(), value.longitude.toString());

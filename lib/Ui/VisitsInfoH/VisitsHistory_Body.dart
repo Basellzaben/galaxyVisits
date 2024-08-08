@@ -124,8 +124,7 @@ class _VisitsInfoH_Body extends State<VisitsInfoH_Body> {
                           const EdgeInsets.only(left: 10, right: 10, top: 20),
                       alignment: Alignment.bottomRight,
                       child: Text(
-                       Globalvireables.dateTimeselected
-                        ,
+                        Globalvireables.dateTimeselected,
                         style: const TextStyle(
                             fontSize: 20, fontWeight: FontWeight.bold),
                       )),
@@ -140,62 +139,77 @@ class _VisitsInfoH_Body extends State<VisitsInfoH_Body> {
                       )),
                 ],
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                
-                   Row(
-                // mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Container(
-                      margin:
-                          const EdgeInsets.only(left: 10, right: 10, top: 20),
-                      alignment: Alignment.bottomRight,
-                      child: Text(
-                     DateFormat('h:mm').format( DateFormat('HH:mm').parse(Globalvireables.endTimeselected.substring(0, 5))),
-
-                        // Globalvireables.endTimeselected.substring(0, 5),
-                        style: const TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
-                      )),
-                  Container(
-                      margin:
-                          const EdgeInsets.only(left: 10, right: 10, top: 20),
-                      alignment: Alignment.bottomRight,
-                      child: const Text(
-                        ": نهاية الزيارة",
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
-                      )),
-                ],
-              ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Container(
-                          margin:
-                              const EdgeInsets.only(left: 10, right: 10, top: 20),
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  // mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Row(
+                      children: [
+                        Container(
+                          margin: const EdgeInsets.only(top: 20),
                           alignment: Alignment.bottomRight,
                           child: Text(
-                           Globalvireables.startTimeselected,
+                            DateFormat('h:mm').format(
+                              DateFormat('HH:mm').parse(
+                                Globalvireables.endTimeselected.substring(0, 5),
+                              ),
+                            ),
                             style: const TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.bold),
-                          )),
-                      Container(
-                          margin:
-                              const EdgeInsets.only(left: 10, right: 10, top: 20),
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        Container(
+                          margin: const EdgeInsets.only(
+                              left: 10, right: 10, top: 20),
                           alignment: Alignment.bottomRight,
                           child: const Text(
-                            ": بداية الزيارة",
+                            ": نهاية الزيارة",
                             style: TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.bold),
-                          )),
-                    ],
-                  ),
-                ],
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.only(top: 20),
+                          // alignment: Alignment.bottomRight,
+                          child: Text(
+                            DateFormat('h:mm').format(
+                              DateFormat('HH:mm').parse(
+                                Globalvireables.startTimeselected
+                                    .substring(0, 5),
+                              ),
+                            ),
+                            style: const TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        Container(
+                          padding: const EdgeInsets.only(top: 20),
+                          // alignment: Alignment.bottomRight,
+                          child: const Text(
+                            " : بداية الزيارة",
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
-             
-              Divider(),
+              const Divider(),
               Center(
                 child: Container(
                   margin: const EdgeInsets.only(left: 10, right: 10, top: 20),
@@ -229,10 +243,10 @@ class _VisitsInfoH_Body extends State<VisitsInfoH_Body> {
                           List<ImageListModel>? Appoiments = snapshot.data;
 
                           return Appoiments!.isNotEmpty
-                          // set the physics horizantal
+                              // set the physics horizantal
 
                               ? GridView(
-                                scrollDirection: Axis.horizontal,
+                                  scrollDirection: Axis.horizontal,
                                   gridDelegate:
                                       const SliverGridDelegateWithFixedCrossAxisCount(
                                           crossAxisCount: 2,
@@ -242,10 +256,8 @@ class _VisitsInfoH_Body extends State<VisitsInfoH_Body> {
                                           (ImageListModel inv) => SizedBox(
                                               width: 50,
                                               height: 50,
-                                              child: Image.network("http://" +
-                                                  Globalvireables.connectIP +
-                                                  "" +
-                                                  inv.ImgBase64.toString())))
+                                              child: Image.network(
+                                                  "http://${Globalvireables.connectIP}${inv.ImgBase64}")))
                                       .toList(),
                                 )
                               : Padding(
@@ -261,7 +273,7 @@ class _VisitsInfoH_Body extends State<VisitsInfoH_Body> {
                                           child: Container(
                                               margin: const EdgeInsets.only(
                                                   top: 5, bottom: 5),
-                                              child:  Text(
+                                              child: const Text(
                                                 'لم يتم ارفاق صور',
                                                 style: TextStyle(
                                                     fontSize: 18,
@@ -280,7 +292,7 @@ class _VisitsInfoH_Body extends State<VisitsInfoH_Body> {
                   ),
                 ),
               ),
-              Divider(),
+              const Divider(),
               Container(
                 margin: const EdgeInsets.only(left: 10, right: 10, top: 20),
                 alignment: Alignment.bottomRight,
@@ -323,20 +335,22 @@ class _VisitsInfoH_Body extends State<VisitsInfoH_Body> {
                                                       Expanded(
                                                         child: Column(
                                                           children: [
-                                                               
-                                                        Text(
-                                                          'الطلبية المقترحة',
-                                                          style: TextStyle(
-                                                              fontSize: 14,
-                                                              color: HexColor(
-                                                                  Globalvireables
-                                                                      .basecolor),
-                                                              fontWeight:
-                                                                  FontWeight.bold),
-                                                        ),
+                                                            Text(
+                                                              'الطلبية المقترحة',
+                                                              style: TextStyle(
+                                                                  fontSize: 14,
+                                                                  color: HexColor(
+                                                                      Globalvireables
+                                                                          .basecolor),
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold),
+                                                            ),
                                                             Container(
-                                                                decoration: BoxDecoration(
-                                                                  shape: BoxShape.circle,
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  shape: BoxShape
+                                                                      .circle,
                                                                   // This makes the container circular
                                                                   color: HexColor(
                                                                       Globalvireables
@@ -345,7 +359,8 @@ class _VisitsInfoH_Body extends State<VisitsInfoH_Body> {
                                                                 child: Padding(
                                                                   padding:
                                                                       const EdgeInsets
-                                                                          .all(7.0),
+                                                                          .all(
+                                                                          7.0),
                                                                   child: Center(
                                                                     child: Text(
                                                                       inv.OrderQty
@@ -353,21 +368,22 @@ class _VisitsInfoH_Body extends State<VisitsInfoH_Body> {
                                                                       style: const TextStyle(
                                                                           color: Colors
                                                                               .white,
-                                                                          fontSize: 18),
+                                                                          fontSize:
+                                                                              18),
                                                                     ),
                                                                   ),
                                                                 )),
                                                           ],
                                                         ),
                                                       ),
-                                                                                               
                                                       Expanded(
                                                         child: Column(
                                                           children: [
                                                             Text(
                                                               "المادة ",
                                                               textAlign:
-                                                                  TextAlign.right,
+                                                                  TextAlign
+                                                                      .right,
                                                               maxLines: 2,
                                                               style: TextStyle(
                                                                   fontSize: 16,
@@ -378,11 +394,15 @@ class _VisitsInfoH_Body extends State<VisitsInfoH_Body> {
                                                                       FontWeight
                                                                           .bold),
                                                             ),
-                                                            SizedBox(height: 8,),
+                                                            const SizedBox(
+                                                              height: 8,
+                                                            ),
                                                             Text(
-                                                              inv.Ename.toString(),
+                                                              inv.Ename
+                                                                  .toString(),
                                                               textAlign:
-                                                                  TextAlign.right,
+                                                                  TextAlign
+                                                                      .right,
                                                               maxLines: 2,
                                                               style: TextStyle(
                                                                   fontSize: 14,
@@ -398,66 +418,75 @@ class _VisitsInfoH_Body extends State<VisitsInfoH_Body> {
                                                       ),
                                                     ],
                                                   ),
-                                                 Divider(),
-                                                  Row(
-                                          children: [
-                                            Expanded(
-                                              child: Column(
-                                                children: [
-                                                   Text(
-                                                ' : الكمية',
-                                                style: TextStyle(
-                                                    fontSize: 16,
-                                                    color: HexColor(
-                                                        Globalvireables
-                                                            .basecolor),
-                                                    fontWeight: FontWeight.w600),
-                                              ),
-                                                  Text(
-                                                    inv.Qty.toString(),
-                                                    style: TextStyle(
-                                                        fontSize: 16,
-                                                        color: HexColor(
-                                                            Globalvireables
-                                                                .basecolor),
-                                                        fontWeight: FontWeight.w800),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                         inv.Note != null ?   Expanded(child: 
-                                            Column(
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              children: [
-                                              
-                                              Text(
-                                                ' : الملاحظات',
-                                                style: TextStyle(
-                                                    fontSize: 16,
-                                                    color: HexColor(
-                                                        Globalvireables
-                                                            .basecolor),
-                                                    fontWeight: FontWeight.w600),
-                                              ),
-                                              Text(
-                                                inv.Note.toString(),
-                                                style: TextStyle(
-                                                    fontSize: 16,
-                                                    color: HexColor(
-                                                        Globalvireables
-                                                            .basecolor),
-                                                    fontWeight: FontWeight.w800),
-                                              ),
-                                            ],)
-                                            
-                                            )
-                                          :SizedBox()
-                                          ]
-                                        )
+                                                  const Divider(),
+                                                  Row(children: [
+                                                    Expanded(
+                                                      child: Column(
+                                                        children: [
+                                                          Text(
+                                                            ' : الكمية',
+                                                            style: TextStyle(
+                                                                fontSize: 16,
+                                                                color: HexColor(
+                                                                    Globalvireables
+                                                                        .basecolor),
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600),
+                                                          ),
+                                                          Text(
+                                                            inv.Qty.toString(),
+                                                            style: TextStyle(
+                                                                fontSize: 16,
+                                                                color: HexColor(
+                                                                    Globalvireables
+                                                                        .basecolor),
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w800),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    inv.Note != null
+                                                        ? Expanded(
+                                                            child: Column(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .center,
+                                                            children: [
+                                                              Text(
+                                                                ' : الملاحظات',
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        16,
+                                                                    color: HexColor(
+                                                                        Globalvireables
+                                                                            .basecolor),
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w600),
+                                                              ),
+                                                              Text(
+                                                                inv.Note
+                                                                    .toString(),
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        16,
+                                                                    color: HexColor(
+                                                                        Globalvireables
+                                                                            .basecolor),
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w800),
+                                                              ),
+                                                            ],
+                                                          ))
+                                                        : const SizedBox()
+                                                  ])
                                                 ],
                                               ),
                                             )),
-                                     
                                       ],
                                     ),
                                   )).toList(),
@@ -477,26 +506,16 @@ class _VisitsInfoH_Body extends State<VisitsInfoH_Body> {
   }
 
   void _refreshCustomers() async {
-    print(Globalvireables.VisitsImageAPI +
-        "/" +
-        Globalvireables.username +
-        "/" +
-        double.parse(Globalvireables.visitno).toInt().toString() +
-        "  images");
+    print(
+        "${Globalvireables.VisitsImageAPI}/${Globalvireables.username}/${double.parse(Globalvireables.visitno).toInt()}  images");
 
-    print(Globalvireables.VisitsImageAPI +
-        "/" +
-        Globalvireables.username +
-        "/" +
-        double.parse(Globalvireables.visitno).toInt().toString());
-    Uri apiUrl = Uri.parse(Globalvireables.VisitsImageAPI +
-        "/" +
-        Globalvireables.username +
-        "/" +
-        double.parse(Globalvireables.visitno).toInt().toString());
+    print(
+        "${Globalvireables.VisitsImageAPI}/${Globalvireables.username}/${double.parse(Globalvireables.visitno).toInt()}");
+    Uri apiUrl = Uri.parse(
+        "${Globalvireables.VisitsImageAPI}/${Globalvireables.username}/${double.parse(Globalvireables.visitno).toInt()}");
     http.Response response = await http.get(apiUrl);
     var data = await json.decode(response.body);
-    print(data.toString() + "  dddatta ");
+    print("$data  dddatta ");
 
     setState(() {
       images = data;
@@ -511,7 +530,7 @@ class _VisitsInfoH_Body extends State<VisitsInfoH_Body> {
   void _refreshItems() async {
     //showLoaderDialog(context,"جار جلب العملاء");
     // showLoaderDialog(context);
-    print("OORDERNO : " + Globalvireables.visitno.toString());
+    print("OORDERNO : ${Globalvireables.visitno}");
     // print(Globalvireables.VisitsImageAPI+Globalvireables.visitno.toString() + " items");
     print("http://" +
         Globalvireables.connectIP +
@@ -527,7 +546,7 @@ class _VisitsInfoH_Body extends State<VisitsInfoH_Body> {
             '18');
     http.Response response = await http.get(apiUrl);
     var data = await json.decode(response.body);
-    print(data.toString() + "  dddatta ");
+    print("$data  dddatta ");
 
     setState(() {
       itemselected = data;
@@ -540,23 +559,20 @@ class _VisitsInfoH_Body extends State<VisitsInfoH_Body> {
   }
 
   Future<List<CustomerStockListModel>> getitemstock() async {
-    print(double.parse(Globalvireables.visitno).toInt().toString() + " gtgtgt");
+    print("${double.parse(Globalvireables.visitno).toInt()} gtgtgt");
 
     Uri postsURL = Uri.parse(
-        "http://${Globalvireables.connectIP}/api/Visits/GetCustomerStockList/" +
-            Globalvireables.username +
-            "/" +
-            double.parse(Globalvireables.visitno).toInt().toString());
+        "http://${Globalvireables.connectIP}/api/Visits/GetCustomerStockList/${Globalvireables.username}/${double.parse(Globalvireables.visitno).toInt()}");
 
     try {
       http.Response res = await http.get(postsURL);
 
       if (res.statusCode == 200) {
-        print("Doctors" + res.body.toString());
+        print("Doctors${res.body}");
 
         List<dynamic> body = jsonDecode(res.body);
 
-        print(res.body.toString() + "resresresres");
+        print("${res.body}resresresres");
 
         List<CustomerStockListModel> HINFO = body
             .map(
@@ -569,29 +585,25 @@ class _VisitsInfoH_Body extends State<VisitsInfoH_Body> {
         throw "Unable to retrieve Doctors. orrr";
       }
     } catch (e) {
-      print("errrror : " + e.toString());
+      print("errrror : $e");
     }
 
     throw "Unable to retrieve Doctors.";
   }
 
   Future<List<ImageListModel>> geimgstock() async {
-
-    Uri postsURL = Uri.parse(Globalvireables.VisitsImageAPI +
-        "/" +
-        Globalvireables.username +
-        "/" +
-        double.parse(Globalvireables.visitno).toInt().toString());
+    Uri postsURL = Uri.parse(
+        "${Globalvireables.VisitsImageAPI}/${Globalvireables.username}/${double.parse(Globalvireables.visitno).toInt()}");
 
     try {
       http.Response res = await http.get(postsURL);
 
       if (res.statusCode == 200) {
-        print("Doctors" + res.body.toString());
+        print("Doctors${res.body}");
 
         List<dynamic> body = jsonDecode(res.body);
 
-        print(res.body.toString() + "resresresresimg");
+        print("${res.body}resresresresimg");
 
         List<ImageListModel> HINFO = body
             .map(
@@ -604,7 +616,7 @@ class _VisitsInfoH_Body extends State<VisitsInfoH_Body> {
         throw "Unable to retrieve Doctors. orrr";
       }
     } catch (e) {
-      print("errrror : " + e.toString());
+      print("errrror : $e");
     }
 
     throw "Unable to retrieve Doctors.";

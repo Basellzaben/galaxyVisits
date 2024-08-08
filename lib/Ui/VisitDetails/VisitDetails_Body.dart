@@ -35,7 +35,7 @@ class _VisitDetails_Body extends State<VisitDetails_Body> {
     var VisitviewModel = Provider.of<VisitViewModel>(context, listen: false);
     VisitviewModel.refreshItems();
     VisitviewModel.refreshselectedItems();
-     WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       final viewModel = context.read<VisitViewModel>();
       viewModel.getimg();
     });
@@ -90,6 +90,11 @@ class _VisitDetails_Body extends State<VisitDetails_Body> {
                         padding: const EdgeInsets.only(
                             left: 10, right: 10, top: 10, bottom: 10),
                         width: MediaQuery.of(context).size.width * .7,
+                        decoration: BoxDecoration(
+                            color: HexColor(Globalvireables.white2),
+                            borderRadius: BorderRadius.circular(10),
+                            border: Border.all(
+                                color: HexColor(Globalvireables.basecolor))),
                         child: Text(
                           customersViewModel.CustomerName,
                           textAlign: TextAlign.center,
@@ -98,11 +103,6 @@ class _VisitDetails_Body extends State<VisitDetails_Body> {
                               fontSize: 18,
                               fontWeight: FontWeight.w800),
                         ),
-                        decoration: BoxDecoration(
-                            color: HexColor(Globalvireables.white2),
-                            borderRadius: BorderRadius.circular(10),
-                            border: Border.all(
-                                color: HexColor(Globalvireables.basecolor))),
                       ),
                       model.imgs.isEmpty
                           ? Container(
@@ -254,8 +254,8 @@ class _VisitDetails_Body extends State<VisitDetails_Body> {
                           margin:
                               const EdgeInsets.only(top: 5, left: 5, right: 5),
                           child: Card(
-                            color:Colors.white,
-                            shadowColor:Colors.blue,
+                            color: Colors.white,
+                            shadowColor: Colors.blue,
                             elevation: 5,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10.0),
@@ -390,7 +390,7 @@ class _VisitDetails_Body extends State<VisitDetails_Body> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                            inventory_Body()));
+                                            const inventory_Body()));
                               },
                             ),
                           ),
@@ -414,12 +414,12 @@ class _VisitDetails_Body extends State<VisitDetails_Body> {
                                     color: HexColor(Globalvireables.white)),
                               ),
                               onPressed: () async {
+                                model.setisloading(true);
                                 if (model.itemselectedFORPOST.isNotEmpty)
                                 // ignore: curly_braces_in_flow_control_structures
                                 if (model.imgFORPOST.isNotEmpty) {
-                                 await model.Endvisit(context).then((istrue) {
+                                  await model.Endvisit(context).then((istrue) {
                                     if (istrue) {
-                                   
                                       Globalvireables.nocustomer = 0.0;
                                       Globalvireables.index = -1;
                                       // Globalvireables.CustomerName = "حدد العمــيل";
@@ -440,6 +440,7 @@ class _VisitDetails_Body extends State<VisitDetails_Body> {
                                             content: Text(
                                                 'لا يمكن اغلاق الزيارة بدون صور للمواد'),
                                           ));
+                                  model.setisloading(false);
                                 }
                                 else {
                                   showDialog(
@@ -449,6 +450,7 @@ class _VisitDetails_Body extends State<VisitDetails_Body> {
                                             content: Text(
                                                 'لا يمكن اغلاق الزيارة بدون جرد للمواد'),
                                           ));
+                                  model.setisloading(false);
                                 }
                               },
                             ),
@@ -464,15 +466,15 @@ class _VisitDetails_Body extends State<VisitDetails_Body> {
                                     color: HexColor(Globalvireables.black)),
                               ),
                               onPressed: () async {
-                                     await SQLHelper.updateCusNo(0.0);
-                                     await SQLHelper.updateIsOpen(0);
-                                     await SQLHelper.updateCusName("حدد العميل");
+                                await SQLHelper.updateCusNo(0.0);
+                                await SQLHelper.updateIsOpen(0);
+                                await SQLHelper.updateCusName("حدد العميل");
                                 customersViewModel
                                     .setCustomerName("حدد العمــيل");
                                 customersViewModel.setCustomerNo(0);
                                 customersViewModel.setisopen(0);
                                 Globalvireables.nocustomer = 0.0;
-                                                                      Globalvireables.index = -1;
+                                Globalvireables.index = -1;
 
                                 // Globalvireables.CustomerName = "حدد العمــيل";
                                 // Globalvireables.CustomerName = "حدد العمــيل";
@@ -481,16 +483,24 @@ class _VisitDetails_Body extends State<VisitDetails_Body> {
                                 await db.delete("Images");
                                 var data = await SQLHelper.GetImgs();
                                 await SQLHelper.clearItemsSelected();
+                                var selectItem =
+                                    await SQLHelper.GetSelectedItem();
+                                VisitviewModel.setitemsSelected(selectItem);
+
                                 var ViewModel = Provider.of<VisitViewModel>(
                                     context,
                                     listen: false);
                                 ViewModel.setimgs(data);
-                                      var customerviewModel = Provider.of<CustomerViewModel>(context, listen: false);
-             await customerviewModel.getCustomers();
-                                   Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(builder: (context) => const Home_Body()),
-              (route) => false);
+                                var customerviewModel =
+                                    Provider.of<CustomerViewModel>(context,
+                                        listen: false);
+                                await customerviewModel.getCustomers();
+                                Navigator.pushAndRemoveUntil(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const Home_Body()),
+                                    (route) => false);
                               },
                             ),
                             const Spacer(),
@@ -503,9 +513,9 @@ class _VisitDetails_Body extends State<VisitDetails_Body> {
   }
 
   Widget getImagenBase64(String imagen) {
-    String _imageBase64 = imagen;
+    String imageBase64 = imagen;
     const Base64Codec base64 = Base64Codec();
-    Uint8List bytes = base64.decode(_imageBase64);
+    Uint8List bytes = base64.decode(imageBase64);
     return Container(
       decoration: BoxDecoration(
         color: HexColor(Globalvireables.white2),

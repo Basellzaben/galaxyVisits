@@ -276,7 +276,8 @@ class _VisitsHistory_Body extends State<VisitsHistory_Body> {
                                               .toString()
                                               .substring(0, 10) +
                                           " - " +
-                                          _journals[index]['time'].toString())),
+                                          DateFormat('hh:mm a').format(DateFormat('HH:mm').parse(_journals[index]['time'].toString()))
+                                          )),
                               ],
                             ),
                           ),

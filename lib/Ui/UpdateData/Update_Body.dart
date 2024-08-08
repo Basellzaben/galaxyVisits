@@ -1,6 +1,7 @@
 // ignore_for_file: camel_case_types, unnecessary_new, deprecated_member_use, avoid_print, non_constant_identifier_names
 
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:galaxyvisits/DataBase/SQLHelper.dart';
@@ -42,6 +43,7 @@ class _Update_Body extends State<Update_Body>   {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   final TextEditingController searchcontroler = TextEditingController();
 bool isloading=false;
+int _selectedValue = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -126,7 +128,14 @@ bool isloading=false;
                     child:Text(Globalvireables.sizeCustomers.toString(),style: TextStyle(color: HexColor(Globalvireables.basecolor),fontSize: 40),)
               ),
             ),
-      
+                Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            _buildRadioButtonWithText(3, 'كلاهما'),
+            _buildRadioButtonWithText(2, 'عملاء الموظف البديل '),
+            _buildRadioButtonWithText(1, 'عملائي'),
+          ],
+        ),
                 Container(
                   margin: const EdgeInsets.all(10),
                   height: 40,
@@ -238,28 +247,17 @@ bool isloading=false;
 
 
 
-  fillCustomers(BuildContext context) async{
+  fillCustomers(BuildContext context,) async{
     try {
       Uri apiUrl = Uri.parse(
-          Globalvireables.CustomersAPI + "/" + Globalvireables.username);
-
-      // showLoaderDialog(context, text);
-      http.Response response = await http.get(apiUrl);
-      if (response.statusCode == 200) {
-
-      /*Map<String, dynamic> data = new Map<String, dynamic>.from(
-          json.decode(response.body));*/
-var list;
-try {
-
-   list = json.decode(response.body) as List;
-    //  List<CustomersModel> customers = List<CustomersModel>.from(json.decode(response.body).map((x) => CustomersModel.fromJson(x)));
-
-  // Process the list further
-} catch (e) {
-  print('Error decoding JSON: $e');
-  // Handle the error, show a message, or log it for debugging
-}
+          "${Globalvireables.CustomersAPI}/${Globalvireables.username}/$_selectedValue");
+           http.Response response = await http.get(apiUrl);
+          if (response.statusCode == 200) {
+              var list;
+           try {
+              list = json.decode(response.body) as List;
+                } catch (e) {
+              print('Error decoding JSON: $e');}
       await SQLHelper.deleteCustomers();
       if (list.isEmpty) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -267,53 +265,31 @@ try {
         // Navigator.pop(context);
       } else {
         for (var i = 0; i < list.length; i++) {
-            CustomersModel customer = CustomersModel.fromJson(list[i]);
-
-          await SQLHelper.createCustomers(
-              customer.name!, customer.name!, customer.no!, customer.branchId ?? -1, customer.locX?? "0" , customer.locY ?? "0"
-
-              
-              
+        try{
+ await SQLHelper.createCustomers(
+                   list[i]['Name'],  list[i]['Name'],  list[i]['No'] ?? 0,  list[i]['BranchId'] ?? -1, list[i]['LocX']?? "0" , list[i]['LocY'] ?? "0"
               );
-
+        }catch(e){
+          print(e.toString());
+        }              
         }
-        // Navigator.pop(context);
       }
-
+          ScaffoldMessenger.of(context).showSnackBar(
+                     const SnackBar(content: Text("تم تحديث العملاء بنجاح")));
       getcountcust();
       }else{
         // Navigator.pop(context);
         ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text("يوجد مشكلة , يرجى المحاولة لاحقا")));
+            const SnackBar(content: Text("يوجد مشكله في الإتصال بالخادم")));
 
       }
-    }catch(_){
-      // Navigator.pop(context);
+    }catch(e){
+      print(e.toString());
       ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("يوجد مشكلة , يرجى المحاولة لاحقا")));
+           SnackBar(content: Text(e.toString() +"يوجد مشكلة , يرجى المحاولة لاحقا")));
     }
 
   }
-  // showLoaderDialog(BuildContext context, String text){
-  //   AlertDialog alert=AlertDialog(
-  //     content: new Row(
-  //       children: [
-  //         const CircularProgressIndicator(),
-  //         Container(margin: const EdgeInsets.only(left: 7),child:Text(text)),
-  //       ],),
-  //   );
-  //   showDialog(barrierDismissible: false,
-  //     context:context,
-  //     builder:(BuildContext context){
-  //       return alert;
-  //     },
-  //   );
-  // }
-
-
-
-
-
 
   fillItems(BuildContext context, String text) async{
     try {
@@ -399,5 +375,25 @@ try {
           MaterialPageRoute(builder: (context) => nav[index]),
         );
       });}
+    
+}
+     Widget _buildRadioButtonWithText(int value, String text) {
+    return Column(
+      children: [
+        Radio<int>(
+          value: value,
+          groupValue: _selectedValue,
+          onChanged: (int? newValue) {
+            setState(() {
+              _selectedValue = newValue!;
+            });
+          },
+        ),
+        Text(
+          text,
+          style: const TextStyle(fontSize: 14),
+        ),
+      ],
+    );
   }
 }

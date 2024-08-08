@@ -3,17 +3,17 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:galaxyvisits/GlobalVaribales.dart';
-import 'package:galaxyvisits/Ui/Home/Home_Body.dart';
-import 'package:galaxyvisits/Ui/Locatethecustomer/Locatecustomer_main.dart';
 import 'package:galaxyvisits/ViewModel/CustomerViewModel.dart';
 import 'package:galaxyvisits/ViewModel/GlobalViewModel/HomeViewModel.dart';
 import 'package:galaxyvisits/ViewModel/LoginViewModel.dart';
+import 'package:galaxyvisits/ViewModel/VisitDetailViewModel.dart';
 import 'package:galaxyvisits/ViewModel/VisitViewModel.dart';
 import 'package:galaxyvisits/color/HexColor.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
 import 'Ui/Login/Login_Body.dart';
 import 'ViewModel/SalesManViewModel.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 Future<void> main() async {
   var ViewModel = HomeViewModel();
@@ -30,6 +30,7 @@ MultiProvider(
       ChangeNotifierProvider(create: (_) => VisitViewModel()),
       ChangeNotifierProvider(create: (_) => LoginViewModel()),
       ChangeNotifierProvider(create: (_) => SalesManViewModel()),
+      ChangeNotifierProvider(create: (_) => VisitDetailViewModel()),
     ], child:    const MyApp(),
   )
   );
@@ -46,6 +47,16 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      locale: const Locale('en', 'US'),
+      supportedLocales: [
+        const Locale('en', 'US'), // English
+        const Locale('ar', 'SA'), // Arabic
+      ],
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
       title: 'Galaxy Visits',
       theme: ThemeData(
         primarySwatch: Colors.green,

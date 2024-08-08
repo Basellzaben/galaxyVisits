@@ -180,6 +180,16 @@ class LoginViewModel with ChangeNotifier {
             Navigator.pushReplacement(
                 context, MaterialPageRoute(builder: (context) => Home_Body()));
           }
+        }else{
+          setisloading(false);
+
+          showDialog(
+              context: context,
+              builder: (_) => const AlertDialog(
+                    title: Text('تسجيل الدخول'),
+                    content: Text('كلمة المرور او اسم المستخدم غير صحيح'),
+                  ));
+        
         }
       }
     } catch (_) {
@@ -209,5 +219,11 @@ class LoginViewModel with ChangeNotifier {
       passwordcontroler.text = '';
       namecontroler.text = '';
     }
+  }
+  GetManType()async{
+    Uri apiUrl = Uri.parse(Globalvireables.Getusertype + Globalvireables.manNo.toString());
+    http.Response response = await http.get(apiUrl);
+    var jsonResponse = jsonDecode(response.body);
+    Globalvireables.ManType=jsonResponse;
   }
 }
