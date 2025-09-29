@@ -43,13 +43,13 @@ class UserDefinition {
       tel: json['Tel'] ?? '',
       email: json['Email'] ?? '',
       image: json['Image'] ?? '',
-      isActive: json['IsActive'] ,
-      requireChangePassword: json['RequireChangePassword'] ,
+      isActive: json['IsActive'],
+      requireChangePassword: json['RequireChangePassword'],
       typeRep: json['TypeRep'],
-      ipDevice: json['IP_Device'] ?? '',
+      ipDevice: json['IP_Device'] ?? '0',
     );
   }
-    Map<String, dynamic> toJson() {
+  Map<String, dynamic> toJson() {
     return {
       'Id': id,
       'CompanyId': companyId,
@@ -66,5 +66,5 @@ class UserDefinition {
       'TypeRep': typeRep,
       'IP_Device': ipDevice,
     };
-    }
+  }
 }

@@ -180,7 +180,7 @@ class LoginViewModel with ChangeNotifier {
             Navigator.pushReplacement(
                 context, MaterialPageRoute(builder: (context) => Home_Body()));
           }
-        }else{
+        } else {
           setisloading(false);
 
           showDialog(
@@ -189,7 +189,6 @@ class LoginViewModel with ChangeNotifier {
                     title: Text('تسجيل الدخول'),
                     content: Text('كلمة المرور او اسم المستخدم غير صحيح'),
                   ));
-        
         }
       }
     } catch (_) {
@@ -220,10 +219,12 @@ class LoginViewModel with ChangeNotifier {
       namecontroler.text = '';
     }
   }
-  GetManType()async{
-    Uri apiUrl = Uri.parse(Globalvireables.Getusertype + Globalvireables.manNo.toString());
+
+  GetManType() async {
+    Uri apiUrl = Uri.parse(
+        Globalvireables.Getusertype + Globalvireables.manNo.toString());
     http.Response response = await http.get(apiUrl);
     var jsonResponse = jsonDecode(response.body);
-    Globalvireables.ManType=jsonResponse;
+    Globalvireables.ManType = jsonResponse;
   }
 }

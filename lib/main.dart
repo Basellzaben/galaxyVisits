@@ -1,6 +1,5 @@
-// ignore_for_file: non_constant_identifier_names
-
 import 'dart:async';
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:galaxyvisits/GlobalVaribales.dart';
 import 'package:galaxyvisits/ViewModel/CustomerViewModel.dart';
@@ -16,29 +15,30 @@ import 'ViewModel/SalesManViewModel.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 Future<void> main() async {
-  var ViewModel = HomeViewModel();
-  ViewModel.startTimer();
-  var ViewModel2 = CustomerViewModel();
-  ViewModel2.startTimer();
-  //GestureBinding.instance?.resamplingEnabled = true;
+  WidgetsFlutterBinding.ensureInitialized();
+
+  FlutterError.onError = (details) {
+    FlutterError.dumpErrorToConsole(details);
+  };
+  PlatformDispatcher.instance.onError = (error, stack) {
+    debugPrint('Uncaught error: $error\n$stack');
+    return true; // لا يخرج التطبيق بصمت
+  };
 
   runApp(
-MultiProvider(
-    providers: [
-      ChangeNotifierProvider(create: (_) => HomeViewModel()),
-      ChangeNotifierProvider(create: (_) => CustomerViewModel()),
-      ChangeNotifierProvider(create: (_) => VisitViewModel()),
-      ChangeNotifierProvider(create: (_) => LoginViewModel()),
-      ChangeNotifierProvider(create: (_) => SalesManViewModel()),
-      ChangeNotifierProvider(create: (_) => VisitDetailViewModel()),
-    ], child:    const MyApp(),
-  )
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => HomeViewModel()..startTimer()),
+        ChangeNotifierProvider(
+            create: (_) => CustomerViewModel()..startTimer()),
+        ChangeNotifierProvider(create: (_) => VisitViewModel()),
+        ChangeNotifierProvider(create: (_) => LoginViewModel()),
+        ChangeNotifierProvider(create: (_) => SalesManViewModel()),
+        ChangeNotifierProvider(create: (_) => VisitDetailViewModel()),
+      ],
+      child: const MyApp(),
+    ),
   );
-
-
-
-
-
 }
 
 class MyApp extends StatelessWidget {
@@ -68,56 +68,94 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key}) : super(key: key);
+  const MyHomePage({super.key});
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  State<MyHomePage> createState() => _MyHomePageState();
 }
+
 class _MyHomePageState extends State<MyHomePage> {
   @override
-void initState() {
-  super.initState();
-  var viewModel = Provider.of<CustomerViewModel>(context, listen: false);
-  var HomeModel = Provider.of<HomeViewModel>(context, listen: false);
-  getlocation().then((position) {
-    HomeModel.setData(position.latitude.toString(), position.longitude.toString());
-    viewModel.setdata(position.latitude.toString(), position.longitude.toString());
-  });
-    Timer(const Duration(seconds: 5), () => Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Login_Body())));
+  void initState() {
+    super.initState();
+    _init();
+  }
 
-}
+  Future<void> _init() async {
+    try {
+      final position = await _getLocationSafe();
 
-Future<Position> getlocation() async {
-  return await Geolocator.getCurrentPosition();
-}
+      if (!mounted) return;
+      final home = context.read<HomeViewModel>();
+      final customers = context.read<CustomerViewModel>();
+      home.setData(position.latitude.toString(), position.longitude.toString());
+      customers.setdata(
+          position.latitude.toString(), position.longitude.toString());
+    } catch (e, st) {
+      debugPrint('Location init failed: $e\n$st');
+      // ممكن تعرض Toast أو تتجاهل وتكمل للّوجن
+    } finally {
+      // انتقل بعد 2-3 ثواني بدون كراش
+      await Future.delayed(const Duration(seconds: 3));
+      if (!mounted) return;
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (_) => Login_Body()),
+      );
+    }
+  }
+
+  Future<Position> _getLocationSafe() async {
+    // تأكد من تفعيل الخدمة
+    final serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      // بإمكانك فتح الإعدادات: await Geolocator.openLocationSettings();
+      throw Exception('Location services are disabled.');
+    }
+
+    // تحقق من الإذونات
+    var permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+    }
+    if (permission == LocationPermission.deniedForever ||
+        permission == LocationPermission.denied) {
+      throw Exception('Location permission not granted.');
+    }
+
+    return Geolocator.getCurrentPosition(
+      desiredAccuracy: LocationAccuracy.high,
+    );
+    // ملاحظة: في بعض الأجهزة يلزم timeout:
+    // return Geolocator.getCurrentPosition(timeLimit: const Duration(seconds: 10));
+  }
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-        backgroundColor:HexColor(Globalvireables.basecolor),
-//backgroundColor: HexColor(Globalvireables.basecolor),
-        body: Container(
-          color: HexColor(Globalvireables.basecolor),
-          margin: const EdgeInsets.only(top: 200),
-
-          child: Column(children: [
+      backgroundColor: HexColor(Globalvireables.basecolor),
+      body: Container(
+        color: HexColor(Globalvireables.basecolor),
+        margin: const EdgeInsets.only(top: 200),
+        child: Column(
+          children: [
             Center(
-              child: Image.asset('assets/logo2.png'
-                ,height:250 ,width:250 , ),
+              child: Image.asset('assets/logo2.png', height: 250, width: 250),
             ),
-const Spacer(),
+            const Spacer(),
             Container(
               alignment: Alignment.bottomCenter,
               margin: const EdgeInsets.only(bottom: 16),
-              child: Text("Powered By galaxy International Group",style: TextStyle(
-                  color: HexColor(Globalvireables.white),fontSize: 13
-              ),),
-            )
-
-          ]
-
-          ),
-        ));
-
-  }}
+              child: Text(
+                "Powered By galaxy International Group",
+                style: TextStyle(
+                  color: HexColor(Globalvireables.white),
+                  fontSize: 13,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
