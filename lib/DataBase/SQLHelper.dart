@@ -42,13 +42,12 @@ class SQLHelper {
           VisitsImageList TEXT
         )
       ''');
-      await database.execute(
-        'CREATE TABLE IF NOT EXISTS payloadItems (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, Qty INTEGER, ItemNo TEXT, OrderQty INTEGER, ExpiryDate TEXT, Note TEXT,itemName TEXT , payloadId INTEGER)',
-      
-      );
-      await database.execute(
-        'CREATE TABLE IF NOT EXISTS payloadImages (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, ImgBase64 TEXT, payloadId INTEGER)',
-      );
+    await database.execute(
+      'CREATE TABLE IF NOT EXISTS payloadItems (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, Qty INTEGER, ItemNo TEXT, OrderQty INTEGER, ExpiryDate TEXT, Note TEXT,itemName TEXT , payloadId INTEGER)',
+    );
+    await database.execute(
+      'CREATE TABLE IF NOT EXISTS payloadImages (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, ImgBase64 TEXT, payloadId INTEGER)',
+    );
     await database.execute('''
         CREATE TABLE Settings (
           id INTEGER PRIMARY KEY,
@@ -87,20 +86,22 @@ class SQLHelper {
     await database.insert(
         'Settings', {'isOpen': 0, 'cusNo': 0.0, 'cusName': 'حدد العميل'});
   }
-    static Future<void> setPayloadItems(int payloadId, List<Map<String, dynamic>> items) async {
+
+  static Future<void> setPayloadItems(
+      int payloadId, List<Map<String, dynamic>> items) async {
     final db = await SQLHelper.db();
     Batch batch = db.batch();
-      List<Map<String, dynamic>> itemsselect= await GetSelectedItem();
+    List<Map<String, dynamic>> itemsselect = await GetSelectedItem();
 
     for (Map<String, dynamic> item in items) {
       String name = '';
 
       for (Map<String, dynamic> map in itemsselect) {
-  if (map['ItemNo'] == item['ItemNo']) {
-    name = map['name'];
-    break; // Exit the loop since we found the match
-  }
-}
+        if (map['ItemNo'] == item['ItemNo']) {
+          name = map['name'];
+          break; // Exit the loop since we found the match
+        }
+      }
       batch.insert('PayloadItems', {
         'Qty': item['Qty'],
         'ItemNo': item['ItemNo'],
@@ -113,7 +114,9 @@ class SQLHelper {
     }
     await batch.commit();
   }
-  static Future<void> setPayloadImages(int payloadId, List<Map<String, dynamic>> images) async {
+
+  static Future<void> setPayloadImages(
+      int payloadId, List<Map<String, dynamic>> images) async {
     final db = await SQLHelper.db();
     Batch batch = db.batch();
     for (Map<String, dynamic> image in images) {
@@ -124,59 +127,71 @@ class SQLHelper {
     }
     await batch.commit();
   }
+
   static Future<void> deleteItemById(int id) async {
     final db = await SQLHelper.db();
-    await db.delete('PayloadItems' , where: 'payloadId = ?', whereArgs: [id]);
+    await db.delete('PayloadItems', where: 'payloadId = ?', whereArgs: [id]);
   }
-  static Future<void> deleteImageById (int id) async {
+
+  static Future<void> deleteImageById(int id) async {
     final db = await SQLHelper.db();
-    await db.delete('PayloadImages' , where: 'payloadId = ?', whereArgs: [id]);
+    await db.delete('PayloadImages', where: 'payloadId = ?', whereArgs: [id]);
   }
+
   //get all payload items by payload id
-  static Future<List<Map<String, dynamic>>> getPayloadItems(int payloadId) async {
+  static Future<List<Map<String, dynamic>>> getPayloadItems(
+      int payloadId) async {
     final db = await SQLHelper.db();
-    return db.query('PayloadItems', where: 'PayloadId = ?', whereArgs: [payloadId]);
+    return db
+        .query('PayloadItems', where: 'PayloadId = ?', whereArgs: [payloadId]);
   }
+
   //get all payload images by payload id
-  static Future<List<Map<String, dynamic>>> getPayloadImages(int payloadId) async {
+  static Future<List<Map<String, dynamic>>> getPayloadImages(
+      int payloadId) async {
     final db = await SQLHelper.db();
-    return db.query('PayloadImages', where: 'PayloadId = ?', whereArgs: [payloadId]);
+    return db
+        .query('PayloadImages', where: 'PayloadId = ?', whereArgs: [payloadId]);
   }
+
   // remove data from userdefintion
   static Future<void> clearUserDefinition() async {
     final db = await SQLHelper.db();
     await db.delete('UserDefinition');
   }
 
- static Future<void> setUserDefinition(UserDefinition user) async {
+  static Future<void> setUserDefinition(UserDefinition user) async {
     final db = await SQLHelper.db();
-  await db.insert('UserDefinition', user.toJson(),
-      conflictAlgorithm: ConflictAlgorithm.replace);
-}
-
- static Future<UserDefinition?> checkLoginAndGetUserData(String username, String password) async {
-    final db = await SQLHelper.db();
-  List<Map<String, dynamic>> result = await db.rawQuery(
-      "SELECT * FROM UserDefinition WHERE UserName = ? AND Password = ?",
-      [username, password]);
-      // print all value in userdefintion
-      print( await db.query('UserDefinition'));
-
-  if (result.isNotEmpty) {
-    // User with the provided credentials exists, return the user data
-    print(result.first);
-
-    UserDefinition user = UserDefinition.fromJson(result.first);
-    return user;
-  } else {
-    // User does not exist or credentials are incorrect
-    return null;
+    await db.insert('UserDefinition', user.toJson(),
+        conflictAlgorithm: ConflictAlgorithm.replace);
   }
-}
-static Future<void> clearUserData() async {
+
+  static Future<UserDefinition?> checkLoginAndGetUserData(
+      String username, String password) async {
     final db = await SQLHelper.db();
-  await db.delete('UserDefinition');
-}
+    List<Map<String, dynamic>> result = await db.rawQuery(
+        "SELECT * FROM UserDefinition WHERE UserName = ? AND Password = ?",
+        [username, password]);
+    // print all value in userdefintion
+    print(await db.query('UserDefinition'));
+
+    if (result.isNotEmpty) {
+      // User with the provided credentials exists, return the user data
+      print(result.first);
+
+      UserDefinition user = UserDefinition.fromJson(result.first);
+      return user;
+    } else {
+      // User does not exist or credentials are incorrect
+      return null;
+    }
+  }
+
+  static Future<void> clearUserData() async {
+    final db = await SQLHelper.db();
+    await db.delete('UserDefinition');
+  }
+
   static Future<void> clearData() async {
     final db = await SQLHelper.db();
     ;
@@ -249,29 +264,31 @@ static Future<void> clearUserData() async {
     await db.delete('Settings');
   }
 
-static Future<int> insertPayload(Map<String, dynamic> payload) async {
-  final db = await SQLHelper.db();
-  int id = await db.insert('Payload', payload);
-  return id;
-}
+  static Future<int> insertPayload(Map<String, dynamic> payload) async {
+    final db = await SQLHelper.db();
+    int id = await db.insert('Payload', payload);
+    return id;
+  }
 
   static Future<List<Map<String, dynamic>>> getAllPayloads() async {
     final db = await SQLHelper.db();
     return await db.query('Payload');
   }
-static Future<Map<String, dynamic>> getPayloadById(int id) async {
-  final db = await SQLHelper.db();
-  List<Map<String, dynamic>> payloads = await db.query('Payload', where: 'id = ?', whereArgs: [id]);
-  if (payloads.isNotEmpty) {
-    return payloads.first;
-  } else {
-    return {};
+
+  static Future<Map<String, dynamic>> getPayloadById(int id) async {
+    final db = await SQLHelper.db();
+    List<Map<String, dynamic>> payloads =
+        await db.query('Payload', where: 'id = ?', whereArgs: [id]);
+    if (payloads.isNotEmpty) {
+      return payloads.first;
+    } else {
+      return {};
+    }
   }
-}
+
   static Future<int> deletePayloadById(int id) async {
     final db = await SQLHelper.db();
-    return await db
-        .delete('Payload' , where: 'id = ?', whereArgs: [id]);
+    return await db.delete('Payload', where: 'id = ?', whereArgs: [id]);
   }
 
   static Future<void> deletevisit() async {
@@ -321,8 +338,8 @@ static Future<Map<String, dynamic>> getPayloadById(int id) async {
     return db.query('visited', orderBy: "id");
   }
 
-  static Future<int> createvisit(
-      double orederno, String name, String date, String time,String endTime) async {
+  static Future<int> createvisit(double orederno, String name, String date,
+      String time, String endTime) async {
     final db = await SQLHelper.db();
 
     final data = {

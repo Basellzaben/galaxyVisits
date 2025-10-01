@@ -1,5 +1,6 @@
 // ignore_for_file: non_constant_identifier_names, unused_element, prefer_typing_uninitialized_variables, file_names
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
@@ -110,7 +111,7 @@ class LoginViewModel with ChangeNotifier {
             "Password": passwordcontroler.text,
             "IP_Device": IpDevice
           };
-
+          log("IpDevice:$IpDevice");
           http.Response response = await http.post(apiUrl, body: json);
 
           var jsonResponse = jsonDecode(response.body);
@@ -225,6 +226,7 @@ class LoginViewModel with ChangeNotifier {
         Globalvireables.Getusertype + Globalvireables.manNo.toString());
     http.Response response = await http.get(apiUrl);
     var jsonResponse = jsonDecode(response.body);
+    log("jsonResponse:$jsonResponse");
     Globalvireables.ManType = jsonResponse;
   }
 }
