@@ -227,11 +227,10 @@ class VisitViewModel with ChangeNotifier {
       }
 
       // تجهيز القيم بالتنسيقات اللي يتوقعها السيرفر
-      final now = DateTime.now();
-      final trDataIso = _toIsoWithOffset(now); // بدل _toIsoDateTime
-      final startTimeHMS = _hhmmToHhmmss(Globalvireables.startTime);
-      final endTimeHMS = _hhmmToHhmmss(Globalvireables.endTime);
-      final durationHMS = _hhmmToHhmmss(Globalvireables.duration);
+      final startHM = _toHm(Globalvireables.startTime); // "HH:mm"
+      final endHM = _toHm(Globalvireables.endTime); // "HH:mm"
+// Globalvireables.duration ممكن يكون "HH:mm" أو "HH:mm:ss"
+      final durationHM = _toHm(Globalvireables.duration);
 
       final cusNoNum = (customersViewModel.cusNo is num)
           ? customersViewModel.cusNo
@@ -244,27 +243,6 @@ class VisitViewModel with ChangeNotifier {
               : (int.tryParse(cusNoNum.toString()) ?? 0);
       print('[cusNo] ${customersViewModel.cusNo}');
 
-      // عناصر الجرد بالشكل المطلوب
-      final customersStockModelList = itemselectedFORPOST.map((m) {
-        final itemNoStr = m['ItemNo'].toString(); // متوقع string
-        final qty = int.tryParse(m['Qty'].toString()) ?? 0;
-        final ord = int.tryParse(m['OrderQty'].toString()) ?? 0;
-        final expIso = _normalizeExpiryToIso(m['ExpiryDate']?.toString() ?? '');
-        return {
-          "Id": 0,
-          "VisitOrderNo": 0,
-          "TransDate": _toIsoWithOffset(now),
-          "CustId": custIdInt,
-          "ManId": Globalvireables.manNo,
-          "ItemNo": itemNoStr,
-          "Qty": qty,
-          "OrderQty": ord,
-          "ExpiryDate": expIso,
-          "TransNo": 0,
-          "Note": m['Note'] ?? "",
-        };
-      }).toList();
-
       // الصور: حقلان (Images نصوص Base64 بسيطة) و (VisitsImageList كائنات)
       final imagesFlat = imgs
           .map((m) => m['ImgBase64']?.toString())
@@ -272,44 +250,40 @@ class VisitViewModel with ChangeNotifier {
           .cast<String>()
           .toList();
 
-      final visitsImageList = imgs.map((m) {
+      final customersStockModelList = itemselectedFORPOST.map((m) {
+        final itemNoStr = m['ItemNo'].toString();
+        final qty = int.tryParse(m['Qty'].toString()) ?? 0;
+        final ord = int.tryParse(m['OrderQty'].toString()) ?? 0;
+        final expYmd = _toYmd(m['ExpiryDate']?.toString() ?? '');
         return {
-          "ID": 0,
-          "CustomerNo": cusNoNum,
-          "UserNo": Globalvireables.manNo.toString(),
-          "Visit_OrderNo": "0",
-          "Order_No": "0",
-          "OrderDate": _toIsoWithOffset(now),
-          "ImageTime": _toIsoWithOffset(now),
-          "ImageDesc": "",
-          "ImgBase64": m['ImgBase64'],
+          "ItemNo": itemNoStr,
+          "Qty": qty,
+          "OrderQty": ord,
+          "ExpiryDate": expYmd,
+          "Note": m['Note'] ?? "",
         };
       }).toList();
 
+      final visitsImageList = imgs
+          .map((m) => m['ImgBase64']?.toString())
+          .where((s) => s != null && s!.isNotEmpty)
+          .map((b64) => {"ImgBase64": b64!})
+          .toList();
+
       // الـ payload النهائي مطابق للـ schema المرسل
       final payload = {
-        "ID": 0,
-        "CusNo": cusNoNum,
+        "CusNo": custIdInt,
         "DayNum": Nday,
-        "Start_Time": startTimeHMS,
-        "End_Time": endTimeHMS,
+        "Start_Time": startHM,
+        "End_Time": endHM,
         "ManNo": Globalvireables.manNo,
-        "Tr_Data": trDataIso,
-        "no": 0,
-        "OrderNo": 0,
-        "Note": customersViewModel.CustomerName,
+        "Note": (Note.isNotEmpty ? Note : "لا يوجد ملاحظات"),
         "X_Lat": viewModel.X_Lat,
         "Y_Long": viewModel.Y_Long,
-        "Loct": "Loct",
-        "IsException": 0,
-        "COMPUTERNAME": "",
-        "orderinvisit": "",
-        "Duration": durationHMS,
-        "Images": imagesFlat,
-        "VisitsImageList": visitsImageList,
+        "Loct": (Loct.isNotEmpty ? Loct : "Loct"),
+        "Duration": durationHM,
         "CustomersStockModelList": customersStockModelList,
-        "CustomerNameA": customersViewModel.CustomerName,
-        "CustomerNameE": customersViewModel.CustomerName,
+        "VisitsImageList": visitsImageList,
       };
 
       log("payload=${json.encode(payload)}");
@@ -340,7 +314,7 @@ class VisitViewModel with ChangeNotifier {
         print('json decode error: $e');
       }
 
-      final ok = response.statusCode == 200;
+      final ok = response.statusCode == 200 || response.statusCode == 201;
 
       if (ok) {
         setisloading(false);
@@ -398,7 +372,7 @@ class VisitViewModel with ChangeNotifier {
         "Y_Long": viewModel.Y_Long,
         "DayNum": Nday,
         "Tr_Data": DateFormat('yyyy-MM-dd').format(now),
-        "Note": customersViewModel.CustomerName,
+        "Note": (Note.isNotEmpty ? Note : "لا يوجد ملاحظات"),
         "Loct": "Loct",
         "Duration": Globalvireables.duration,
         "CustomersStockModelList": "itemselectedFORPOST",
@@ -525,6 +499,38 @@ class VisitViewModel with ChangeNotifier {
     final normalized =
         base.endsWith('Z') ? base.substring(0, base.length - 1) : base;
     return '$normalized$sign$hh:$mm';
+  }
+
+  String _toHm(String t) {
+    // يحوّل أي "HH:mm" أو "HH:mm:ss" إلى "HH:mm"
+    if (t.isEmpty) return '00:00';
+    final p = t.split(':');
+    if (p.length >= 2) {
+      return '${p[0].padLeft(2, '0')}:${p[1].padLeft(2, '0')}';
+    }
+    return '00:00';
+  }
+
+  String _toYmd(String input) {
+    // يرجّع "yyyy-MM-dd" من صيغ: "yyyy-MM-dd" أو "dd-MM-yyyy" أو "dd-MM-yy"
+    if (input.isEmpty) return input;
+
+    // إذا كانت أصلاً yyyy-MM-dd
+    final isoYmd = RegExp(r'^\d{4}-\d{2}-\d{2}$');
+    if (isoYmd.hasMatch(input)) return input;
+
+    final parts = input.split('-'); // dd-MM-yy | dd-MM-yyyy
+    if (parts.length == 3) {
+      String dd = parts[0].padLeft(2, '0');
+      String mm = parts[1].padLeft(2, '0');
+      String yy = parts[2];
+      if (yy.length == 2) {
+        final n = int.tryParse(yy) ?? 0;
+        yy = (n >= 50 ? (1900 + n) : (2000 + n)).toString();
+      }
+      return '$yy-$mm-$dd';
+    }
+    return input; // لو صيغة غير معروفة، رجّعها كما هي
   }
 
   // If No Connection
