@@ -107,7 +107,8 @@ class CustomerViewModel with ChangeNotifier {
       setisloading(false);
       return;
     } else {
-      var index = _customers.indexWhere((element) => element.branchId == _cusNo);
+      var index =
+          _customers.indexWhere((element) => element.branchId == _cusNo);
       _customers[index].locX = X_Lat.toString();
       _customers[index].locY = Y_Long.toString();
       try {
@@ -177,11 +178,11 @@ class CustomerViewModel with ChangeNotifier {
   }
 
   Future<void> getCustomers() async {
-      Position _position = await Geolocator.getCurrentPosition();             
-            await setMyLocation(
-                _position.latitude.toString(), _position.longitude.toString());
-            await setMyLocation(
-                _position.latitude.toString(), _position.longitude.toString());
+    Position _position = await Geolocator.getCurrentPosition();
+    await setMyLocation(
+        _position.latitude.toString(), _position.longitude.toString());
+    await setMyLocation(
+        _position.latitude.toString(), _position.longitude.toString());
     if (_cusNo == 0.0) {
       _customers.clear();
       final db = await SQLHelper.db();
